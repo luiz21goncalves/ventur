@@ -1,9 +1,11 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
+
+import { BaseScreen } from '../../components/BaseScreen';
 
 export function Home() {
   return (
-    <Flex w="full" h="100vh" align="center" justify="center" direction="column">
+    <BaseScreen>
       <Heading>Home</Heading>
-    </Flex>
+    </BaseScreen>
   );
 }
