@@ -18,7 +18,6 @@ function createWindow () {
     // icon: path.join(assetsPath, 'assets', 'icon.png'),
     width,
     height,
-    backgroundColor: '#191622',
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -39,9 +38,6 @@ function createWindow () {
 }
 
 async function registerListeners () {
-  /**
-   * This comes from bridge integration, check bridge.ts
-   */
   ipcMain.on('message', (_, message) => {
     console.log(message)
   })
