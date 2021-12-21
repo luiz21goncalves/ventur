@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
+import isDev from 'electron-is-dev'
 
 let mainWindow: BrowserWindow | null
 
@@ -25,6 +26,10 @@ function createWindow () {
 
   mainWindow.removeMenu()
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+  if (isDev) {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null
