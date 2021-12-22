@@ -40,8 +40,13 @@ function createWindow() {
 }
 
 async function registerListeners() {
-  ipcMain.on('create-student', (_, data) => {
-    console.log(data);
+  ipcMain.on('create-student', (event, data) => {
+    Student.create(data).then((result) =>
+      event.reply('student-created', {
+        to: `/students/${result._id}`,
+        result,
+      })
+    );
   });
 }
 

@@ -34,6 +34,12 @@ export function StudentCreate() {
     reset();
   }
 
+  function customNavigate({ to, result }: { to: string; result: unknown }) {
+    navigate(to, { state: result });
+  }
+
+  window.Main.on('created-student', customNavigate);
+
   return (
     <BaseScreen>
       <Box width="container.sm">
