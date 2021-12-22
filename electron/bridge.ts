@@ -9,6 +9,10 @@ export const api = {
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
   },
+
+  unsubscribe: (channel: string, callback: (...args: unknown[]) => void) => {
+    ipcRenderer.removeListener(channel, callback);
+  },
 };
 
 contextBridge.exposeInMainWorld('Main', api);
