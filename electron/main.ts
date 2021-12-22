@@ -48,6 +48,10 @@ async function registerListeners() {
       })
     );
   });
+
+  ipcMain.on('get-all-students', (event) => {
+    Student.findAll().then((result) => event.reply('all-students', result));
+  });
 }
 
 app

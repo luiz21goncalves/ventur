@@ -6,6 +6,10 @@ export const api = {
     ipcRenderer.send('create-student', data);
   },
 
+  getAllStudents: () => {
+    ipcRenderer.send('get-all-students');
+  },
+
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
   },
