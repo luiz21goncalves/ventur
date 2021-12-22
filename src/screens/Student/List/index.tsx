@@ -1,3 +1,5 @@
+import { useEffect, useLayoutEffect, useState } from 'react';
+
 import {
   Box,
   Button,
@@ -14,8 +16,27 @@ import { useNavigate } from 'react-router-dom';
 
 import { BaseScreen } from '../../../components/BaseScreen';
 
+type Student = {
+  _id: string;
+  name: string;
+};
+
 export function StudentList() {
   const navigate = useNavigate();
+
+  const [students, setStudents] = useState<Student[]>([]);
+
+  useLayoutEffect(() => {
+    window.Main.getAllStudents();
+  }, []);
+
+  useEffect(() => {
+    window.Main.on('all-students', setStudents);
+
+    return () => {
+      window.Main.unsubscribe('all-students', setStudents);
+    };
+  }, []);
 
   return (
     <BaseScreen>
@@ -51,75 +72,29 @@ export function StudentList() {
           </Thead>
 
           <Tbody>
-            <Tr>
-              <Td>Aluno 001</Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Detalhes
-                </Button>
-              </Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Editar
-                </Button>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>Aluno 002</Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Detalhes
-                </Button>
-              </Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Editar
-                </Button>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>Aluno 003</Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Detalhes
-                </Button>
-              </Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Editar
-                </Button>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>Aluno 004</Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Detalhes
-                </Button>
-              </Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Editar
-                </Button>
-              </Td>
-            </Tr>
-
-            <Tr>
-              <Td>Aluno 005</Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Detalhes
-                </Button>
-              </Td>
-              <Td>
-                <Button size="xs" variant="outline">
-                  Editar
-                </Button>
-              </Td>
-            </Tr>
+            {students.map((student) => (
+              <Tr key={student._id}>
+                <Td>{student.name}</Td>
+                <Td>
+                  <Button
+                    size="xs"
+                    variant="outline"
+                    onClick={() => navigate(student._id)}
+                  >
+                    Detalhes
+                  </Button>
+                </Td>
+                <Td>
+                  <Button
+                    size="xs"
+                    variant="outline"
+                    onClick={() => navigate(`${student._id}/edit`)}
+                  >
+                    Editar
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
       </Box>
