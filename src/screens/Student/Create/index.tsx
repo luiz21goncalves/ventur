@@ -38,7 +38,7 @@ export function StudentCreate() {
     navigate(to, { state: result });
   }
 
-  window.Main.on('created-student', customNavigate);
+  window.Main.on('student-created', customNavigate);
 
   return (
     <BaseScreen>
