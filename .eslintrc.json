@@ -32,7 +32,8 @@
       "ObjectPattern": { "multiline": true },
       "ImportDeclaration": { "multiline": true },
       "ExportDeclaration": { "multiline": true }
-  }],
+    }],
+    "react/require-default-props": "off",
     "react/function-component-definition": [
       "error",
       {
