@@ -27,4 +27,10 @@ export const Student = {
 
     return student;
   },
+
+  async findAll() {
+    const students = await database.students.find({});
+
+    return students;
+  },
 };
