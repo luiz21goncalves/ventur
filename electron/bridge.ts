@@ -2,8 +2,8 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 export const api = {
-  sendMessage: (message: string) => {
-    ipcRenderer.send('message', message);
+  createStudent: (data: unknown) => {
+    ipcRenderer.send('create-student', data);
   },
 
   on: (channel: string, callback: Function) => {

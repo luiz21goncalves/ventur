@@ -30,7 +30,7 @@ export function StudentCreate() {
   } = useForm();
 
   function onSubmit(data: unkonwn) {
-    console.log(data);
+    window.Main.createStudent(data);
     reset();
   }
 

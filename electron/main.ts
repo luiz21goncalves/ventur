@@ -40,8 +40,8 @@ function createWindow() {
 }
 
 async function registerListeners() {
-  ipcMain.on('message', (_, message) => {
-    console.log(message);
+  ipcMain.on('create-student', (_, data) => {
+    console.log(data);
   });
 }
 
