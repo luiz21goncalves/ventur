@@ -1,9 +1,8 @@
-import { Button, Flex, Stack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Flex, Stack } from '@chakra-ui/react';
+
+import { ActiveButton } from './ActiveButton';
 
 export function Sidebar() {
-  const navigate = useNavigate();
-
   return (
     <Flex
       width="60"
@@ -15,8 +14,10 @@ export function Sidebar() {
       as="aside"
     >
       <Stack as="nav" direction="column" spacing="4" width="full">
-        <Button onClick={() => navigate('/')}>Home</Button>
-        <Button onClick={() => navigate('/students')}>ALunos</Button>
+        <ActiveButton shouldMatchExactHref to="/">
+          Home
+        </ActiveButton>
+        <ActiveButton to="/students">Alunos</ActiveButton>
       </Stack>
     </Flex>
   );
