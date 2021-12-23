@@ -62,41 +62,43 @@ export function StudentList() {
           </Button>
         </Flex>
 
-        <Table variant="striped">
-          <Thead>
-            <Tr>
-              <Th width="full">Nome</Th>
-              <Th />
-              <Th />
-            </Tr>
-          </Thead>
-
-          <Tbody>
-            {students.map((student) => (
-              <Tr key={student._id}>
-                <Td>{student.name}</Td>
-                <Td>
-                  <Button
-                    size="xs"
-                    variant="outline"
-                    onClick={() => navigate(student._id)}
-                  >
-                    Detalhes
-                  </Button>
-                </Td>
-                <Td>
-                  <Button
-                    size="xs"
-                    variant="outline"
-                    onClick={() => navigate(`${student._id}/edit`)}
-                  >
-                    Editar
-                  </Button>
-                </Td>
+        <Box overflowY="scroll" height="container.sm">
+          <Table variant="striped">
+            <Thead>
+              <Tr>
+                <Th width="full">Nome</Th>
+                <Th />
+                <Th />
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
+            </Thead>
+
+            <Tbody>
+              {students.map((student) => (
+                <Tr key={student._id}>
+                  <Td>{student.name}</Td>
+                  <Td>
+                    <Button
+                      size="xs"
+                      variant="outline"
+                      onClick={() => navigate(student._id)}
+                    >
+                      Detalhes
+                    </Button>
+                  </Td>
+                  <Td>
+                    <Button
+                      size="xs"
+                      variant="outline"
+                      onClick={() => navigate(`${student._id}/edit`)}
+                    >
+                      Editar
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
       </Box>
     </BaseScreen>
   );
