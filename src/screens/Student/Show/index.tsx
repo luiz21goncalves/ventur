@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useState, useLayoutEffect, useEffect } from 'react';
 
 import {
   Box,
@@ -9,16 +9,17 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BaseScreen } from '../../../components/BaseScreen';
+import { useStudentData } from '../../../stores';
 
 export function ShowStudent() {
-  const { state } = useLocation();
   const params = useParams();
   const navigate = useNavigate();
 
-  const [student, setStudent] = useState();
+  const initialData = useStudentData();
+  const [student, setStudent] = useState(initialData);
 
   useLayoutEffect(() => {
     window.Main.getStudent(params.id);
@@ -32,12 +33,6 @@ export function ShowStudent() {
     };
   }, []);
 
-  useEffect(() => {
-    if (state) {
-      setStudent(state);
-    }
-  }, [state]);
-
   return (
     <BaseScreen>
       <Box width="container.sm">
@@ -48,7 +43,7 @@ export function ShowStudent() {
             width="40"
             colorScheme="red"
             variant="outline"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/students')}
           >
             Voltar
           </Button>
