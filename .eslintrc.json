@@ -27,12 +27,12 @@
     "prettier"
   ],
   "rules": {
-    "object-curly-newline": ["error", {
-      "ObjectExpression": { "multiline": true },
-      "ObjectPattern": { "multiline": true },
-      "ImportDeclaration": { "multiline": true },
-      "ExportDeclaration": { "multiline": true }
-    }],
+    "no-underscore-dangle": "off",
+    "camelcase": "off",
+    "comma-dangle": "off",
+    "implicit-arrow-linebreak": "off",
+    "object-curly-newline": "off",
+    "function-paren-newline": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
     "react/function-component-definition": [
