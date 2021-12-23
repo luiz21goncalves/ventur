@@ -28,6 +28,12 @@ export const Student = {
     return student;
   },
 
+  async find(id: string) {
+    const student = await database.students.findOne({ _id: id });
+
+    return student;
+  },
+
   async findAll() {
     const students = await database.students.find({});
 

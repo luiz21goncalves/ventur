@@ -3,6 +3,8 @@ import { app, BrowserWindow, ipcMain, screen } from 'electron';
 
 import isDev from 'electron-is-dev';
 
+import { Student } from './lib/models/Student';
+
 let mainWindow: BrowserWindow | null;
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -51,6 +53,12 @@ async function registerListeners() {
 
   ipcMain.on('get-all-students', (event) => {
     Student.findAll().then((result) => event.reply('all-students', result));
+  });
+
+  ipcMain.on('get-student', (event, id) => {
+    Student.find(id).then((result) =>
+      event.reply('get-student-response', result)
+    );
   });
 }
 
