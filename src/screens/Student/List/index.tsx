@@ -62,7 +62,7 @@ export function StudentList() {
           </Button>
         </Flex>
 
-        <Box overflowY="scroll" height="container.sm">
+        <Box overflowY="auto" height="container.sm">
           <Table variant="striped">
             <Thead>
               <Tr>
