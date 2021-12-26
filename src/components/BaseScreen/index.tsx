@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 import { Sidebar } from '../Sidebar';
 
@@ -21,7 +21,7 @@ export function BaseScreen(props: BaseScreenProps) {
       <Sidebar />
 
       <Flex flex="1" alignItems="center" justifyContent="center">
-        {children}
+        <Box height="container.sm">{children}</Box>
       </Flex>
     </Flex>
   );
