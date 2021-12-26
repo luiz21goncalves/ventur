@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { BaseScreen } from '../../../components/BaseScreen';
-import { useStudentData } from '../../../stores';
 
 export function StudentCreate() {
   const navigate = useNavigate();
@@ -36,8 +35,7 @@ export function StudentCreate() {
   }
 
   function customNavigate({ to, result }: { to: string; result: unknown }) {
-    useStudentData.setState(result);
-    navigate(to);
+    navigate(to, { state: result });
   }
 
   window.Main.on('student-created', customNavigate);

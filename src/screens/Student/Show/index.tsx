@@ -9,29 +9,30 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { BaseScreen } from '../../../components/BaseScreen';
-import { useStudentData } from '../../../stores';
 
 export function ShowStudent() {
+  const { state } = useLocation();
   const params = useParams();
   const navigate = useNavigate();
 
-  const initialData = useStudentData();
-  const [student, setStudent] = useState(initialData);
+  const [student, setStudent] = useState(state);
 
   useLayoutEffect(() => {
     window.Main.getStudent(params.id);
   }, [params]);
 
   useEffect(() => {
-    window.Main.on('get-student-response', setStudent);
+    if (!student) {
+      window.Main.on('get-student-response', setStudent);
+    }
 
     return () => {
       window.Main.unsubscribe('get-student-response', setStudent);
     };
-  }, []);
+  }, [student]);
 
   return (
     <BaseScreen>
