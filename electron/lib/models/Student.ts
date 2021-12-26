@@ -28,6 +28,20 @@ export const Student = {
     return student;
   },
 
+  async update({
+    _id,
+    name,
+    email,
+    password,
+    classes_per_week,
+    price_per_month,
+  }: StudentData) {
+    return database.students.update(
+      { _id },
+      { name, email, password, classes_per_week, price_per_month }
+    );
+  },
+
   async find(id: string) {
     const student = await database.students.findOne({ _id: id });
 

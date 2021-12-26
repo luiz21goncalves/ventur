@@ -6,6 +6,10 @@ export const api = {
     ipcRenderer.send('create-student', data);
   },
 
+  updateStudent: (data: unknown) => {
+    ipcRenderer.send('update-student', data);
+  },
+
   getStudent: (id: string) => {
     ipcRenderer.send('get-student', id);
   },

@@ -51,6 +51,15 @@ async function registerListeners() {
     );
   });
 
+  ipcMain.on('update-student', (event, data) => {
+    Student.update(data).then(() =>
+      event.reply('update-student-response', {
+        to: `/students/${data._id}`,
+        result: data,
+      })
+    );
+  });
+
   ipcMain.on('get-all-students', (event) => {
     Student.findAll().then((result) => event.reply('all-students', result));
   });
