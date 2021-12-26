@@ -33,12 +33,6 @@ export function ShowStudent() {
     };
   }, []);
 
-  function handleDelete() {
-    window.Main.deleteStudent(params.id);
-
-    navigate('/students');
-  }
-
   return (
     <BaseScreen>
       <Box width="container.sm">
@@ -54,8 +48,12 @@ export function ShowStudent() {
             Voltar
           </Button>
 
-          <Button width="40" colorScheme="red" onClick={() => handleDelete()}>
-            Excluir aluno
+          <Button
+            width="40"
+            colorScheme="green"
+            onClick={() => navigate('edit', { state: student })}
+          >
+            Editart aluno
           </Button>
         </Flex>
 
