@@ -68,7 +68,6 @@ export function StudentList() {
               <Tr>
                 <Th width="full">Nome</Th>
                 <Th />
-                <Th />
               </Tr>
             </Thead>
 
@@ -83,15 +82,6 @@ export function StudentList() {
                       onClick={() => navigate(student._id)}
                     >
                       Detalhes
-                    </Button>
-                  </Td>
-                  <Td>
-                    <Button
-                      size="xs"
-                      variant="outline"
-                      onClick={() => navigate(`${student._id}/edit`)}
-                    >
-                      Editar
                     </Button>
                   </Td>
                 </Tr>
