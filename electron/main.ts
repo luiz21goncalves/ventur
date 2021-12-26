@@ -60,6 +60,10 @@ async function registerListeners() {
       event.reply('get-student-response', result)
     );
   });
+
+  ipcMain.on('delete-student', (event, id) => {
+    Student.delete(id);
+  });
 }
 
 app

@@ -14,6 +14,10 @@ export const api = {
     ipcRenderer.send('get-all-students');
   },
 
+  deleteStudent: (id: string) => {
+    ipcRenderer.send('delete-student', id);
+  },
+
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
   },

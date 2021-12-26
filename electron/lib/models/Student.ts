@@ -39,4 +39,8 @@ export const Student = {
 
     return students;
   },
+
+  async delete(id: string) {
+    return database.students.remove({ _id: id }, { multi: false });
+  },
 };
