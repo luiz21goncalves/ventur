@@ -53,7 +53,7 @@ export function ShowStudent() {
             colorScheme="green"
             onClick={() => navigate('edit', { state: student })}
           >
-            Editart aluno
+            Editar aluno
           </Button>
         </Flex>
 
