@@ -33,7 +33,7 @@ function createWindow() {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   if (isDev) {
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
+    mainWindow.webContents.openDevTools({ mode: 'right' });
   }
 
   mainWindow.on('closed', () => {

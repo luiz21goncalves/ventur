@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
 import { CreateAttendanceList } from '../screens/AttendanceList/Create';
+import { AttendanceList } from '../screens/AttendanceList/List';
 import { Home } from '../screens/Home';
 import { StudentCreate } from '../screens/Student/Create';
 import { EditStudent } from '../screens/Student/Edit';
@@ -16,7 +17,11 @@ export function AppRoutes() {
         <Route path="/students/create" element={<StudentCreate />} />
         <Route path="/students/:id" element={<ShowStudent />} />
         <Route path="/students/:id/edit" element={<EditStudent />} />
-        <Route path="/attendance-list" element={<CreateAttendanceList />} />
+        <Route path="/attendance-list" element={<AttendanceList />} />
+        <Route
+          path="/attendance-list/:date"
+          element={<CreateAttendanceList />}
+        />
       </Routes>
     </HashRouter>
   );

@@ -1,0 +1,48 @@
+.DayPicker {
+  border-radius: 10px;
+}
+
+.DayPicker-wrapper {
+  padding-bottom: 0;
+}
+
+.DayPicker,
+.DayPicker-Month {
+  width: 100%;
+}
+
+.DayPicker-Month {
+  border-collapse: separate;
+  border-spacing: 8px;
+  margin: 16px;
+}
+
+.DayPicker-Day {
+  width: 40px;
+  height: 40px;
+}
+
+.DayPicker-Weekday {
+  color: #000000;
+  font-weight: bolder;
+}
+
+.DayPicker-Caption {
+  font-weight: bolder;
+  font-size: 22px;
+}
+
+.DayPicker-Day--today {
+  font-weight: bold;
+}
+
+.DayPicker-Day--disabled {
+  color: #E2E8F0 !important;
+  background: transparent !important;
+}
+
+.DayPicker-Day--selected {
+  background: #ED64A6 !important;
+  border-radius: 10px;
+  color: #fff !important;
+}
