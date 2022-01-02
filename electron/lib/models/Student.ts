@@ -49,7 +49,7 @@ export const Student = {
   },
 
   async findAll() {
-    const students = await database.students.find({});
+    const students = await database.students.find({}).sort({ name: 1 });
 
     return students;
   },
