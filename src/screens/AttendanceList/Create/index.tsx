@@ -6,7 +6,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Stack,
 } from '@chakra-ui/react';
@@ -18,6 +17,13 @@ import { BaseScreen } from '../../../components/BaseScreen';
 type Student = {
   _id: string;
   name: string;
+};
+
+type Attendance = {
+  date: string;
+  students: {
+    [key: string]: boolean;
+  };
 };
 
 export function CreateAttendanceList() {
@@ -38,15 +44,13 @@ export function CreateAttendanceList() {
     };
   }, []);
 
-  function onSubmit(data: unknown) {
+  function onSubmit(data: Attendance) {
     window.Main.createAttendanceList(data);
     navigate(`attendance-list/${data.date}`);
   }
 
   return (
-    <BaseScreen>
-      <Heading textAlign="center">Lista de Presença</Heading>
-
+    <BaseScreen title="Lista de Presença">
       <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="8">
         <Flex width="full" justifyContent="space-between" my="8">
           <Button

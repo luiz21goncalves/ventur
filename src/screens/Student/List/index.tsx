@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
   Table,
   Tbody,
   Td,
@@ -39,56 +38,52 @@ export function StudentList() {
   }, []);
 
   return (
-    <BaseScreen>
-      <Box width="container.sm">
-        <Heading textAlign="center">Lista de alunos</Heading>
+    <BaseScreen title="Lista de alunos">
+      <Flex width="full" justifyContent="space-between" my="8">
+        <Button
+          width="40"
+          colorScheme="red"
+          variant="outline"
+          onClick={() => navigate(-1)}
+        >
+          Voltar
+        </Button>
 
-        <Flex width="full" justifyContent="space-between" my="8">
-          <Button
-            width="40"
-            colorScheme="red"
-            variant="outline"
-            onClick={() => navigate(-1)}
-          >
-            Voltar
-          </Button>
+        <Button
+          width="40"
+          colorScheme="green"
+          onClick={() => navigate('create')}
+        >
+          Novo aluno
+        </Button>
+      </Flex>
 
-          <Button
-            width="40"
-            colorScheme="green"
-            onClick={() => navigate('create')}
-          >
-            Novo aluno
-          </Button>
-        </Flex>
+      <Box overflowY="auto">
+        <Table variant="striped">
+          <Thead>
+            <Tr>
+              <Th width="full">Nome</Th>
+              <Th />
+            </Tr>
+          </Thead>
 
-        <Box overflowY="auto">
-          <Table variant="striped">
-            <Thead>
-              <Tr>
-                <Th width="full">Nome</Th>
-                <Th />
+          <Tbody>
+            {students.map((student) => (
+              <Tr key={student._id}>
+                <Td>{student.name}</Td>
+                <Td>
+                  <Button
+                    size="xs"
+                    variant="outline"
+                    onClick={() => navigate(student._id)}
+                  >
+                    Detalhes
+                  </Button>
+                </Td>
               </Tr>
-            </Thead>
-
-            <Tbody>
-              {students.map((student) => (
-                <Tr key={student._id}>
-                  <Td>{student.name}</Td>
-                  <Td>
-                    <Button
-                      size="xs"
-                      variant="outline"
-                      onClick={() => navigate(student._id)}
-                    >
-                      Detalhes
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+            ))}
+          </Tbody>
+        </Table>
       </Box>
     </BaseScreen>
   );

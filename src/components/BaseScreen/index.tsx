@@ -1,15 +1,16 @@
 import { ReactNode } from 'react';
 
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 
 import { Sidebar } from '../Sidebar';
 
 type BaseScreenProps = {
   children: ReactNode;
+  title: string;
 };
 
 export function BaseScreen(props: BaseScreenProps) {
-  const { children } = props;
+  const { children, title } = props;
 
   return (
     <Flex
@@ -20,8 +21,17 @@ export function BaseScreen(props: BaseScreenProps) {
     >
       <Sidebar />
 
-      <Flex flex="1" alignItems="center" justifyContent="center">
-        <Box height="container.sm">{children}</Box>
+      <Flex
+        flex="1"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Heading marginBottom="8">{title}</Heading>
+
+        <Box width="container.sm" height="container.sm">
+          {children}
+        </Box>
       </Flex>
     </Flex>
   );
