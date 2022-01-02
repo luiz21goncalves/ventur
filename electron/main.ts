@@ -3,7 +3,7 @@ import { app, BrowserWindow, ipcMain, screen } from 'electron';
 
 import isDev from 'electron-is-dev';
 
-import { Student } from './lib/models/Student';
+import { Student, AttendanceList } from './lib/models';
 
 let mainWindow: BrowserWindow | null;
 
@@ -33,7 +33,7 @@ function createWindow() {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   if (isDev) {
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
 
   mainWindow.on('closed', () => {
@@ -72,6 +72,10 @@ async function registerListeners() {
 
   ipcMain.on('delete-student', (event, id) => {
     Student.delete(id);
+  });
+
+  ipcMain.on('create-attendance-list', (event, data) => {
+    AttendanceList.create(data);
   });
 }
 

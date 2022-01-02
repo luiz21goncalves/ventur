@@ -18,6 +18,7 @@ export function Sidebar() {
           Home
         </ActiveButton>
         <ActiveButton to="/students">Alunos</ActiveButton>
+        <ActiveButton to="/attendance-list">Presença</ActiveButton>
       </Stack>
     </Flex>
   );
