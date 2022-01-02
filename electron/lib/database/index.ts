@@ -9,11 +9,23 @@ const dbStudentsPath = path.resolve(
   'students.db'
 );
 
+const dbAttendanceListPath = path.resolve(
+  os.homedir(),
+  'ventur',
+  'database',
+  'attendanceList.db'
+);
+
 const students = nedbPromises.create({
   timestampData: true,
   filename: dbStudentsPath,
 });
 
-const database = { students };
+const attendanceList = nedbPromises.create({
+  timestampData: true,
+  filename: dbAttendanceListPath,
+});
+
+const database = { students, attendanceList };
 
 export { database };
