@@ -22,8 +22,12 @@ export const api = {
     ipcRenderer.send('delete-student', id);
   },
 
-  createAttendanceList: (data: unknown) => {
+  createOrUpdateAttendanceList: (data: unknown) => {
     ipcRenderer.send('create-attendance-list', data);
+  },
+
+  getAttendanceList: (date: string) => {
+    ipcRenderer.send('get-attendance-list', date);
   },
 
   on: (channel: string, callback: Function) => {

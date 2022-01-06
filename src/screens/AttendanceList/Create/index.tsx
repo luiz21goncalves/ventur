@@ -1,63 +1,70 @@
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
+import { Form } from '@unform/web';
+import { Scope } from '@unform/core';
 import {
+  Box,
   Button,
-  Checkbox,
+  Divider,
   Flex,
-  FormControl,
-  FormLabel,
-  Input,
+  Grid,
   Stack,
+  Text,
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BaseScreen } from '../../../components/BaseScreen';
-
-type Student = {
-  _id: string;
-  name: string;
-};
-
-type Attendance = {
-  date: string;
-  students: {
-    [key: string]: boolean;
-  };
-};
+import { Input, Select } from '../../../components/Form';
 
 export function CreateAttendanceList() {
+  const { date } = useParams();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const formRef = useRef(null);
 
-  const [students, setStudents] = useState<Student[]>([]);
+  const [studentsRaw, setStudentsRaw] = useState([]);
+  const [students, setStudents] = useState([]);
+
+  const [year, month, day] = date?.split('-');
 
   useLayoutEffect(() => {
-    window.Main.getAllStudents();
-  }, []);
+    window.Main.getAttendanceList(date);
+  }, [date]);
 
   useEffect(() => {
-    window.Main.on('all-students', setStudents);
+    window.Main.on('show-attendance-list', (data) => {
+      if (data) {
+        setStudentsRaw(data.students);
+      }
+    });
 
     return () => {
-      window.Main.unsubscribe('all-students', setStudents);
+      window.Main.unsubscribe('show-attendance-list', setStudentsRaw);
     };
   }, []);
 
-  function onSubmit(data: Attendance) {
-    window.Main.createAttendanceList(data);
-    navigate(`attendance-list/${data.date}`);
+  useEffect(() => {
+    setStudents(
+      studentsRaw.map(({ _id, name, attendance }) => ({
+        _id,
+        name,
+        attendance,
+      }))
+    );
+  }, [studentsRaw]);
+
+  async function handleSubmit({ students }) {
+    window.Main.createOrUpdateAttendanceList({ date, students });
   }
 
   return (
-    <BaseScreen title="Lista de Presença">
-      <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="8">
+    <BaseScreen title="Lista de presença">
+      <Form ref={formRef} onSubmit={handleSubmit} initialData={{ students }}>
         <Flex width="full" justifyContent="space-between" my="8">
           <Button
             width="40"
             colorScheme="red"
             variant="outline"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
           >
             Voltar
           </Button>
@@ -66,21 +73,32 @@ export function CreateAttendanceList() {
             Salvar
           </Button>
         </Flex>
-        <FormControl isRequired>
-          <FormLabel htmlFor="date">Data</FormLabel>
-          <Input id="date" type="date" {...register('date')} />
-        </FormControl>
 
-        {students.map(({ _id, name }) => (
-          <Checkbox
-            key={_id}
-            defaultValue="false"
-            {...register(`students.${name}`)}
-          >
-            {name}
-          </Checkbox>
-        ))}
-      </Stack>
+        <Stack spacing="8">
+          <Text>
+            Dia: {day}/{month}/{year}
+          </Text>
+
+          {students.map(({ _id, name }, index) => (
+            <Box key={_id}>
+              <Scope path={`students[${index}]`}>
+                <Input name="_id" type="hidden" placeholder="_id" />
+                <Input name="name" type="hidden" placeholder="name" />
+
+                <Grid templateColumns="1fr 140px" gap="2">
+                  <Text>{name}</Text>
+
+                  <Select name="attendance">
+                    <option value="false">Ausente</option>
+                    <option value="true">Presente</option>
+                  </Select>
+                </Grid>
+                <Divider marginTop="4" />
+              </Scope>
+            </Box>
+          ))}
+        </Stack>
+      </Form>
     </BaseScreen>
   );
 }
