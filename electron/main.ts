@@ -76,13 +76,13 @@ async function registerListeners() {
 
   ipcMain.on('create-attendance-list', (event, data) => {
     AttendanceList.findByDate(data.date).then((response) => {
-      if (response?._id) {
+      if (response._id) {
         AttendanceList.update({ ...response, ...data });
+      } else {
+        AttendanceList.create(data).then((attendanceResponse) => {
+          event.reply('show-attendance-list', attendanceResponse);
+        });
       }
-
-      AttendanceList.create(data).then((attendanceResponse) => {
-        event.reply('show-attendance-list', attendanceResponse);
-      });
     });
   });
 
