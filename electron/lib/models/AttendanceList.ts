@@ -3,7 +3,9 @@ import { database } from '../database';
 import { Student } from '.';
 
 type AttendanceListData = {
-  date: string;
+  year: string;
+  month: string;
+  day: string;
   students: {
     _id: string;
     name: string;
@@ -12,17 +14,31 @@ type AttendanceListData = {
 };
 
 export const AttendanceList = {
-  async create({ date, students }: AttendanceListData) {
+  async create({ year, month, day, students }: AttendanceListData) {
     const attendanceList = await database.attendanceList.insert({
-      date,
+      year,
+      month,
+      day,
       students,
     });
 
     return attendanceList;
   },
 
-  async findByDate(date: string) {
-    const attendanceList = await database.attendanceList.findOne({ date });
+  async findByDate({
+    year,
+    month,
+    day,
+  }: {
+    year: string;
+    month: string;
+    day: string;
+  }) {
+    const attendanceList = await database.attendanceList.findOne({
+      year,
+      month,
+      day,
+    });
 
     if (!attendanceList) {
       const students = await Student.findAll();
@@ -39,7 +55,22 @@ export const AttendanceList = {
     return attendanceList;
   },
 
-  async update({ _id, date, students }: AttendanceListData & { _id: string }) {
-    return database.attendanceList.update({ _id }, { date, students });
+  async update({
+    _id,
+    year,
+    month,
+    day,
+    students,
+  }: AttendanceListData & { _id: string }) {
+    return database.attendanceList.update(
+      { _id },
+      { year, month, day, students }
+    );
+  },
+
+  async findByMonth({ month }: { month: string }) {
+    return database.attendanceList.find({
+      month,
+    });
   },
 };

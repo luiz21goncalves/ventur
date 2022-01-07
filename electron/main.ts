@@ -75,7 +75,7 @@ async function registerListeners() {
   });
 
   ipcMain.on('create-attendance-list', (event, data) => {
-    AttendanceList.findByDate(data.date).then((response) => {
+    AttendanceList.findByDate(data).then((response) => {
       if (response._id) {
         AttendanceList.update({ ...response, ...data });
       } else {

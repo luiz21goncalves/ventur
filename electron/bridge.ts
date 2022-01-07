@@ -27,7 +27,12 @@ export const api = {
   },
 
   getAttendanceList: (date: string) => {
-    ipcRenderer.send('get-attendance-list', date);
+    const [year, month, day] = date.split('-');
+    ipcRenderer.send('get-attendance-list', { year, month, day });
+  },
+
+  getAllAttendanceListByMonth: ({ month }: { month: string }) => {
+    ipcRenderer.send('get-all-attendance-list-by-month', { month });
   },
 
   on: (channel: string, callback: Function) => {

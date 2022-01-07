@@ -53,7 +53,7 @@ export function CreateAttendanceList() {
   }, [studentsRaw]);
 
   async function handleSubmit({ students }) {
-    window.Main.createOrUpdateAttendanceList({ date, students });
+    window.Main.createOrUpdateAttendanceList({ year, month, day, students });
   }
 
   return (
