@@ -91,6 +91,12 @@ async function registerListeners() {
       event.reply('show-attendance-list', response);
     });
   });
+
+  ipcMain.on('get-all-attendance-list-by-month', (event, data) => {
+    AttendanceList.findByMonth(data).then((response) =>
+      event.reply('attendance-list-by-month', response)
+    );
+  });
 }
 
 app
