@@ -13,14 +13,14 @@ const dbAttendanceListPath = path.resolve(
   os.homedir(),
   'ventur',
   'database',
-  'attendanceList.db'
+  'attendance-list.db'
 );
 
 const dbWorkginDaysPath = path.resolve(
   os.homedir(),
   'ventur',
   'database',
-  'workingDays.db'
+  'working-days.db'
 );
 
 const students = nedbPromises.create({
