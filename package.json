@@ -40,6 +40,7 @@
     "@electron-forge/maker-deb": "6.0.0-beta.57",
     "@electron-forge/maker-rpm": "6.0.0-beta.57",
     "@electron-forge/maker-squirrel": "6.0.0-beta.57",
+    "@electron-forge/maker-wix": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "6.0.0-beta.57",
     "@electron-forge/plugin-webpack": "6.0.0-beta.57",
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
@@ -113,9 +114,17 @@
           }
         },
         {
+          "name": "@electron-forge/maker-wix",
+          "config": {
+            "language": 1033,
+            "manufacturer": "Ventur"
+          }
+        },
+        {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin"
+            "darwin",
+            "win32"
           ]
         },
         {
