@@ -35,6 +35,14 @@ export const api = {
     ipcRenderer.send('get-all-attendance-list-by-month', { month });
   },
 
+  getWorkingDay: ({ month }: { month: string }) => {
+    ipcRenderer.send('get-working-days', { month });
+  },
+
+  createOrUpdateWorkingDays: (data: unknown) => {
+    ipcRenderer.send('create-working-days', data);
+  },
+
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
   },

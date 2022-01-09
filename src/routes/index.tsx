@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 
 import { CreateAttendanceList } from '../screens/AttendanceList/Create';
 import { AttendanceList } from '../screens/AttendanceList/List';
+import { WorkingDays } from '../screens/AttendanceList/WorkingDays';
 import { Home } from '../screens/Home';
 import { StudentCreate } from '../screens/Student/Create';
 import { EditStudent } from '../screens/Student/Edit';
@@ -22,6 +23,7 @@ export function AppRoutes() {
           path="/attendance-list/:date"
           element={<CreateAttendanceList />}
         />
+        <Route path="/attendance-list/working-days" element={<WorkingDays />} />
       </Routes>
     </HashRouter>
   );

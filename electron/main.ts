@@ -3,7 +3,7 @@ import { app, BrowserWindow, ipcMain, screen } from 'electron';
 
 import isDev from 'electron-is-dev';
 
-import { Student, AttendanceList } from './lib/models';
+import { Student, AttendanceList, WorkingDays } from './lib/models';
 
 let mainWindow: BrowserWindow | null;
 
@@ -96,6 +96,22 @@ async function registerListeners() {
     AttendanceList.findByMonth(data).then((response) =>
       event.reply('attendance-list-by-month', response)
     );
+  });
+
+  ipcMain.on('create-working-days', (event, data) => {
+    WorkingDays.findByMonth({ month: data.month }).then((response) => {
+      if (response) {
+        WorkingDays.update({ ...response, ...data });
+      } else {
+        WorkingDays.create(data);
+      }
+    });
+  });
+
+  ipcMain.on('get-working-days', (event, data) => {
+    WorkingDays.findByMonth({ month: data.month }).then((response) => {
+      event.reply('working-days', response);
+    });
   });
 }
 
