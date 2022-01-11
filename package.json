@@ -36,13 +36,6 @@
     "@babel/preset-env": "7.14.5",
     "@babel/preset-react": "7.14.5",
     "@babel/preset-typescript": "7.14.5",
-    "@electron-forge/cli": "^6.0.0-beta.61",
-    "@electron-forge/maker-deb": "^6.0.0-beta.61",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.61",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
-    "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "11.2.7",
     "@types/electron-devtools-installer": "2.2.0",
@@ -73,60 +66,5 @@
     "ts-jest": "27.0.3",
     "typescript": "4.3.4",
     "wait-on": "5.3.0"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "Ventur",
-        "executableName": "ventur",
-        "icon": "assets/icon",
-        "extraResource": [
-          "assets"
-        ]
-      },
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack/main.webpack.js",
-            "renderer": {
-              "config": "./webpack/renderer.webpack.js",
-              "entryPoints": [
-                {
-                  "html": "./public/index.html",
-                  "js": "./src/index.tsx",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./electron/bridge.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ],
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Ventur"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }
