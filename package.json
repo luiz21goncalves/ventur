@@ -1,7 +1,7 @@
 {
   "name": "ventur",
   "author": "Luiz Gonçalves <luizhbgoncalves@gmail.com>",
-  "version": "0.0.1",
+  "version": "1.0.0-alpha",
   "description": "Ventur App",
   "main": "./dist/main.js",
   "scripts": {
