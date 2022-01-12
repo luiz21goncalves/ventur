@@ -1,7 +1,7 @@
 {
   "name": "ventur",
   "author": "Luiz Gonçalves <luizhbgoncalves@gmail.com>",
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "description": "Ventur App",
   "main": "./dist/main.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.js",
     "dev:preload": "cross-env NODE_ENV=development webpack --config webpack/preload.webpack.js",
     "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
-    "package": "yarn build && electron-builder build --publish never",
+    "package": "yarn build && electron-builder build",
     "build": "rimraf dist && npm-run-all -p build:*",
     "build:electron": "cross-env NODE_ENV=production webpack --config webpack/electron.webpack.js",
     "build:react": "cross-env NODE_ENV=production webpack --config webpack/react.webpack.js",
