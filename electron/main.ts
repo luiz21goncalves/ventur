@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 import { app, BrowserWindow, ipcMain, screen } from 'electron';
 
+import path from 'path';
+import url from 'url';
 import isDev from 'electron-is-dev';
 
 import { Student, AttendanceList, WorkingDays } from './lib/models';
 
 let mainWindow: BrowserWindow | null;
-
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // const assetsPath =
 //   process.env.NODE_ENV === 'production'
@@ -25,15 +24,23 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      preload: path.join(__dirname, './preload/main.js'),
     },
   });
 
   mainWindow.removeMenu();
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  if (isDev) {
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL('http://localhost:4000');
     mainWindow.webContents.openDevTools({ mode: 'right' });
+  } else {
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'renderer/index.html'),
+        protocol: 'file:',
+        slashes: true,
+      })
+    );
   }
 
   mainWindow.on('closed', () => {

@@ -3,14 +3,21 @@
   "author": "Luiz Gonçalves <luizhbgoncalves@gmail.com>",
   "version": "0.0.1",
   "description": "Ventur App",
-  "main": "./.webpack/main/index.js",
+  "main": "./dist/main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "release": "electron-forge publish",
+    "dev": "npm-run-all -p dev:react dev:preload electron:serve",
+    "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.js && electron .",
+    "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.js",
+    "dev:preload": "cross-env NODE_ENV=development webpack --config webpack/preload.webpack.js",
+    "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
+    "package": "yarn build && electron-builder build --publish never",
+    "build": "rimraf dist && npm-run-all -p build:*",
+    "build:electron": "cross-env NODE_ENV=production webpack --config webpack/electron.webpack.js",
+    "build:react": "cross-env NODE_ENV=production webpack --config webpack/react.webpack.js",
+    "build:preload": "cross-env NODE_ENV=production webpack --config webpack/preload.webpack.js",
     "lint": "eslint . --ext js,ts",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "electron-builder install-app-deps"
   },
   "license": "MIT",
   "dependencies": {
@@ -36,6 +43,7 @@
     "@babel/preset-env": "7.14.5",
     "@babel/preset-react": "7.14.5",
     "@babel/preset-typescript": "7.14.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "11.2.7",
     "@types/electron-devtools-installer": "2.2.0",
@@ -48,6 +56,7 @@
     "cross-env": "7.0.3",
     "css-loader": "^6.5.1",
     "electron": "13.1.2",
+    "electron-builder": "^22.14.5",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.2",
     "eslint-config-prettier": "^8.3.0",
@@ -59,12 +68,43 @@
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "27.0.4",
-    "npm-run-all": "4.1.5",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
+    "react-refresh": "^0.11.0",
     "styles-loader": "^3.0.0",
     "ts-jest": "27.0.3",
     "typescript": "4.3.4",
-    "wait-on": "5.3.0"
+    "wait-on": "5.3.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.3"
+  },
+  "build": {
+    "appId": "com.luiz21goncalves.ventur",
+    "productName": "Ventur",
+    "files": [
+      "dist/"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["ia32", "x64"]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm"
+      ],
+      "category": "Utility"
+    },
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    }
   }
 }

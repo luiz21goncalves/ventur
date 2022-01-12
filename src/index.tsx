@@ -8,4 +8,7 @@ ReactDOM.render(
     <App />
   </StrictMode>,
   document.getElementById('root'),
+  () => {
+    window.Main.removeLoading();
+  }
 );
