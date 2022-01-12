@@ -67,6 +67,21 @@ export function WorkingDays() {
       </Flex>
 
       <DayPicker
+        weekdaysShort={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']}
+        months={[
+          'Janeiro',
+          'Fevereiro',
+          'Março',
+          'Abril',
+          'Maio',
+          'Junho',
+          'Julho',
+          'Agosto',
+          'Setembro',
+          'Outobro',
+          'Novembro',
+          'Dezembro',
+        ]}
         canChangeMonth={false}
         initialMonth={new Date(2022, Number(month) - 1)}
         selectedDays={selectedDays}
