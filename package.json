@@ -42,8 +42,9 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Ventur",
+    "appId": "com.luizgoncaves.ventur",
+    "artifactName": "${productName}-${os}-${arch}-${version}.${ext}",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
