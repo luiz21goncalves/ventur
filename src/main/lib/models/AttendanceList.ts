@@ -1,6 +1,6 @@
 import { database } from '../database';
 
-import { Student } from '.';
+import { Student } from './Student';
 
 type AttendanceListData = {
   year: string;

@@ -11,6 +11,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Stack,
+  useToast,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -27,6 +28,7 @@ type Student = {
 
 export function StudentCreate() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const {
     register,
@@ -35,8 +37,21 @@ export function StudentCreate() {
   } = useForm();
 
   async function onSubmit(data: Student) {
-    const student = await window.Main.createStudent(data);
-    console.log({student})
+    try {
+      const student = await window.Main.createStudent(data);
+      toast({
+        title: 'Aluno criado com sucesso',
+        status: 'success',
+        position: 'top',
+      });
+      navigate(`/students/${student._id}`);
+    } catch (error) {
+      toast({
+        title: 'Não foi possível criar aluno',
+        status: 'error',
+        position: 'top',
+      });
+    }
   }
 
   return (

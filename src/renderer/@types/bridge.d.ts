@@ -1,27 +1,16 @@
 interface Window {
   Main: {
-    createStudent: (data: unknown) => Promise<any>;
+    createStudent: (data: unknown) => Promise<unknown>;
+    updateStudent: (data: unknown) => Promise<unknown>;
+    getStudent: (id: string) => Promise<unknown>;
+    getAllStudents: () => Promise<unknown>;
+    deleteStudent: (id: string) => Promise<unknown>;
 
-    updateStudent: (data: unknown) => void;
+    createOrUpdateAttendanceList: (data: unknown) => Promise<unknown>;
+    getAttendanceList: (date: string) => Promise<unknown>;
+    getAllAttendanceListByMonth: (data: { month: string }) => Promise<unknown>;
 
-    getStudent: (id: string) => void;
-
-    getAllStudents: () => void;
-
-    deleteStudent: (id: string) => void;
-
-    createOrUpdateAttendanceList: (data: unknown) => void;
-
-    getAttendanceList: (date: string) => void;
-
-    getAllAttendanceListByMonth: (data: { month: string }) => void;
-
-    getWorkingDay: (data: { month: string }) => void
-
-    createOrUpdateWorkingDays: (data: unknown) => void
-
-    on: (channel: string, callback: Function) => void
-
-    unsubscribe: (channel: string, callback: (...args: unknown[]) => void) => void
-  } ;
+    getWorkingDay: (data: { month: string }) => Promise<unknown>;
+    createOrUpdateWorkingDays: (data: unknown) => Promise<unknown>;
+  };
 }

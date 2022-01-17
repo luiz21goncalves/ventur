@@ -11,7 +11,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain,screen } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, screen } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -72,7 +72,7 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -128,71 +128,56 @@ app.on('window-all-closed', () => {
 });
 
 async function registerListeners() {
-  ipcMain.handle('create-student', async (_, data) => {
-    return Student.create(data)
+  ipcMain.handle('create-student', (_, data) => {
+    return Student.create(data);
   });
 
-  ipcMain.on('update-student', (event, data) => {
-    Student.update(data).then(() =>
-      event.reply('update-student-response', {
-        to: `/students/${data._id}`,
-        result: data,
-      })
-    );
+  ipcMain.handle('update-student', (_, data) => {
+    return Student.update(data);
   });
 
-  ipcMain.on('get-all-students', (event) => {
-    Student.findAll().then((result) => event.reply('all-students', result));
+  ipcMain.handle('get-all-students', (_) => {
+    return Student.findAll();
   });
 
-  ipcMain.on('get-student', (event, id) => {
-    Student.find(id).then((result) =>
-      event.reply('get-student-response', result)
-    );
+  ipcMain.handle('get-student', (_, id) => {
+    return Student.find(id);
   });
 
-  ipcMain.on('delete-student', (_, id) => {
-    Student.delete(id);
+  ipcMain.handle('delete-student', (_, id) => {
+    return Student.delete(id);
   });
 
-  ipcMain.on('create-attendance-list', (event, data) => {
-    AttendanceList.findByDate(data).then((response) => {
-      if (response._id) {
-        AttendanceList.update({ ...response, ...data });
-      } else {
-        AttendanceList.create(data).then((attendanceResponse) => {
-          event.reply('show-attendance-list', attendanceResponse);
-        });
-      }
-    });
+  ipcMain.handle('create-attendance-list', async (_, data) => {
+    const attendanceList = await AttendanceList.findByDate(data);
+
+    if (attendanceList) {
+      return AttendanceList.update({ ...attendanceList, ...data });
+    }
+
+    return AttendanceList.create(data);
   });
 
-  ipcMain.on('get-attendance-list', (event, date) => {
-    AttendanceList.findByDate(date).then((response) => {
-      event.reply('show-attendance-list', response);
-    });
+  ipcMain.handle('get-attendance-list', (_, date) => {
+    return AttendanceList.findByDate(date);
   });
 
-  ipcMain.on('get-all-attendance-list-by-month', (event, data) => {
-    AttendanceList.findByMonth(data).then((response) =>
-      event.reply('attendance-list-by-month', response)
-    );
+  ipcMain.handle('get-all-attendance-list-by-month', (_, data) => {
+    return AttendanceList.findByMonth(data);
   });
 
-  ipcMain.on('create-working-days', (_, data) => {
-    WorkingDays.findByMonth({ month: data.month }).then((response) => {
-      if (response) {
-        WorkingDays.update({ ...response, ...data });
-      } else {
-        WorkingDays.create(data);
-      }
-    });
+  ipcMain.handle('create-working-days', async (_, data) => {
+    const workingDays = await WorkingDays.findByMonth(data);
+
+    if (workingDays) {
+      return WorkingDays.update({ ...workingDays, ...data });
+    }
+
+    return WorkingDays.create(data);
   });
 
-  ipcMain.on('get-working-days', (event, data) => {
-    WorkingDays.findByMonth({ month: data.month }).then((response) => {
-      event.reply('working-days', response);
-    });
+  ipcMain.handle('get-working-days', (_, data) => {
+    return WorkingDays.findByMonth({ month: data.month });
   });
 }
 
