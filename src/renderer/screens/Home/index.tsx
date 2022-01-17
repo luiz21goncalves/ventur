@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -21,16 +21,15 @@ export function Home() {
   const [students, setStudents] = useState([]);
   const [workingDays, setWorkingDays] = useState([]);
 
-  useLayoutEffect(() => {
-    window.Main.getAllStudents();
-    window.Main.getAllAttendanceListByMonth({ month });
-    window.Main.getWorkingDay({ month });
-  }, [month]);
-
   useEffect(() => {
-    window.Main.on('attendance-list-by-month', (data) => {
+    async function loadData() {
+      const allStudents = await window.Main.getAllStudents();
+      setStudents(allStudents as []);
+      const workingDays = await window.Main.getWorkingDay({ month });
+      setWorkingDays(workingDays as []);
+      const response = await window.Main.getAllAttendanceListByMonth({ month });
       setAttendaceList(
-        data.reduce((acc, { students }, index) => {
+        response.reduce((acc, { students }, index) => {
           if (index === 0) {
             students.forEach(({ _id, attendance }) => {
               acc[_id] = {
@@ -48,26 +47,9 @@ export function Home() {
           return acc;
         }, [])
       );
-    });
+    }
 
-    return () =>
-      window.Main.unsubscribe('attendance-list-by-month', setAttendaceList);
-  }, []);
-
-  useEffect(() => {
-    window.Main.on('all-students', setStudents);
-
-    return window.Main.unsubscribe('all-students', setStudents);
-  }, []);
-
-  useEffect(() => {
-    window.Main.on('working-days', (data) => {
-      if (data) {
-        setWorkingDays(data);
-      }
-    });
-
-    return () => window.Main.unsubscribe('working-days', setWorkingDays);
+    loadData();
   }, []);
 
   function calculateMonthlyFee({

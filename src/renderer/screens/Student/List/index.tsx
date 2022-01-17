@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,20 +23,26 @@ type Student = {
 
 export function StudentList() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [students, setStudents] = useState<Student[]>([]);
 
-  useLayoutEffect(() => {
-    window.Main.getAllStudents();
-  }, []);
-
   useEffect(() => {
-    window.Main.on('all-students', setStudents);
+    async function loadStudents() {
+      try {
+        const allStudents = await window.Main.getAllStudents();
+        setStudents(allStudents as Student[]);
+      } catch {
+        toast({
+          title: 'Não foi possível carregar os alunos',
+          status: 'error',
+          position: 'top',
+        });
+      }
+    }
 
-    return () => {
-      window.Main.unsubscribe('all-students', setStudents);
-    };
-  }, []);
+    loadStudents();
+  }, [toast]);
 
   return (
     <BaseScreen title="Lista de alunos">

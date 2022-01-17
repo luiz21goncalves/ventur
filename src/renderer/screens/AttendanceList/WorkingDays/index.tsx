@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { isEqual } from 'date-fns';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Flex } from '@chakra-ui/react';
+import { Button, Flex, useToast } from '@chakra-ui/react';
 
 import { BaseScreen } from '../../../components/BaseScreen';
 
@@ -12,22 +12,20 @@ export function WorkingDays() {
   const {
     state: { month },
   } = useLocation();
+  const toast = useToast();
 
   const [selectedDays, setSelectedDays] = useState<Date[]>([]);
 
-  useLayoutEffect(() => {
-    window.Main.getWorkingDay({ month });
-  }, [month]);
-
   useEffect(() => {
-    window.Main.on('working-days', (data) => {
-      if (data) {
-        setSelectedDays(data.date);
-      }
-    });
+    async function load() {
+      const response = await window.Main.getWorkingDay({ month });
 
-    return () => window.Main.unsubscribe('working-days', setSelectedDays);
-  }, []);
+      if (response !== null) {
+        setSelectedDays(response.date);
+      }
+    }
+    load();
+  }, [month]);
 
   function handleDayClick(day: Date, { selected }: DayModifiers) {
     if (selected) {
@@ -39,14 +37,29 @@ export function WorkingDays() {
     }
   }
 
-  function handleSubmit() {
-    const number_of_weeks = Math.floor(selectedDays.length / 5);
+  async function handleSubmit() {
+    try {
+      const number_of_weeks = Math.floor(selectedDays.length / 5);
 
-    window.Main.createOrUpdateWorkingDays({
-      month,
-      number_of_weeks,
-      date: selectedDays,
-    });
+      await window.Main.createOrUpdateWorkingDays({
+        month,
+        number_of_weeks,
+        date: selectedDays,
+      });
+
+      toast({
+        title: 'Dias uteis salvos',
+        status: 'success',
+        position: 'top',
+      });
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: 'Ocorreu um erro ao salvar os dias uteis',
+        status: 'error',
+        position: 'top',
+      });
+    }
   }
 
   return (

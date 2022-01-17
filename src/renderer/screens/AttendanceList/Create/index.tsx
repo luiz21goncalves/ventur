@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Form } from '@unform/web';
 import { Scope } from '@unform/core';
@@ -10,6 +10,7 @@ import {
   Grid,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -20,40 +21,55 @@ export function CreateAttendanceList() {
   const { date } = useParams();
   const navigate = useNavigate();
   const formRef = useRef(null);
+  const toast = useToast();
 
-  const [studentsRaw, setStudentsRaw] = useState([]);
   const [students, setStudents] = useState([]);
 
   const [year, month, day] = date?.split('-');
 
-  useLayoutEffect(() => {
-    window.Main.getAttendanceList(date);
-  }, [date]);
-
   useEffect(() => {
-    window.Main.on('show-attendance-list', (data) => {
-      if (data) {
-        setStudentsRaw(data.students);
+    async function load() {
+      try {
+        const response = await window.Main.getAttendanceList(date);
+        console.log(response);
+        setStudents(
+          response.students.map(({ _id, name, attendance }) => ({
+            _id,
+            name,
+            attendance,
+          }))
+        );
+      } catch {
+        toast({
+          title: 'Nâo foi possível carregar a lista de presença',
+          status: 'error',
+          position: 'top',
+        });
       }
-    });
-
-    return () => {
-      window.Main.unsubscribe('show-attendance-list', setStudentsRaw);
-    };
-  }, []);
-
-  useEffect(() => {
-    setStudents(
-      studentsRaw.map(({ _id, name, attendance }) => ({
-        _id,
-        name,
-        attendance,
-      }))
-    );
-  }, [studentsRaw]);
+    }
+    load();
+  }, [date, toast]);
 
   async function handleSubmit({ students }) {
-    window.Main.createOrUpdateAttendanceList({ year, month, day, students });
+    try {
+      await window.Main.createOrUpdateAttendanceList({
+        year,
+        month,
+        day,
+        students,
+      });
+      toast({
+        title: 'Lista de presença atualizada com sucesso',
+        status: 'success',
+        position: 'top',
+      });
+    } catch {
+      toast({
+        title: 'Ocorreu um erro ao salvar a lista de presença',
+        status: 'error',
+        position: 'top',
+      });
+    }
   }
 
   return (

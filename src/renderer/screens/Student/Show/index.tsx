@@ -1,7 +1,7 @@
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import { Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Button, Divider, Flex, Stack, Text, useToast } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BaseScreen } from '../../../components/BaseScreen';
 
@@ -15,27 +15,28 @@ type Student = {
 };
 
 export function ShowStudent() {
-  const { state } = useLocation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const toast = useToast();
 
-  const [student, setStudent] = useState<Student>(state as Student);
-
-  useLayoutEffect(() => {
-    if (id) {
-      window.Main.getStudent(id);
-    }
-  }, [id]);
+  const [student, setStudent] = useState<Student>({} as Student);
 
   useEffect(() => {
-    if (!student) {
-      window.Main.on('get-student-response', setStudent);
+    async function loadStudent() {
+      try {
+        const response = await window.Main.getStudent(id);
+        setStudent(response as Student);
+      } catch {
+        toast({
+          title: 'Não foi possível carregar aluno',
+          status: 'error',
+          position: 'top',
+        });
+      }
     }
 
-    return () => {
-      window.Main.unsubscribe('get-student-response', setStudent);
-    };
-  }, [student]);
+    loadStudent();
+  }, [id, toast]);
 
   return (
     <BaseScreen title="Detalhes do Aluno">

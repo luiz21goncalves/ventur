@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -13,8 +13,9 @@ import {
   NumberInputField,
   NumberInputStepper,
   Stack,
+  useToast,
 } from '@chakra-ui/react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { BaseScreen } from '../../../components/BaseScreen';
@@ -29,54 +30,59 @@ type Student = {
 };
 
 export function EditStudent() {
-  const { state } = useLocation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const toast = useToast();
 
-  const [student, setStudent] = useState<Student>(state as Student);
+  const [student, setStudent] = useState<Student>({} as Student);
 
-  useLayoutEffect(() => {
-    if (id) {
-      window.Main.getStudent(id);
+  useEffect(() => {
+    async function loadStudent() {
+      const response = await window.Main.getStudent(id);
+      setStudent(response);
     }
+    loadStudent();
   }, [id]);
 
-  useEffect(() => {
-    window.Main.on('get-student-response', setStudent);
-
-    return () => {
-      window.Main.unsubscribe('get-student-response', setStudent);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!student) {
-      window.Main.on('get-student-response', setStudent);
-    }
-
-    return () => {
-      window.Main.unsubscribe('get-student-response', setStudent);
-    };
-  }, [student]);
-
   const {
-    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: student });
 
-  function onSubmit(data: Student) {
-    window.Main.updateStudent(data);
-    reset();
-    navigate(`/students/${data._id}`, { state: data });
+  async function onSubmit(data: Student) {
+    try {
+      await window.Main.updateStudent(data);
+      navigate(`/students/${data._id}`, { state: data });
+      toast({
+        title: 'Aluno salvo com sucesso',
+        status: 'success',
+        position: 'top',
+      });
+    } catch {
+      toast({
+        title: 'Ocorreu um erro ao salvar o aluno',
+        status: 'error',
+        position: 'top',
+      });
+    }
   }
 
-  function handleDelete() {
-    if (id) {
-      window.Main.deleteStudent(id);
-
+  async function handleDelete() {
+    try {
+      await window.Main.deleteStudent(id);
       navigate('/students');
+      toast({
+        title: 'O aluno foi excluído.',
+        status: 'success',
+        position: 'top',
+      });
+    } catch {
+      toast({
+        title: 'Não foi possível excluir esse aluno',
+        status: 'error',
+        position: 'top',
+      });
     }
   }
 
