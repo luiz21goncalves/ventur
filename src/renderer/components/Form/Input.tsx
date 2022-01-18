@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
   Input as ChakraInput,
   InputProps as ChakraInputProps,
 } from '@chakra-ui/react';
@@ -8,13 +11,14 @@ import { useField } from '@unform/core';
 
 type InputProps = {
   name: string;
+  label?: string;
 } & ChakraInputProps;
 
 export function Input(props: InputProps) {
-  const { name, ...attrs } = props;
+  const { name, label, isRequired, ...attrs } = props;
 
   const inputRef = useRef(null);
-  const { fieldName, defaultValue, registerField } = useField(name);
+  const { fieldName, defaultValue, registerField, error } = useField(name);
 
   useEffect(() => {
     registerField({
@@ -24,5 +28,16 @@ export function Input(props: InputProps) {
     });
   }, [fieldName, registerField]);
 
-  return <ChakraInput ref={inputRef} defaultValue={defaultValue} {...attrs} />;
+  return (
+    <FormControl isRequired={isRequired}>
+      {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+      <ChakraInput
+        ref={inputRef}
+        id={name}
+        defaultValue={defaultValue}
+        {...attrs}
+      />
+      <FormErrorMessage>{error}</FormErrorMessage>
+    </FormControl>
+  );
 }
