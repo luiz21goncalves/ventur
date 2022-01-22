@@ -16,9 +16,22 @@ export function StudentCreate() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  async function handleSubmit(data: Student) {
+  async function handleSubmit({
+    name,
+    email,
+    password,
+    classes_per_week,
+    price_per_month,
+  }: Student) {
     try {
-      const student = await window.Main.createStudent(data);
+      const student = await window.Main.createStudent({
+        name,
+        email,
+        password,
+        classes_per_week,
+        price_per_month,
+      });
+
       toast({
         title: 'Aluno criado com sucesso',
         status: 'success',

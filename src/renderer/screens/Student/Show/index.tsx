@@ -24,8 +24,8 @@ export function ShowStudent() {
   useEffect(() => {
     async function loadStudent() {
       try {
-        const response = await window.Main.getStudent(id);
-        setStudent(response as Student);
+        const studentResponse = await window.Main.getStudent({ _id: id });
+        setStudent(studentResponse);
       } catch {
         toast({
           title: 'Não foi possível carregar aluno',

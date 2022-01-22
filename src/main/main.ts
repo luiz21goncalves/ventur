@@ -128,24 +128,43 @@ app.on('window-all-closed', () => {
 });
 
 async function registerListeners() {
-  ipcMain.handle('create-student', (_, data) => {
-    return Student.create(data);
-  });
+  ipcMain.handle(
+    'create-student',
+    (_, { name, email, password, classes_per_week, price_per_month }) => {
+      return Student.create({
+        name,
+        email,
+        password,
+        classes_per_week,
+        price_per_month,
+      });
+    }
+  );
 
-  ipcMain.handle('update-student', (_, data) => {
-    return Student.update(data);
-  });
+  ipcMain.handle(
+    'update-student',
+    (_, { _id, name, email, password, classes_per_week, price_per_month }) => {
+      return Student.update({
+        _id,
+        name,
+        email,
+        password,
+        classes_per_week,
+        price_per_month,
+      });
+    }
+  );
 
-  ipcMain.handle('get-all-students', (_) => {
+  ipcMain.handle('find-students', () => {
     return Student.findAll();
   });
 
-  ipcMain.handle('get-student', (_, id) => {
-    return Student.find(id);
+  ipcMain.handle('find-student', (_, { _id }) => {
+    return Student.find({ _id });
   });
 
-  ipcMain.handle('delete-student', (_, id) => {
-    return Student.delete(id);
+  ipcMain.handle('delete-student', (_, { _id }) => {
+    return Student.delete({ _id });
   });
 
   ipcMain.handle('create-attendance-list', async (_, data) => {

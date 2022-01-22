@@ -5,8 +5,8 @@ type StudentData = {
   name: string;
   email?: string;
   password?: string;
-  classes_per_week: number;
-  price_per_month: number;
+  classes_per_week: string;
+  price_per_month: string;
 };
 
 export const Student = {
@@ -17,15 +17,13 @@ export const Student = {
     classes_per_week,
     price_per_month,
   }: Omit<StudentData, '_id'>) {
-    const student = await database.students.insert({
+    return database.students.insert({
       name,
       email,
       password,
-      classes_per_week,
-      price_per_month,
+      classes_per_week: Number(classes_per_week),
+      price_per_month: Number(price_per_month),
     });
-
-    return student;
   },
 
   async update({
@@ -36,25 +34,29 @@ export const Student = {
     classes_per_week,
     price_per_month,
   }: StudentData) {
-    return database.students.update(
+    await database.students.update(
       { _id },
-      { name, email, password, classes_per_week, price_per_month }
+      {
+        name,
+        email,
+        password,
+        classes_per_week: Number(classes_per_week),
+        price_per_month: Number(price_per_month),
+      }
     );
+
+    return database.students.findOne({ _id });
   },
 
-  async find(id: string) {
-    const student = await database.students.findOne({ _id: id });
-
-    return student;
+  async find({ _id }: { _id: string }) {
+    return database.students.findOne({ _id });
   },
 
   async findAll() {
-    const students = await database.students.find({}).sort({ name: 1 });
-
-    return students;
+    return database.students.find({}).sort({ name: 1 });
   },
 
-  async delete(id: string) {
-    return database.students.remove({ _id: id }, { multi: false });
+  async delete({ _id }: { _id: string }) {
+    return database.students.remove({ _id }, { multi: false });
   },
 };
