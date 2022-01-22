@@ -31,7 +31,7 @@ export function StudentList() {
     async function loadStudents() {
       try {
         const allStudents = await window.Main.getAllStudents();
-        setStudents(allStudents as Student[]);
+        setStudents(allStudents);
       } catch {
         toast({
           title: 'Não foi possível carregar os alunos',

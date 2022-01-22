@@ -12,7 +12,7 @@ type Student = {
   name: string;
   email?: string;
   password?: string;
-  classes_per_month: number;
+  classes_per_week: number;
   price_per_month: number;
 };
 
@@ -25,16 +25,31 @@ export function EditStudent() {
 
   useEffect(() => {
     async function loadStudent() {
-      const response = await window.Main.getStudent(id);
-      setStudent(response);
+      const studentResponse = await window.Main.getStudent({ _id: id });
+      setStudent(studentResponse);
     }
     loadStudent();
   }, [id]);
 
-  async function handleSubmit(data: Student) {
+  async function handleSubmit({
+    _id,
+    name,
+    email,
+    password,
+    price_per_month,
+    classes_per_week,
+  }: Student) {
     try {
-      await window.Main.updateStudent(data);
-      navigate(`/students/${data._id}`, { state: data });
+      const studentResponse = await window.Main.updateStudent({
+        _id,
+        name,
+        email,
+        password,
+        price_per_month,
+        classes_per_week,
+      });
+
+      navigate(`/students/${studentResponse._id}`, { state: studentResponse });
       toast({
         title: 'Aluno salvo com sucesso',
         status: 'success',
@@ -51,7 +66,7 @@ export function EditStudent() {
 
   async function handleDelete() {
     try {
-      await window.Main.deleteStudent(id);
+      await window.Main.deleteStudent({ _id: id });
       navigate('/students');
       toast({
         title: 'O aluno foi excluído.',
