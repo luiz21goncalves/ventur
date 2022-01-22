@@ -34,7 +34,7 @@ if (
       'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
     )
   );
-  execSync('npm run postinstall');
+  execSync('yarn postinstall');
 }
 
 const configuration: webpack.Configuration = {
