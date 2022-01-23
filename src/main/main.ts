@@ -182,18 +182,28 @@ async function registerListeners() {
     return AttendanceList.findByMonth({ month, year });
   });
 
-  ipcMain.handle('create-working-days', async (_, data) => {
-    const workingDays = await WorkingDays.findByMonth(data);
+  ipcMain.handle(
+    'create-working-days',
+    async (_, { month, number_of_weeks, date }) => {
+      const workingDays = await WorkingDays.findByMonth({
+        month,
+      });
 
-    if (workingDays) {
-      return WorkingDays.update({ ...workingDays, ...data });
+      if (workingDays) {
+        return WorkingDays.update({
+          _id: workingDays._id,
+          month,
+          number_of_weeks,
+          date,
+        });
+      }
+
+      return WorkingDays.create({ month, number_of_weeks, date });
     }
+  );
 
-    return WorkingDays.create(data);
-  });
-
-  ipcMain.handle('get-working-days', (_, data) => {
-    return WorkingDays.findByMonth({ month: data.month });
+  ipcMain.handle('find-working-days-by-month', (_, { month }) => {
+    return WorkingDays.findByMonth({ month });
   });
 }
 

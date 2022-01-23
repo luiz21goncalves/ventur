@@ -18,7 +18,7 @@ export function WorkingDays() {
 
   useEffect(() => {
     async function load() {
-      const response = await window.Main.getWorkingDay({ month });
+      const response = await window.Main.getWorkingDayByMonth({ month });
 
       if (response !== null) {
         setSelectedDays(response.date);
