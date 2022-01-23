@@ -20,7 +20,14 @@ import { Input, Select } from '../../../components/Form';
 type Student = {
   _id: string;
   name: string;
-  attendance: string;
+  attendance: 'true' | 'false';
+};
+
+type StudentConcat = {
+  [key: string]: {
+    name: string;
+    attendance: 'true' | 'false';
+  };
 };
 
 export function CreateAttendanceList() {
@@ -42,17 +49,31 @@ export function CreateAttendanceList() {
         day,
       });
 
+      const concatStudents = [] as StudentConcat[];
+      allStudents.forEach(({ _id, name }) => {
+        concatStudents[_id] = {
+          name,
+          attendance: 'false',
+        };
+      });
+
       if (response && response.students) {
-        setStudents(response.students);
-      } else {
-        setStudents(
-          allStudents.map(({ _id, name }) => ({
-            _id,
+        response.students.forEach(({ _id, name, attendance }) => {
+          concatStudents[_id] = {
             name,
-            attendance: 'false',
-          }))
-        );
+            attendance,
+          };
+        });
       }
+
+      const studentsIds = Object.keys(concatStudents);
+      setStudents(
+        studentsIds.map((_id) => ({
+          _id,
+          name: concatStudents[_id].name,
+          attendance: concatStudents[_id].attendance,
+        }))
+      );
     }
     load();
   }, [year, month, day, toast]);
