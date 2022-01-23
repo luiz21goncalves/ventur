@@ -7,7 +7,7 @@ type Student = {
   price_per_month: number;
 };
 
-type AttendanceListData = {
+type AttendanceList = {
   _id: string;
   year: number;
   month: number;
@@ -19,6 +19,13 @@ type AttendanceListData = {
   }[];
 };
 
+type WorkingDays = {
+  _id: string;
+  month: string;
+  number_of_weeks: number;
+  date: Date[];
+};
+
 interface Window {
   Main: {
     createStudent: (data: Omit<Student, '_id'>) => Promise<Student>;
@@ -28,19 +35,21 @@ interface Window {
     deleteStudent: (data: { _id: string }) => Promise<void>;
 
     createOrUpdateAttendanceList: (
-      data: Omit<AttendanceListData, '_id'>
-    ) => Promise<AttendanceListData>;
+      data: Omit<AttendanceList, '_id'>
+    ) => Promise<AttendanceList>;
     getAttendanceList: (date: {
       year: string;
       month: string;
       day: string;
-    }) => Promise<AttendanceListData>;
+    }) => Promise<AttendanceList>;
     getAllAttendanceListByMonth: (data: {
       year: string;
       month: string;
-    }) => Promise<AttendanceListData[]>;
+    }) => Promise<AttendanceList[]>;
 
-    getWorkingDay: (data: { month: string }) => Promise<unknown>;
-    createOrUpdateWorkingDays: (data: unknown) => Promise<unknown>;
+    getWorkingDayByMonth: (data: { month: string }) => Promise<WorkingDays>;
+    createOrUpdateWorkingDays: (
+      data: Omit<WorkingDays, '_id'>
+    ) => Promise<WorkingDays>;
   };
 }

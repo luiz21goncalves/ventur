@@ -9,19 +9,21 @@ type WorkingDaysData = {
 
 export const WorkingDays = {
   async create({ month, number_of_weeks, date }: Omit<WorkingDaysData, '_id'>) {
-    return database.workingDays.insert({ month, number_of_weeks, date });
+    return database.workingDays.insert({
+      month: Number(month),
+      number_of_weeks,
+      date,
+    });
   },
 
   async findByMonth({ month }: Pick<WorkingDaysData, 'month'>) {
-    const result = await database.workingDays.findOne({ month });
-
-    return result;
+    return database.workingDays.findOne({ month: Number(month) });
   },
 
   async update({ _id, month, number_of_weeks, date }: WorkingDaysData) {
     return database.workingDays.update(
       { _id },
-      { month, number_of_weeks, date }
+      { month: Number(month), number_of_weeks, date }
     );
   },
 };

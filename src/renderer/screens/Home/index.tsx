@@ -22,7 +22,7 @@ type Student = {
   price_per_month: number;
 };
 
-type AttendanceListData = {
+type AttendanceList = {
   _id: string;
   year: number;
   month: number;
@@ -30,21 +30,30 @@ type AttendanceListData = {
   students: Pick<Student, '_id' | 'classes_per_week' | 'price_per_month'>[];
 };
 
+type WorkingDays = {
+  _id: string;
+  month: string;
+  number_of_weeks: number;
+  date: Date[];
+};
+
 export function Home() {
   const navigate = useNavigate();
 
   const [month, setMonth] = useState('01');
-  const [attendanceList, setAttendaceList] = useState<AttendanceListData[]>([]);
+  const [attendanceList, setAttendaceList] = useState<AttendanceList[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
-  const [workingDays, setWorkingDays] = useState([]);
+  const [workingDays, setWorkingDays] = useState<WorkingDays>();
 
   useEffect(() => {
     async function loadData() {
       const allStudents = await window.Main.getAllStudents();
       setStudents(allStudents as []);
 
-      const workingDays = await window.Main.getWorkingDay({ month });
-      setWorkingDays(workingDays as []);
+      const workingDaysResponse = await window.Main.getWorkingDayByMonth({
+        month,
+      });
+      setWorkingDays(workingDaysResponse);
 
       const response = await window.Main.getAllAttendanceListByMonth({
         month,

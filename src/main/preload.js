@@ -13,8 +13,8 @@ contextBridge.exposeInMainWorld('Main', {
   getAllAttendanceListByMonth: (data) =>
     ipcRenderer.invoke('find-attendance-list-by-month', data),
 
-  getWorkingDay: ({ month }) =>
-    ipcRenderer.invoke('get-working-days', { month }),
+  getWorkingDayByMonth: (data) =>
+    ipcRenderer.invoke('find-working-days-by-month', data),
   createOrUpdateWorkingDays: (data) =>
     ipcRenderer.invoke('create-working-days', data),
 });
