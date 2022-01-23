@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Button } from '@chakra-ui/react';
-import { format } from 'date-fns';
+import { Flex, Button, useToken } from '@chakra-ui/react';
+import { format, toDate } from 'date-fns';
 
 import { BaseScreen } from '../../../components/BaseScreen';
 import 'react-day-picker/lib/style.css';
@@ -11,13 +11,43 @@ import './styles.css';
 
 export function AttendanceList() {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [pink100] = useToken('colors', ['pink.100']);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [dates, setDates] = useState<Date[]>([]);
+
+  const modifiersStyles = {
+    saved: {
+      backgroundColor: pink100,
+      borderRadius: 8,
+    },
+  };
+
+  const modifiersDates = {
+    saved: dates,
+  };
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (!modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
+
+  useEffect(() => {
+    async function load() {
+      const date = format(selectedDate, 'yyyy-MM-dd').split('-');
+
+      const response = await window.Main.getAllAttendanceListByMonth({
+        year: date[0],
+        month: date[1],
+      });
+
+      const attendanceDays = response.map(({ day, month, year }) =>
+        toDate(new Date(year, month - 1, day))
+      );
+      setDates(attendanceDays);
+    }
+    load();
+  }, [selectedDate]);
 
   return (
     <BaseScreen title="Lista de presença">
@@ -34,7 +64,7 @@ export function AttendanceList() {
         <Button
           width="40"
           colorScheme="green"
-          onClick={() => navigate(format(selectedDate as Date, 'yyyy-MM-dd'))}
+          onClick={() => navigate(format(selectedDate, 'yyyy-MM-dd'))}
           disabled={!selectedDate}
         >
           Ver Detalhes
@@ -60,6 +90,8 @@ export function AttendanceList() {
         selectedDays={selectedDate}
         disabledDays={{ daysOfWeek: [0, 6] }}
         onDayClick={handleDateChange}
+        modifiersStyles={modifiersStyles}
+        modifiers={modifiersDates}
       />
     </BaseScreen>
   );
