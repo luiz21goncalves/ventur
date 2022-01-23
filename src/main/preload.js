@@ -9,13 +9,9 @@ contextBridge.exposeInMainWorld('Main', {
 
   createOrUpdateAttendanceList: (data) =>
     ipcRenderer.invoke('create-attendance-list', data),
-
-  getAttendanceList: (date) => {
-    const [year, month, day] = date.split('-');
-    return ipcRenderer.invoke('get-attendance-list', { year, month, day });
-  },
-  getAllAttendanceListByMonth: ({ month }) =>
-    ipcRenderer.invoke('get-all-attendance-list-by-month', { month }),
+  getAttendanceList: (data) => ipcRenderer.invoke('find-attendance-list', data),
+  getAllAttendanceListByMonth: (data) =>
+    ipcRenderer.invoke('find-attendance-list-by-month', data),
 
   getWorkingDay: ({ month }) =>
     ipcRenderer.invoke('get-working-days', { month }),

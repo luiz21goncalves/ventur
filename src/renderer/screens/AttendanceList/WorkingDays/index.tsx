@@ -53,7 +53,6 @@ export function WorkingDays() {
         position: 'top',
       });
     } catch (err) {
-      console.error(err);
       toast({
         title: 'Ocorreu um erro ao salvar os dias uteis',
         status: 'error',

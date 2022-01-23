@@ -17,38 +17,45 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BaseScreen } from '../../../components/BaseScreen';
 import { Input, Select } from '../../../components/Form';
 
+type Student = {
+  _id: string;
+  name: string;
+  attendance: string;
+};
+
 export function CreateAttendanceList() {
   const { date } = useParams();
   const navigate = useNavigate();
   const formRef = useRef(null);
   const toast = useToast();
 
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<Student[]>([]);
 
   const [year, month, day] = date?.split('-');
 
   useEffect(() => {
     async function load() {
-      try {
-        const response = await window.Main.getAttendanceList(date);
-        console.log(response);
+      const allStudents = await window.Main.getAllStudents();
+      const response = await window.Main.getAttendanceList({
+        month,
+        year,
+        day,
+      });
+
+      if (response && response.students) {
+        setStudents(response.students);
+      } else {
         setStudents(
-          response.students.map(({ _id, name, attendance }) => ({
+          allStudents.map(({ _id, name }) => ({
             _id,
             name,
-            attendance,
+            attendance: 'false',
           }))
         );
-      } catch {
-        toast({
-          title: 'Nâo foi possível carregar a lista de presença',
-          status: 'error',
-          position: 'top',
-        });
       }
     }
     load();
-  }, [date, toast]);
+  }, [year, month, day, toast]);
 
   async function handleSubmit({ students }) {
     try {

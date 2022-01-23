@@ -151,22 +151,35 @@ async function registerListeners() {
     return Student.delete({ _id });
   });
 
-  ipcMain.handle('create-attendance-list', async (_, data) => {
-    const attendanceList = await AttendanceList.findByDate(data);
+  ipcMain.handle(
+    'create-attendance-list',
+    async (_, { day, month, year, students }) => {
+      const attendanceList = await AttendanceList.findByDate({
+        day,
+        month,
+        year,
+      });
 
-    if (attendanceList) {
-      return AttendanceList.update({ ...attendanceList, ...data });
+      if (attendanceList) {
+        return AttendanceList.update({
+          _id: attendanceList._id,
+          day,
+          month,
+          year,
+          students,
+        });
+      }
+
+      return AttendanceList.create({ day, month, year, students });
     }
+  );
 
-    return AttendanceList.create(data);
+  ipcMain.handle('find-attendance-list', (_, { day, month, year }) => {
+    return AttendanceList.findByDate({ day, month, year });
   });
 
-  ipcMain.handle('get-attendance-list', (_, date) => {
-    return AttendanceList.findByDate(date);
-  });
-
-  ipcMain.handle('get-all-attendance-list-by-month', (_, data) => {
-    return AttendanceList.findByMonth(data);
+  ipcMain.handle('find-attendance-list-by-month', (_, { month, year }) => {
+    return AttendanceList.findByMonth({ month, year });
   });
 
   ipcMain.handle('create-working-days', async (_, data) => {

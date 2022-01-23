@@ -13,31 +13,53 @@ import { useNavigate } from 'react-router-dom';
 
 import { BaseScreen } from '../../components/BaseScreen';
 
+type Student = {
+  _id: string;
+  name: string;
+  email?: string;
+  password?: string;
+  classes_per_week: number;
+  price_per_month: number;
+};
+
+type AttendanceListData = {
+  _id: string;
+  year: number;
+  month: number;
+  day: number;
+  students: Pick<Student, '_id' | 'classes_per_week' | 'price_per_month'>[];
+};
+
 export function Home() {
   const navigate = useNavigate();
 
   const [month, setMonth] = useState('01');
-  const [attendanceList, setAttendaceList] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [attendanceList, setAttendaceList] = useState<AttendanceListData[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [workingDays, setWorkingDays] = useState([]);
 
   useEffect(() => {
     async function loadData() {
       const allStudents = await window.Main.getAllStudents();
       setStudents(allStudents as []);
+
       const workingDays = await window.Main.getWorkingDay({ month });
       setWorkingDays(workingDays as []);
-      const response = await window.Main.getAllAttendanceListByMonth({ month });
+
+      const response = await window.Main.getAllAttendanceListByMonth({
+        month,
+        year: '2022',
+      });
       setAttendaceList(
-        response.reduce((acc, { students }, index) => {
+        response.reduce((acc, { students: studentsArray }, index) => {
           if (index === 0) {
-            students.forEach(({ _id, attendance }) => {
+            studentsArray.forEach(({ _id, attendance }) => {
               acc[_id] = {
                 number_of_classes: attendance === 'true' ? 1 : 0,
               };
             });
           } else {
-            students.forEach(({ _id, attendance }) => {
+            studentsArray.forEach(({ _id, attendance }) => {
               if (attendance === 'true') {
                 acc[_id].number_of_classes += 1;
               }
@@ -50,7 +72,7 @@ export function Home() {
     }
 
     loadData();
-  }, []);
+  }, [month]);
 
   function calculateMonthlyFee({
     number_of_classes,
@@ -125,7 +147,7 @@ export function Home() {
                 <Text>
                   Preço a ser pago:{' '}
                   {calculateMonthlyFee({
-                    classes_per_week: student?.classes_per_week,
+                    classes_per_week: student.classes_per_week,
                     month_weeks: workingDays?.number_of_weeks,
                     number_of_classes:
                       attendanceList[student._id]?.number_of_classes,
