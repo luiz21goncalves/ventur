@@ -112,11 +112,15 @@ app.on('window-all-closed', () => {
 async function registerListeners() {
   ipcMain.handle(
     'create-student',
-    (_, { name, email, password, classes_per_week, price_per_month }) => {
+    (
+      _,
+      { name, email, password, birthday, classes_per_week, price_per_month }
+    ) => {
       return Student.create({
         name,
         email,
         password,
+        birthday,
         classes_per_week,
         price_per_month,
       });
@@ -125,12 +129,24 @@ async function registerListeners() {
 
   ipcMain.handle(
     'update-student',
-    (_, { _id, name, email, password, classes_per_week, price_per_month }) => {
+    (
+      _,
+      {
+        _id,
+        name,
+        email,
+        password,
+        birthday,
+        classes_per_week,
+        price_per_month,
+      }
+    ) => {
       return Student.update({
         _id,
         name,
         email,
         password,
+        birthday,
         classes_per_week,
         price_per_month,
       });

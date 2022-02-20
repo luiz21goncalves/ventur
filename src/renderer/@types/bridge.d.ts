@@ -3,6 +3,7 @@ type Student = {
   name: string;
   email?: string;
   password?: string;
+  birthday?: string;
   classes_per_week: number;
   price_per_month: number;
 };

@@ -22,6 +22,8 @@ export function StudentForm(props: StudentFormProps) {
 
         <Input name="name" label="Nome" isRequired />
 
+        <Input name="birthday" label="Aniversário" />
+
         <Input name="email" label="Email" />
 
         <Input name="password" label="Senha" />

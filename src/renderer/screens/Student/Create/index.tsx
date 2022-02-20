@@ -8,6 +8,7 @@ type Student = {
   name: string;
   email?: string;
   password?: string;
+  birthday?: string;
   classes_per_week: number;
   price_per_month: number;
 };
@@ -20,6 +21,7 @@ export function StudentCreate() {
     name,
     email,
     password,
+    birthday,
     classes_per_week,
     price_per_month,
   }: Student) {
@@ -29,6 +31,7 @@ export function StudentCreate() {
         email,
         password,
         classes_per_week,
+        birthday,
         price_per_month,
       });
 

@@ -5,6 +5,7 @@ type StudentData = {
   name: string;
   email?: string;
   password?: string;
+  birthday?: string;
   classes_per_week: string;
   price_per_month: string;
 };
@@ -14,6 +15,7 @@ export const Student = {
     name,
     email,
     password,
+    birthday,
     classes_per_week,
     price_per_month,
   }: Omit<StudentData, '_id'>) {
@@ -21,6 +23,7 @@ export const Student = {
       name,
       email,
       password,
+      birthday,
       classes_per_week: Number(classes_per_week),
       price_per_month: Number(price_per_month),
     });
@@ -31,6 +34,7 @@ export const Student = {
     name,
     email,
     password,
+    birthday,
     classes_per_week,
     price_per_month,
   }: StudentData) {
@@ -40,6 +44,7 @@ export const Student = {
         name,
         email,
         password,
+        birthday,
         classes_per_week: Number(classes_per_week),
         price_per_month: Number(price_per_month),
       }

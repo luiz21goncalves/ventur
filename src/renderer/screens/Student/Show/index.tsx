@@ -10,6 +10,7 @@ type Student = {
   name: string;
   email?: string;
   password?: string;
+  birthday?: string;
   classes_per_week: number;
   price_per_month: number;
 };
@@ -66,6 +67,15 @@ export function ShowStudent() {
               Nome:
             </Text>
             <Text fontSize="lg">{student.name}</Text>
+          </Stack>
+
+          <Divider />
+
+          <Stack direction="row" spacing="2" alignItems="center">
+            <Text fontSize="sm" fontWeight="bold">
+              Aniversário:
+            </Text>
+            <Text fontSize="lg">{student.birthday}</Text>
           </Stack>
 
           <Divider />
