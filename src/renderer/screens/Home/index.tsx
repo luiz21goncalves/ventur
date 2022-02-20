@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-
+import { format } from 'date-fns';
 import { BaseScreen } from '../../components/BaseScreen';
 
 type Student = {
@@ -37,10 +37,12 @@ type WorkingDays = {
   date: Date[];
 };
 
+const currentMonth = format(new Date(), 'MM');
+
 export function Home() {
   const navigate = useNavigate();
 
-  const [month, setMonth] = useState('01');
+  const [month, setMonth] = useState(currentMonth);
   const [attendanceList, setAttendaceList] = useState<AttendanceList[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [workingDays, setWorkingDays] = useState<WorkingDays>();
