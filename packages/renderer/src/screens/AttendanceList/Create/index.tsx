@@ -49,11 +49,11 @@ export function CreateAttendanceList() {
         day,
       });
 
-      const concatStudents: StudentConcat = {}
-      allStudents.forEach(({ _id, name }: { _id: string, name: string }) => {
+      const concatStudents: StudentConcat = {};
+      allStudents.forEach(({ _id, name }: { _id: string; name: string }) => {
         concatStudents[_id] = {
           name,
-          attendance: 'false'
+          attendance: 'false',
         };
       });
 
@@ -72,13 +72,13 @@ export function CreateAttendanceList() {
           _id,
           name: concatStudents[_id].name,
           attendance: concatStudents[_id].attendance,
-        }))
+        })),
       );
     }
     load();
   }, [year, month, day, toast]);
 
-  async function handleSubmit({ students }: {students: Student[]}) {
+  async function handleSubmit({ students }: { students: Student[] }) {
     try {
       await window.Main.createOrUpdateAttendanceList({
         year,

@@ -46,7 +46,7 @@ export const AttendanceList = {
   }: AttendanceListData & { _id: string }) {
     await database.attendanceList.update(
       { _id },
-      { year: Number(year), month: Number(month), day: Number(day), students }
+      { year: Number(year), month: Number(month), day: Number(day), students },
     );
 
     return database.attendanceList.findOne({ _id });

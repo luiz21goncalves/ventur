@@ -47,7 +47,7 @@ export const Student = {
         birthday,
         classes_per_week: Number(classes_per_week),
         price_per_month: Number(price_per_month),
-      }
+      },
     );
 
     return database.students.findOne({ _id });
