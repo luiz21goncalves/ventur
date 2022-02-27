@@ -23,7 +23,7 @@ export const WorkingDays = {
   async update({ _id, month, number_of_weeks, date }: WorkingDaysData) {
     return database.workingDays.update(
       { _id },
-      { month: Number(month), number_of_weeks, date }
+      { month: Number(month), number_of_weeks, date },
     );
   },
 };

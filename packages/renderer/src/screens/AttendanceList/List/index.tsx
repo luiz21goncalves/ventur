@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Button, useToken } from '@chakra-ui/react';
-import { format, toDate } from 'date-fns';
+import format from 'date-fns/format';
+import toDate from 'date-fns/toDate';
 
 import { BaseScreen } from '../../../components/BaseScreen';
 import 'react-day-picker/lib/style.css';
@@ -42,7 +43,7 @@ export function AttendanceList() {
       });
 
       const attendanceDays = response.map(({ day, month, year }) =>
-        toDate(new Date(Number(year), Number(month) - 1, Number(day)))
+        toDate(new Date(Number(year), Number(month) - 1, Number(day))),
       );
       setDates(attendanceDays);
     }

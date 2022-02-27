@@ -1,5 +1,5 @@
 export function useLoading() {
-  const className = `loaders-css__spin`
+  const className = `loaders-css__spin`;
   const styleContent = `
     @-webkit-keyframes load {
       0% {
@@ -80,23 +80,23 @@ export function useLoading() {
       justify-content: center;
       background: #282c34;
     }
-  `
-  const oStyle = document.createElement('style')
-  const oDiv = document.createElement('div')
+  `;
+  const oStyle = document.createElement('style');
+  const oDiv = document.createElement('div');
 
-  oStyle.id = 'app-loading-style'
-  oStyle.innerHTML = styleContent
-  oDiv.className = 'app-loading-wrap'
-  oDiv.innerHTML = `<div class="${className}"></div>`
+  oStyle.id = 'app-loading-style';
+  oStyle.innerHTML = styleContent;
+  oDiv.className = 'app-loading-wrap';
+  oDiv.innerHTML = `<div class="${className}"></div>`;
 
   return {
     appendLoading() {
-      document.head.appendChild(oStyle)
-      document.body.appendChild(oDiv)
+      document.head.appendChild(oStyle);
+      document.body.appendChild(oDiv);
     },
     removeLoading() {
-      document.head.removeChild(oStyle)
-      document.body.removeChild(oDiv)
+      document.head.removeChild(oStyle);
+      document.body.removeChild(oDiv);
     },
-  }
+  };
 }

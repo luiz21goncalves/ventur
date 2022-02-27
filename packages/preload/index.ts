@@ -1,15 +1,17 @@
-import { contextBridge } from 'electron'
-import { domReady } from './utils'
-import { useLoading } from './loading'
+/* eslint-disable react-hooks/rules-of-hooks */
+import { contextBridge } from 'electron';
+
+import { domReady } from './utils';
+import { useLoading } from './loading';
 import { api } from '../main/bridge';
 
-const { appendLoading, removeLoading } = useLoading()
+const { appendLoading, removeLoading } = useLoading();
 
-;(async () => {
-  await domReady()
+(async () => {
+  await domReady();
 
-  appendLoading()
-})()
+  appendLoading();
+})();
 
-contextBridge.exposeInMainWorld('removeLoading', removeLoading)
-contextBridge.exposeInMainWorld('Main', api)
+contextBridge.exposeInMainWorld('removeLoading', removeLoading);
+contextBridge.exposeInMainWorld('Main', api);

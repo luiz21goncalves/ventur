@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { isEqual } from 'date-fns';
+import isEqual from 'date-fns/isEqual';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Flex, useToast } from '@chakra-ui/react';
@@ -10,7 +10,7 @@ import { BaseScreen } from '../../../components/BaseScreen';
 export function WorkingDays() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { month } = state as { month: string }
+  const { month } = state as { month: string };
   const toast = useToast();
 
   const [selectedDays, setSelectedDays] = useState<Date[]>([]);
@@ -29,7 +29,7 @@ export function WorkingDays() {
   function handleDayClick(day: Date, { selected }: DayModifiers) {
     if (selected) {
       setSelectedDays((prevState) =>
-        prevState.filter((date) => !isEqual(date, day))
+        prevState.filter((date) => !isEqual(date, day)),
       );
     } else {
       setSelectedDays((prevState) => [...prevState, day]);

@@ -1,6 +1,7 @@
+import { useRef } from 'react';
+
 import { Stack } from '@chakra-ui/react';
 import { Form } from '@unform/web';
-import { useRef } from 'react';
 
 import { Input } from '../../../components/Form';
 

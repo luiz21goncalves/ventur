@@ -25,7 +25,9 @@ export function ShowStudent() {
   useEffect(() => {
     async function loadStudent() {
       try {
-        const studentResponse = await window.Main.getStudent({ _id: String(id) });
+        const studentResponse = await window.Main.getStudent({
+          _id: String(id),
+        });
         if (studentResponse) {
           setStudent(studentResponse);
         }

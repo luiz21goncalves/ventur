@@ -10,7 +10,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
+
 import { BaseScreen } from '../../components/BaseScreen';
 
 type Student = {
@@ -25,7 +26,7 @@ type Student = {
 type AttendanceList = {
   [key: string]: {
     number_of_classes: number;
-  }
+  };
 };
 
 type WorkingDays = {
@@ -65,7 +66,7 @@ export function Home() {
           if (index === 0) {
             studentsArray.forEach(({ _id, attendance }) => {
               acc[_id] = {
-                number_of_classes: attendance === 'true' ? 1 : 0
+                number_of_classes: attendance === 'true' ? 1 : 0,
               };
             });
           } else {
@@ -75,9 +76,9 @@ export function Home() {
               }
             });
           }
-  
+
           return acc;
-        }, {} as AttendanceList)
+        }, {} as AttendanceList),
       );
     }
 
