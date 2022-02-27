@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit --project packages/renderer/tsconfig.json",
     "debug": "cross-env-shell NODE_ENV=debug \"npm run typecheck && node scripts/build.mjs && vite ./packages/renderer\"",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install"
   },
   "engines": {
     "node": ">=14.17.0"
@@ -56,6 +57,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-react-redux": "3.3.2",
     "eslint-plugin-testing-library": "3.10.1",
+    "husky": "^7.0.4",
     "prettier": "2.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
