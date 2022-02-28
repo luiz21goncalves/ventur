@@ -24,7 +24,7 @@ type Student = {
 };
 
 type StudentConcat = {
-  [_id: string]: {
+  [key: string]: {
     name: string;
     attendance: 'true' | 'false';
   };
