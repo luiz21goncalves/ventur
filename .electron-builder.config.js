@@ -9,8 +9,11 @@ module.exports = {
   asar: true,
   directories: {
     output: "release/${version}",
-    buildResources: "assets",
   },
+  extraResources: [
+    'assets',
+    'migrations',
+  ],
   files: ["dist"],
   win: {
     target: [

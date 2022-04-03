@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { BaseScreen } from '../../../components/BaseScreen';
 
 type Student = {
-  _id: string;
+  id: string;
   name: string;
 };
 
@@ -76,13 +76,13 @@ export function StudentList() {
 
           <Tbody>
             {students.map((student) => (
-              <Tr key={student._id}>
+              <Tr key={student.id}>
                 <Td>{student.name}</Td>
                 <Td>
                   <Button
                     size="xs"
                     variant="outline"
-                    onClick={() => navigate(student._id)}
+                    onClick={() => navigate(student.id)}
                   >
                     Detalhes
                   </Button>

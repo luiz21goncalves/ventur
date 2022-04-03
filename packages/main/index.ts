@@ -59,7 +59,7 @@ async function registerListeners() {
     (
       _,
       {
-        _id,
+        id,
         name,
         email,
         password,
@@ -69,7 +69,7 @@ async function registerListeners() {
       },
     ) =>
       Student.update({
-        _id,
+        id,
         name,
         email,
         password,
@@ -81,9 +81,9 @@ async function registerListeners() {
 
   ipcMain.handle('find-students', () => Student.findAll());
 
-  ipcMain.handle('find-student', (_, { _id }) => Student.find({ _id }));
+  ipcMain.handle('find-student', (_, id) => Student.findById(id));
 
-  ipcMain.handle('delete-student', (_, { _id }) => Student.delete({ _id }));
+  ipcMain.handle('delete-student', (_, id) => Student.delete(id));
 
   ipcMain.handle(
     'create-attendance-list',

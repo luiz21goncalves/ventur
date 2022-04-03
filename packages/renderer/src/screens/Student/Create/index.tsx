@@ -40,8 +40,9 @@ export function StudentCreate() {
         status: 'success',
         position: 'top',
       });
-      navigate(`/students/${student._id}`);
+      navigate(`/students/${student.id}`);
     } catch (error) {
+      console.error(error);
       toast({
         title: 'Não foi possível criar aluno',
         status: 'error',

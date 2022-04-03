@@ -8,7 +8,6 @@ import { BaseScreen } from '../../../components/BaseScreen';
 import { StudentForm } from '../Form';
 
 type Student = {
-  _id: string;
   name: string;
   email?: string;
   password?: string;
@@ -26,7 +25,7 @@ export function EditStudent() {
 
   useEffect(() => {
     async function loadStudent() {
-      const studentResponse = await window.Main.getStudent({ _id: String(id) });
+      const studentResponse = await window.Main.getStudent(String(id));
       if (studentResponse) {
         setStudent(studentResponse);
       }
@@ -35,7 +34,6 @@ export function EditStudent() {
   }, [id]);
 
   async function handleSubmit({
-    _id,
     name,
     email,
     password,
@@ -45,7 +43,7 @@ export function EditStudent() {
   }: Student) {
     try {
       const studentResponse = await window.Main.updateStudent({
-        _id,
+        id: String(id),
         name,
         email,
         password,
@@ -54,7 +52,7 @@ export function EditStudent() {
         classes_per_week,
       });
 
-      navigate(`/students/${studentResponse._id}`, { state: studentResponse });
+      navigate(`/students/${studentResponse.id}`, { state: studentResponse });
       toast({
         title: 'Aluno salvo com sucesso',
         status: 'success',
@@ -71,7 +69,7 @@ export function EditStudent() {
 
   async function handleDelete() {
     try {
-      await window.Main.deleteStudent({ _id: String(id) });
+      await window.Main.deleteStudent(String(id));
       navigate('/students');
       toast({
         title: 'O aluno foi excluído.',

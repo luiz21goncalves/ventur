@@ -1,13 +1,15 @@
-import { database } from '../database';
+import crypto from 'crypto';
+
+import { openDb } from '../database/sqlite';
 
 type StudentData = {
-  _id: string;
+  id: string;
   name: string;
   email?: string;
   password?: string;
   birthday?: string;
-  classes_per_week: string;
-  price_per_month: string;
+  classes_per_week: number;
+  price_per_month: number;
 };
 
 export const Student = {
@@ -18,19 +20,35 @@ export const Student = {
     birthday,
     classes_per_week,
     price_per_month,
-  }: Omit<StudentData, '_id'>) {
-    return database.students.insert({
-      name,
-      email,
-      password,
-      birthday,
-      classes_per_week: Number(classes_per_week),
-      price_per_month: Number(price_per_month),
-    });
+  }: Omit<StudentData, 'id'>) {
+    const db = await openDb();
+
+    const id = crypto.randomUUID();
+    const datetime = new Date().toISOString();
+
+    await db.run(
+      `
+        INSERT INTO students (id, name, email, password, birthday, classes_per_week, price_per_month, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        id,
+        name,
+        email,
+        password,
+        birthday,
+        classes_per_week,
+        price_per_month,
+        datetime,
+        datetime,
+      ],
+    );
+
+    return this.findById(id);
   },
 
   async update({
-    _id,
+    id,
     name,
     email,
     password,
@@ -38,30 +56,46 @@ export const Student = {
     classes_per_week,
     price_per_month,
   }: StudentData) {
-    await database.students.update(
-      { _id },
-      {
+    const db = await openDb();
+
+    const datetime = new Date().toISOString();
+
+    await db.run(
+      `
+      UPDATE students
+      SET name = ?, email = ?, password = ?, birthday = ?, classes_per_week = ?, price_per_month = ?, updated_at = ?
+      WHERE id = ?
+    `,
+      [
         name,
         email,
         password,
         birthday,
-        classes_per_week: Number(classes_per_week),
-        price_per_month: Number(price_per_month),
-      },
+        classes_per_week,
+        price_per_month,
+        datetime,
+        id,
+      ],
     );
 
-    return database.students.findOne({ _id });
+    return this.findById(id);
   },
 
-  async find({ _id }: { _id: string }) {
-    return database.students.findOne({ _id });
+  async findById(id: string) {
+    const db = await openDb();
+
+    return db.get('SELECT * FROM students WHERE id = ?', [id]);
   },
 
   async findAll() {
-    return database.students.find({}).sort({ name: 1 });
+    const db = await openDb();
+
+    return db.all('SELECT * FROM students ORDER BY name ASC');
   },
 
-  async delete({ _id }: { _id: string }) {
-    return database.students.remove({ _id }, { multi: false });
+  async delete(id: string) {
+    const db = await openDb();
+
+    return db.run('DELETE FROM students WHERE id = ?', [id]);
   },
 };

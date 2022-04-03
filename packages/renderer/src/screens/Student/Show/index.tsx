@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BaseScreen } from '../../../components/BaseScreen';
 
 type Student = {
-  _id: string;
+  id: string;
   name: string;
   email?: string;
   password?: string;
@@ -25,9 +25,7 @@ export function ShowStudent() {
   useEffect(() => {
     async function loadStudent() {
       try {
-        const studentResponse = await window.Main.getStudent({
-          _id: String(id),
-        });
+        const studentResponse = await window.Main.getStudent(String(id));
         if (studentResponse) {
           setStudent(studentResponse);
         }

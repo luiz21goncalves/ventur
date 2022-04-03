@@ -1,15 +1,15 @@
 import { ipcRenderer } from 'electron';
 
 type Student = {
-  _id: string;
+  id: string;
   name: string;
   email?: string;
   password?: string;
   birthday?: string;
   classes_per_week: number;
   price_per_month: number;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 type AttendanceList = {
@@ -22,22 +22,21 @@ type AttendanceList = {
     name: string;
     attendance: 'true' | 'false';
   }[];
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export const api = {
   createStudent: (
-    data: Omit<Student, '_id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Student, 'id' | 'created_at' | 'updated_at'>,
   ): Promise<Student> => ipcRenderer.invoke('create-student', data),
   updateStudent: (
-    data: Omit<Student, 'createdAt' | 'updatedAt'>,
+    data: Omit<Student, 'created_at' | 'updated_at'>,
   ): Promise<Student> => ipcRenderer.invoke('update-student', data),
-  getStudent: (data: { _id: string }): Promise<Student | null> =>
-    ipcRenderer.invoke('find-student', data),
+  getStudent: (id: string): Promise<Student | null> =>
+    ipcRenderer.invoke('find-student', id),
   getAllStudents: () => ipcRenderer.invoke('find-students'),
-  deleteStudent: (data: { _id: string }) =>
-    ipcRenderer.invoke('delete-student', data),
+  deleteStudent: (id: string) => ipcRenderer.invoke('delete-student', id),
 
   createOrUpdateAttendanceList: (data: {
     day: string;
