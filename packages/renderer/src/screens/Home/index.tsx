@@ -37,6 +37,7 @@ type WorkingDays = {
 };
 
 const currentMonth = format(new Date(), 'MM');
+const START_YEAR = 2021;
 
 export function Home() {
   const navigate = useNavigate();
