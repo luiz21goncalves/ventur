@@ -3,5 +3,9 @@
     "@rocketseat/eslint-config/react",
     "plugin:react-perf/recommended"
   ],
-  "plugins": ["react-perf"]
+  "plugins": ["react-perf", "simple-import-sort"],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  }
 }
