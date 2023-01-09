@@ -1,6 +1,0 @@
-{
-  "extends": ["@lukemorales"],
-  "rules": {
-    "import/no-extraneous-dependencies": "off"
-  }
-}
