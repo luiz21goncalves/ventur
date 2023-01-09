@@ -27,6 +27,8 @@ specifiers:
 dependencies:
   '@electron-toolkit/preload': 1.0.3_electron@21.3.3
   '@electron-toolkit/utils': 1.0.2_electron@21.3.3
+  react: 18.2.0
+  react-dom: 18.2.0_react@18.2.0
 
 devDependencies:
   '@electron-toolkit/tsconfig': 1.0.1_@types+node@16.18.11
@@ -45,8 +47,6 @@ devDependencies:
   eslint-plugin-prettier: 4.2.1_iu5s7nk6dw7o3tajefwfiqfmge
   eslint-plugin-react: 7.31.11_eslint@8.31.0
   prettier: 2.8.2
-  react: 18.2.0
-  react-dom: 18.2.0_react@18.2.0
   typescript: 4.9.4
   vite: 4.0.4_@types+node@16.18.11
 
@@ -2602,7 +2602,6 @@ packages:
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: true
 
   /js-yaml/4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
@@ -2710,7 +2709,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /lowercase-keys/1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
@@ -3101,7 +3099,7 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: true
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -3117,7 +3115,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
+    dev: false
 
   /read-config-file/6.2.0:
     resolution: {integrity: sha512-gx7Pgr5I56JtYz+WuqEbQHj/xWo+5Vwua2jhb1VwM4Wid5PqYmZ4i00ZB0YEGIfkVBsCv9UrjgyqCiQfS/Oosg==}
@@ -3257,7 +3255,7 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
+    dev: false
 
   /semver-compare/1.0.0:
     resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==}
