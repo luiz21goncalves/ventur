@@ -1,3 +1,9 @@
+import { ChakraProvider, Heading } from '@chakra-ui/react'
+
 export function App() {
-  return <h1>Ventur</h1>
+  return (
+    <ChakraProvider>
+      <Heading>Ventur</Heading>
+    </ChakraProvider>
+  )
 }
