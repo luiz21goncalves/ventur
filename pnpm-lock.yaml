@@ -14,6 +14,7 @@ specifiers:
   '@types/react-dom': 18.0.10
   '@vitejs/plugin-react': ^3.0.1
   '@vitest/coverage-c8': ^0.27.1
+  dayjs: ^1.11.7
   electron: ^21.3.3
   electron-builder: ^23.6.0
   electron-vite: ^1.0.17
@@ -35,6 +36,7 @@ dependencies:
   '@electron-toolkit/utils': 1.0.2_electron@21.3.3
   '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
   '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
+  dayjs: 1.11.7
   framer-motion: 8.4.3_biqbaboplfbrettd7655fr4n2y
   phosphor-react: 1.4.1_react@18.2.0
   react: 18.2.0
@@ -2970,6 +2972,10 @@ packages:
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
     dev: true
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
