@@ -23,6 +23,7 @@ specifiers:
   eslint-plugin-simple-import-sort: ^8.0.0
   eslint-plugin-sort-keys-fix: ^1.1.2
   framer-motion: ^8.4.3
+  jotai: ^1.13.0
   phosphor-react: ^1.4.1
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -38,6 +39,7 @@ dependencies:
   '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
   dayjs: 1.11.7
   framer-motion: 8.4.3_biqbaboplfbrettd7655fr4n2y
+  jotai: 1.13.0_react@18.2.0
   phosphor-react: 1.4.1_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -4452,6 +4454,49 @@ packages:
       filelist: 1.0.4
       minimatch: 3.1.2
     dev: true
+
+  /jotai/1.13.0_react@18.2.0:
+    resolution: {integrity: sha512-SPTO46Jw1aJTp2i18tiKgk++nKNKJTMNw4qYFy9QRTydceWvD2Eys+YgB7cb1S6pzbM9i0Ik/y7Yl7IH8k9Lig==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      jotai-devtools: '*'
+      jotai-immer: '*'
+      jotai-optics: '*'
+      jotai-redux: '*'
+      jotai-tanstack-query: '*'
+      jotai-urql: '*'
+      jotai-valtio: '*'
+      jotai-xstate: '*'
+      jotai-zustand: '*'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      jotai-devtools:
+        optional: true
+      jotai-immer:
+        optional: true
+      jotai-optics:
+        optional: true
+      jotai-redux:
+        optional: true
+      jotai-tanstack-query:
+        optional: true
+      jotai-urql:
+        optional: true
+      jotai-valtio:
+        optional: true
+      jotai-xstate:
+        optional: true
+      jotai-zustand:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /js-sdsl/4.2.0:
     resolution: {integrity: sha512-dyBIzQBDkCqCu+0upx25Y2jGdbTGxE9fshMsCdK0ViOongpV+n5tXRcZY9v7CaVQ79AGS9KA1KHtojxiM7aXSQ==}
