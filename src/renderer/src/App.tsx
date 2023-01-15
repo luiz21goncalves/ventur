@@ -1,7 +1,6 @@
-import { ChakraProvider, Heading } from '@chakra-ui/react'
+import './lib/dayjs'
 
-import { ToggleTheme } from './components/ToggleTheme'
-import { defaultTheme } from './styles/themes/default'
+import { ChakraProvider } from '@chakra-ui/react'
 
 export function App() {
   return (
