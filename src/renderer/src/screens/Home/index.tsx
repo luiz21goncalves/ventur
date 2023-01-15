@@ -18,6 +18,9 @@ import {
 
 import { Calendar } from '../../components/Calendar'
 import { ToggleTheme } from '../../components/ToggleTheme'
+import { studentFactory } from '../../factories/student.factory'
+
+const students = studentFactory.buildList(4)
 
 export function Home() {
   const [firstColumWidth, secondColumWith] = useToken('sizes', [
@@ -48,72 +51,26 @@ export function Home() {
         >
           <GridItem>
             <VStack gap="4" align="flex-start">
-              <Card w="full" p="4" gap="4">
-                <CardHeader p="0">
-                  <Heading size="sm" textAlign="center">
-                    Hi Lorena
-                  </Heading>
-                </CardHeader>
+              {students.map((student) => {
+                return (
+                  <Card w="full" p="4" gap="4" key={student.id}>
+                    <CardHeader p="0">
+                      <Heading size="sm" textAlign="center">
+                        {student.name}
+                      </Heading>
+                    </CardHeader>
 
-                <CardBody p="0">
-                  <Text>Total de aulas 20</Text>
-                  <Text>Aulas por semana 2</Text>
-                </CardBody>
+                    <CardBody p="0">
+                      <Text>Total de aulas {student.classes_per_month}</Text>
+                      <Text>Aulas por semana {student.classes_per_week}</Text>
+                    </CardBody>
 
-                <CardFooter p="0" justify="space-between">
-                  <Button variant="ghost">Detalhes</Button>
-                </CardFooter>
-              </Card>
-
-              <Card w="full" p="4" gap="4">
-                <CardHeader p="0">
-                  <Heading size="sm" textAlign="center">
-                    Hi Lorena
-                  </Heading>
-                </CardHeader>
-
-                <CardBody p="0">
-                  <Text>Total de aulas 20</Text>
-                  <Text>Aulas por semana 2</Text>
-                </CardBody>
-
-                <CardFooter p="0">
-                  <Button variant="ghost">Detalhes</Button>
-                </CardFooter>
-              </Card>
-
-              <Card w="full" p="4" gap="4">
-                <CardHeader p="0">
-                  <Heading size="sm" textAlign="center">
-                    Hi Lorena
-                  </Heading>
-                </CardHeader>
-
-                <CardBody p="0">
-                  <Text>Total de aulas 20</Text>
-                  <Text>Aulas por semana 2</Text>
-                </CardBody>
-
-                <CardFooter p="0">
-                  <Button variant="ghost">Detalhes</Button>
-                </CardFooter>
-              </Card>
-              <Card w="full" p="4" gap="4">
-                <CardHeader p="0">
-                  <Heading size="sm" textAlign="center">
-                    Hi Lorena
-                  </Heading>
-                </CardHeader>
-
-                <CardBody p="0">
-                  <Text>Total de aulas 20</Text>
-                  <Text>Aulas por semana 2</Text>
-                </CardBody>
-
-                <CardFooter p="0">
-                  <Button variant="ghost">Detalhes</Button>
-                </CardFooter>
-              </Card>
+                    <CardFooter p="0" justify="space-between">
+                      <Button variant="ghost">Detalhes</Button>
+                    </CardFooter>
+                  </Card>
+                )
+              })}
             </VStack>
           </GridItem>
 
