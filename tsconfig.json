@@ -17,6 +17,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "strictNullChecks":true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "baseUrl": ".",
