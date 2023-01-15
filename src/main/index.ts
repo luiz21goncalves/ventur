@@ -1,16 +1,18 @@
 import path from 'node:path'
 
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, screen, shell } from 'electron'
 
 import icon from '../../resources/icon.png'
 
 function createWindow(): void {
+  const { height, width } = screen.getPrimaryDisplay().workAreaSize
+
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    height: 670,
+    height,
     show: false,
-    width: 900,
+    width,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
