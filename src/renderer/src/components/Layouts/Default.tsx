@@ -1,15 +1,7 @@
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Flex,
-  HStack,
-  useColorModeValue,
-} from '@chakra-ui/react'
-import { Link, Outlet } from 'react-router-dom'
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
+import { Outlet } from 'react-router-dom'
 
-import { ToggleTheme } from '../ToggleTheme'
+import { Header } from '../Header'
 
 export function Default() {
   const backgroundColor = useColorModeValue('gray.50', 'gray.900')
@@ -26,22 +18,7 @@ export function Default() {
         mx="auto"
         p="8"
       >
-        <HStack w="full" justify="space-between" mb="16">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/">
-                Home
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/student/create">
-                Novo Aluno
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-
-          <ToggleTheme />
-        </HStack>
+        <Header />
 
         <Box w="full" height="container.md">
           <Outlet />
