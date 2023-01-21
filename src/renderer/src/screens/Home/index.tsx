@@ -1,5 +1,8 @@
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   Card,
   CardBody,
@@ -15,6 +18,7 @@ import {
   useToken,
   VStack,
 } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 import { Calendar } from '../../components/Calendar'
 import { ToggleTheme } from '../../components/ToggleTheme'
@@ -52,7 +56,21 @@ export function Home() {
     >
       <Box height="container.md">
         <HStack w="full" justify="space-between" mb="8">
-          <Box />
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink as={Link} to="/">
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink as={Link} to="/student/create">
+                Novo Aluno
+              </BreadcrumbLink>
+
+              <Link to="/student/create">new</Link>
+            </BreadcrumbItem>
+          </Breadcrumb>
+
           <ToggleTheme />
         </HStack>
 
