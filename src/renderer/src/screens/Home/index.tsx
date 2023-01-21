@@ -5,13 +5,13 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Flex,
   Grid,
   GridItem,
   Heading,
   HStack,
   Text,
+  useColorModeValue,
   useToken,
   VStack,
 } from '@chakra-ui/react'
@@ -20,13 +20,24 @@ import { Calendar } from '../../components/Calendar'
 import { ToggleTheme } from '../../components/ToggleTheme'
 import { studentFactory } from '../../factories/student.factory'
 
-const students = studentFactory.buildList(4)
+const students = studentFactory.buildList(6)
 
 export function Home() {
   const [firstColumWidth, secondColumWith] = useToken('sizes', [
     'xs',
     'container.sm',
   ])
+
+  const scrollbarBackgroundColor = useColorModeValue(
+    'blackAlpha.50',
+    'whiteAlpha.50',
+  )
+  const scrollbarColor = useColorModeValue('blackAlpha.200', 'whiteAlpha.200')
+
+  const scrollbarStyles = getScrollbarStyles({
+    scrollbarBackgroundColor,
+    scrollbarColor,
+  })
 
   return (
     <Flex
@@ -46,10 +57,11 @@ export function Home() {
         </HStack>
 
         <Grid
-          gridTemplateColumns={`${firstColumWidth} 1px ${secondColumWith}`}
-          gap="8"
+          gridTemplateColumns={`${firstColumWidth} ${secondColumWith}`}
+          gap="4"
+          h="container.md"
         >
-          <GridItem>
+          <GridItem overflowY="auto" pr="4" py="4" sx={scrollbarStyles}>
             <VStack gap="4" align="flex-start">
               {students.map((student) => {
                 return (
@@ -74,7 +86,6 @@ export function Home() {
             </VStack>
           </GridItem>
 
-          <Divider orientation="vertical" />
           <GridItem>
             <Calendar />
           </GridItem>
@@ -82,4 +93,24 @@ export function Home() {
       </Box>
     </Flex>
   )
+}
+
+const getScrollbarStyles = ({
+  scrollbarBackgroundColor,
+  scrollbarColor,
+}: {
+  scrollbarBackgroundColor: string
+  scrollbarColor: string
+}) => {
+  return {
+    '&::-webkit-scrollbar': {
+      backgroundColor: `${scrollbarBackgroundColor}`,
+      borderRadius: '6px',
+      width: '6px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: `${scrollbarColor}`,
+      borderRadius: '6px',
+    },
+  }
 }
