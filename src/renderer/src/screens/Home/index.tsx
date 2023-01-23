@@ -12,6 +12,7 @@ import {
   useToken,
   VStack,
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 import { Calendar } from '../../components/Calendar'
 import { studentFactory } from '../../factories/student.factory'
@@ -19,6 +20,8 @@ import { studentFactory } from '../../factories/student.factory'
 const students = studentFactory.buildList(6)
 
 export function Home() {
+  const navigate = useNavigate()
+
   const [firstColumWidth, secondColumWith] = useToken('sizes', [
     'xs',
     'container.sm',
@@ -35,6 +38,10 @@ export function Home() {
     scrollbarColor,
   })
 
+  function handleNavigateToStudentDetails(studentId: string) {
+    navigate(`/student/${studentId}`)
+  }
+
   return (
     <Grid
       gridTemplateColumns={`${firstColumWidth} ${secondColumWith}`}
@@ -44,6 +51,10 @@ export function Home() {
       <GridItem overflowY="auto" pr="4" py="4" sx={scrollbarStyles}>
         <VStack gap="4" align="flex-start">
           {students.map((student) => {
+            function handleRedirect() {
+              handleNavigateToStudentDetails(student.id)
+            }
+
             return (
               <Card w="full" p="4" gap="4" key={student.id}>
                 <CardHeader p="0">
@@ -58,7 +69,9 @@ export function Home() {
                 </CardBody>
 
                 <CardFooter p="0" justify="space-between">
-                  <Button variant="ghost">Detalhes</Button>
+                  <Button variant="ghost" onClick={handleRedirect}>
+                    Detalhes
+                  </Button>
                 </CardFooter>
               </Card>
             )
