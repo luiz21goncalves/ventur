@@ -28,6 +28,7 @@
     "@emotion/styled": "^11.10.5",
     "dayjs": "^1.11.7",
     "electron-router-dom": "^1.0.5",
+    "electron-store": "^8.1.0",
     "framer-motion": "^8.4.3",
     "jotai": "^1.13.0",
     "phosphor-react": "^1.4.1",
