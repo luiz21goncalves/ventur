@@ -5,15 +5,23 @@ import { app, BrowserWindow, screen, shell } from 'electron'
 import { createFileRoute, createURLRoute } from 'electron-router-dom'
 
 import icon from '../../resources/icon.png'
+import { store } from './store'
 
 function createWindow(): void {
-  const { height, width } = screen.getPrimaryDisplay().workAreaSize
+  const { height, width, x, y } = screen.getPrimaryDisplay().workArea
+  const storedBounds = store.get('bounds')
+
+  const defaultBounds = {
+    height,
+    width,
+    x,
+    y,
+    ...storedBounds,
+  }
 
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    height,
     show: false,
-    width,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -21,8 +29,16 @@ function createWindow(): void {
     },
   })
 
+  mainWindow.setBounds(defaultBounds)
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+  })
+
+  mainWindow.on('close', () => {
+    const bounds = mainWindow.getBounds()
+
+    store.set('bounds', bounds)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
