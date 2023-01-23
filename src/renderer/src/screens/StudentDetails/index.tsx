@@ -3,14 +3,12 @@ import {
   Flex,
   Heading,
   HStack,
-  Input,
-  InputGroup,
-  InputLeftAddon,
   SimpleGrid,
   Text,
   VStack,
 } from '@chakra-ui/react'
 
+import { InputDate } from '../../components/Inputs/InputDate'
 import { studentFactory } from '../../factories/student.factory'
 
 const student = studentFactory.build()
@@ -30,10 +28,7 @@ export function StudentDetails() {
       </VStack>
 
       <Center>
-        <InputGroup maxW="80">
-          <InputLeftAddon>Data de referencia</InputLeftAddon>
-          <Input type="date" maxW="40" defaultValue="2023-01-23" />
-        </InputGroup>
+        <InputDate />
       </Center>
 
       <SimpleGrid columns={2} gap="8" w="full">
