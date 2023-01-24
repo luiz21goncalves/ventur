@@ -16,6 +16,10 @@ const LINKS = [
     to: '/',
   },
   {
+    label: 'Lista de Presença',
+    to: '/attendance-list',
+  },
+  {
     label: 'Novo Aluno',
     to: '/student/create',
   },
@@ -53,5 +57,6 @@ export function Header() {
 const getActiveLinkStyles = (activeLinkColor: string): SystemStyleObject => {
   return {
     color: activeLinkColor,
+    textDecoration: 'underline',
   }
 }
