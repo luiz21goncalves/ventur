@@ -23,6 +23,10 @@ const LINKS = [
     label: 'Novo Aluno',
     to: '/student/create',
   },
+  {
+    label: 'Feriados',
+    to: '/holidays',
+  },
 ]
 
 export function Header() {
