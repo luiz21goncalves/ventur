@@ -3,6 +3,7 @@ import { Route, Router } from 'electron-router-dom'
 import { Default } from './components/Layouts/Default'
 import { AttendanceList } from './screens/AttendanceList'
 import { CreateStudent } from './screens/CreateStudent'
+import { Holidays } from './screens/Holidays'
 import { Home } from './screens/Home'
 import { StudentDetails } from './screens/StudentDetails'
 
@@ -15,6 +16,7 @@ export function Routes() {
           <Route path="/student/create" element={<CreateStudent />} />
           <Route path="/student/:id" element={<StudentDetails />} />
           <Route path="/attendance-list" element={<AttendanceList />} />
+          <Route path="/holidays" element={<Holidays />} />
         </Route>
       }
     />
