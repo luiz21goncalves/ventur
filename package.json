@@ -26,6 +26,7 @@
     "@electron-toolkit/utils": "^1.0.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "axios": "^1.2.6",
     "dayjs": "^1.11.7",
     "dexie": "^3.2.3",
     "electron-router-dom": "^1.0.5",
