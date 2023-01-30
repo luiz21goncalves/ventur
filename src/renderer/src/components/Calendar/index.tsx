@@ -10,21 +10,33 @@ import dayjs, { Dayjs } from 'dayjs'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useMemo, useState } from 'react'
 
+import { Holiday } from '@/shared/types'
+
+import { useHolidaysQuery } from '../../queries/useHolidaysQuery'
 import { getMonthDays } from '../../utils/get-month-data'
 import { Week } from './Week'
 import { Weekdays } from './Weekdays'
 
 type CalendarWeek = {
   week: number
-  days: Array<{ date: Dayjs; disabled: boolean }>
+  days: Array<{ date: Dayjs; disabled: boolean; isHoliday: boolean }>
 }
 
 type CalendarWeeks = CalendarWeek[]
+
+function checkIfIsHoliday(holidays: Holiday[], date: Dayjs) {
+  const holiday = holidays.find((holiday) => {
+    return date.isSame(holiday.date, 'day')
+  })
+
+  return Boolean(holiday)
+}
 
 export function Calendar() {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs()
   })
+  const { data: holidays } = useHolidaysQuery()
 
   const calendarWeeks = useMemo(() => {
     const currentMonth = getMonthDays(currentDate.toDate())
@@ -45,19 +57,26 @@ export function Calendar() {
     const previousMonthFillArray = previousMonth.days
       .slice(previousMonth.daysAmount - firstWeekDay)
       .map((date) => {
-        return { date, disabled: true }
+        const isHoliday = checkIfIsHoliday(holidays ?? [], date)
+
+        return { date, disabled: true, isHoliday }
       })
 
     const nextMonthFillArray = nextMonth.days
       .slice(0, 7 - (lastWeekDay + 1))
       .map((date) => {
-        return { date, disabled: true }
+        const isHoliday = checkIfIsHoliday(holidays ?? [], date)
+
+        return { date, disabled: true, isHoliday }
       })
 
     const formattedCurrentMonth = currentMonth.days.map((date) => {
+      const isHoliday = checkIfIsHoliday(holidays ?? [], date)
+
       return {
         date,
         disabled: false,
+        isHoliday,
       }
     })
 

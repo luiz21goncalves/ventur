@@ -5,19 +5,36 @@ import {
   SystemStyleObject,
   Text,
   useCheckbox,
+  useColorModeValue,
 } from '@chakra-ui/react'
 
-export function DayInput(props: CheckboxProps) {
-  const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } =
-    useCheckbox(props)
+type DayInputProps = CheckboxProps & {
+  isHoliday: boolean
+}
 
-  const darkStyles = getDarkStyles(state.isChecked)
+export function DayInput(props: DayInputProps) {
+  const { isHoliday, ...attrs } = props
+
+  const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } =
+    useCheckbox(attrs)
+
+  const defaultBackgroundColor = useColorModeValue('gray.400', 'gray.700')
+  const selectedBackgroundColor = useColorModeValue('blue.500', 'blue.600')
+  const holidayBackgroundColor = useColorModeValue('red.500', 'red.600')
+
+  const backgroundColor = state.isChecked
+    ? selectedBackgroundColor
+    : isHoliday
+    ? holidayBackgroundColor
+    : defaultBackgroundColor
+
+  const textColor = state.isChecked || isHoliday ? 'white' : undefined
 
   return (
     <chakra.label p="0.5" {...htmlProps}>
       <input {...getInputProps()} hidden />
       <Flex
-        bg={state.isChecked ? 'pink.500' : 'gray.500'}
+        bg={backgroundColor}
         w="full"
         h="full"
         align="center"
@@ -25,13 +42,12 @@ export function DayInput(props: CheckboxProps) {
         borderRadius="lg"
         cursor="pointer"
         _disabled={disabledStyles}
-        _dark={darkStyles}
         {...getCheckboxProps()}
       >
         <Text
           fontWeight="bold"
           fontSize="lg"
-          color={state.isChecked ? 'white' : undefined}
+          color={textColor}
           {...getLabelProps()}
         >
           {props.children}
@@ -44,10 +60,4 @@ export function DayInput(props: CheckboxProps) {
 const disabledStyles: SystemStyleObject = {
   cursor: 'not-allowed',
   opacity: '0.4',
-}
-
-const getDarkStyles = (checked: boolean): SystemStyleObject => {
-  return {
-    bg: `${checked ? 'pink.700' : 'gray.700'}`,
-  }
 }
