@@ -1,10 +1,6 @@
 import Dexie, { Table } from 'dexie'
 
-type Holiday = {
-  id?: number
-  name: string
-  date: string
-}
+import { Holiday } from '@/shared/types'
 
 class VenturDexie extends Dexie {
   holidays!: Table<Holiday>

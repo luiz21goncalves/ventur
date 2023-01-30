@@ -49,7 +49,7 @@ async function getOrFetchHolidays(
   return savedHolidays
 }
 
-export function useHolidays() {
+export function useHolidaysQuery() {
   const [selectedDate] = useCalendarSelectedDate()
 
   const year = dayjs(selectedDate).get('year')
@@ -57,5 +57,7 @@ export function useHolidays() {
   return useQuery({
     queryFn: getOrFetchHolidays,
     queryKey: [QUERIES.HOLIDAYS.FETCH_ALL, year],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   })
 }

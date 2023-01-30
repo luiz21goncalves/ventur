@@ -6,7 +6,7 @@ import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 import { DayInput } from './DayInput'
 
 type WeekProps = {
-  days: Array<{ date: Dayjs; disabled: boolean }>
+  days: Array<{ date: Dayjs; disabled: boolean; isHoliday: boolean }>
 }
 
 export function Week(props: WeekProps) {
@@ -17,13 +17,10 @@ export function Week(props: WeekProps) {
 
   return (
     <Tr>
-      {days.map(({ date, disabled }) => {
+      {days.map(({ date, disabled, isHoliday }) => {
         const key = `${id}-${date.toISOString()}`
         const day = date.get('date')
-        const isSelected =
-          date.isSame(selectedDate, 'day') &&
-          date.isSame(selectedDate, 'month') &&
-          date.isSame(selectedDate, 'year')
+        const isSelected = date.isSame(selectedDate, 'day')
 
         function handleSelectDate() {
           setSelectedDate(date.toDate())
@@ -36,6 +33,7 @@ export function Week(props: WeekProps) {
                 isChecked={isSelected}
                 isDisabled={disabled}
                 onChange={handleSelectDate}
+                isHoliday={isHoliday}
               >
                 {day}
               </DayInput>
