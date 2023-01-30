@@ -27,6 +27,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "dayjs": "^1.11.7",
+    "dexie": "^3.2.3",
     "electron-router-dom": "^1.0.5",
     "electron-store": "^8.1.0",
     "framer-motion": "^8.4.3",
