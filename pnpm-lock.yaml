@@ -16,6 +16,7 @@ specifiers:
   '@vitejs/plugin-react': ^3.0.1
   '@vitest/coverage-c8': ^0.27.1
   dayjs: ^1.11.7
+  dexie: ^3.2.3
   electron: ^21.3.3
   electron-builder: ^23.6.0
   electron-router-dom: ^1.0.5
@@ -44,6 +45,7 @@ dependencies:
   '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
   '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
   dayjs: 1.11.7
+  dexie: 3.2.3
   electron-router-dom: 1.0.5_2pjcj5o3hp3pkcyoxroszru7ay
   electron-store: 8.1.0
   framer-motion: 8.4.3_biqbaboplfbrettd7655fr4n2y
@@ -3128,6 +3130,11 @@ packages:
   /detect-node/2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     optional: true
+
+  /dexie/3.2.3:
+    resolution: {integrity: sha512-iHayBd4UYryDCVUNa3PMsJMEnd8yjyh5p7a+RFeC8i8n476BC9wMhVvqiImq5zJZJf5Tuer+s4SSj+AA3x+ZbQ==}
+    engines: {node: '>=6.0'}
+    dev: false
 
   /dir-compare/2.4.0:
     resolution: {integrity: sha512-l9hmu8x/rjVC9Z2zmGzkhOEowZvW7pmYws5CWHutg8u1JgvsKWMx7Q/UODeu4djLZ4FgW5besw5yvMQnBHzuCA==}
