@@ -7,7 +7,7 @@ import { createFileRoute, createURLRoute } from 'electron-router-dom'
 import icon from '../../resources/icon.png'
 import { store } from './store'
 
-function createWindow(): void {
+function createWindow() {
   const { height, width, x, y } = screen.getPrimaryDisplay().workArea
   const storedBounds = store.get('bounds')
 
