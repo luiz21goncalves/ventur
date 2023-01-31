@@ -103,7 +103,7 @@ export function Calendar() {
     )
 
     return formatedCalendarWeeks
-  }, [currentDate])
+  }, [currentDate, holidays])
 
   const monthName = currentDate.format('MMMM')
   const yearLabel = currentDate.get('year')
