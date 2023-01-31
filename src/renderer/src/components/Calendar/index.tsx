@@ -8,12 +8,11 @@ import {
 } from '@chakra-ui/react'
 import dayjs, { Dayjs } from 'dayjs'
 import { CaretLeft, CaretRight } from 'phosphor-react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { Holiday } from '@/shared/types'
 
 import { useHolidaysQuery } from '../../queries/useHolidaysQuery'
-import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 import { useSetCalendarViewDate } from '../../stores/useCalendarViewDate'
 import { getMonthDays } from '../../utils/get-month-data'
 import { Week } from './Week'
@@ -35,7 +34,7 @@ function checkIfIsHoliday(holidays: Holiday[], date: Dayjs) {
 }
 
 export function Calendar() {
-  const [currentDate, setCurrentDate] = useCalendarSelectedDate()
+  const [currentDate, setCurrentDate] = useState(new Date())
   const { data: holidays } = useHolidaysQuery()
   const setCalendarViewDate = useSetCalendarViewDate()
 
