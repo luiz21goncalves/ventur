@@ -5,7 +5,7 @@ import { QUERIES } from '@/shared/queries'
 
 import { api } from '../lib/api'
 import { db } from '../lib/dexie'
-import { useCalendarSelectedDate } from '../stores/useCalendarSelectedDate'
+import { useCalendarViewDate } from '../stores/useCalendarViewDate'
 
 type HolidaysResponse = {
   date: string
@@ -50,7 +50,7 @@ async function getOrFetchHolidays(
 }
 
 export function useHolidaysQuery() {
-  const [selectedDate] = useCalendarSelectedDate()
+  const [selectedDate] = useCalendarViewDate()
 
   const year = dayjs(selectedDate).get('year')
 

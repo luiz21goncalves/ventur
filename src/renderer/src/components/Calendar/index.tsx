@@ -14,6 +14,7 @@ import { Holiday } from '@/shared/types'
 
 import { useHolidaysQuery } from '../../queries/useHolidaysQuery'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
+import { useSetCalendarViewDate } from '../../stores/useCalendarViewDate'
 import { getMonthDays } from '../../utils/get-month-data'
 import { Week } from './Week'
 import { Weekdays } from './Weekdays'
@@ -36,6 +37,7 @@ function checkIfIsHoliday(holidays: Holiday[], date: Dayjs) {
 export function Calendar() {
   const [currentDate, setCurrentDate] = useCalendarSelectedDate()
   const { data: holidays } = useHolidaysQuery()
+  const setCalendarViewDate = useSetCalendarViewDate()
 
   const calendarWeeks = useMemo(() => {
     const currentMonth = getMonthDays(currentDate)
@@ -107,16 +109,22 @@ export function Calendar() {
   const monthName = dayjs(currentDate).format('MMMM')
   const yearLabel = dayjs(currentDate).get('year')
 
+  function onChangeMonth(date: Date) {
+    setCalendarViewDate(date)
+  }
+
   function handlePreviousMonth() {
     const previousMonthDate = dayjs(currentDate).subtract(1, 'months')
 
     setCurrentDate(previousMonthDate.toDate())
+    onChangeMonth(previousMonthDate.toDate())
   }
 
   function handleNextMonth() {
     const nextMonthDate = dayjs(currentDate).add(1, 'months')
 
     setCurrentDate(nextMonthDate.toDate())
+    onChangeMonth(nextMonthDate.toDate())
   }
 
   return (
