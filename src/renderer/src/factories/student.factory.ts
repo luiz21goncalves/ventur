@@ -1,16 +1,7 @@
 import { faker } from '@faker-js/faker'
 import * as Factory from 'factory.ts'
 
-type Student = {
-  id: string
-  name: string
-  email?: string
-  password?: string
-  classes_per_week: number
-  classes_per_month: number
-  price_per_month: string
-  weekdays: number[]
-}
+import { Student } from '@/shared/types'
 
 export const studentFactory = Factory.Sync.makeFactory<Student>({
   classes_per_month: Factory.each(() => Number(faker.random.numeric(2))),
