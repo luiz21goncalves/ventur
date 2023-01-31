@@ -8,11 +8,12 @@ import {
 } from '@chakra-ui/react'
 import dayjs, { Dayjs } from 'dayjs'
 import { CaretLeft, CaretRight } from 'phosphor-react'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { Holiday } from '@/shared/types'
 
 import { useHolidaysQuery } from '../../queries/useHolidaysQuery'
+import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 import { getMonthDays } from '../../utils/get-month-data'
 import { Week } from './Week'
 import { Weekdays } from './Weekdays'
@@ -33,13 +34,11 @@ function checkIfIsHoliday(holidays: Holiday[], date: Dayjs) {
 }
 
 export function Calendar() {
-  const [currentDate, setCurrentDate] = useState(() => {
-    return dayjs()
-  })
+  const [currentDate, setCurrentDate] = useCalendarSelectedDate()
   const { data: holidays } = useHolidaysQuery()
 
   const calendarWeeks = useMemo(() => {
-    const currentMonth = getMonthDays(currentDate.toDate())
+    const currentMonth = getMonthDays(currentDate)
 
     const firstDayInCurrentMonth = currentMonth.days[0]
     const lastDayInCurrentMonth = currentMonth.days[currentMonth.daysAmount - 1]
@@ -105,19 +104,19 @@ export function Calendar() {
     return formatedCalendarWeeks
   }, [currentDate, holidays])
 
-  const monthName = currentDate.format('MMMM')
-  const yearLabel = currentDate.get('year')
+  const monthName = dayjs(currentDate).format('MMMM')
+  const yearLabel = dayjs(currentDate).get('year')
 
   function handlePreviousMonth() {
-    const previousMonthDate = currentDate.subtract(1, 'months')
+    const previousMonthDate = dayjs(currentDate).subtract(1, 'months')
 
-    setCurrentDate(previousMonthDate)
+    setCurrentDate(previousMonthDate.toDate())
   }
 
   function handleNextMonth() {
-    const nextMonthDate = currentDate.add(1, 'months')
+    const nextMonthDate = dayjs(currentDate).add(1, 'months')
 
-    setCurrentDate(nextMonthDate)
+    setCurrentDate(nextMonthDate.toDate())
   }
 
   return (
