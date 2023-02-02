@@ -1,17 +1,12 @@
-import {
-  Center,
-  Divider,
-  Heading,
-  HStack,
-  Switch,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Button, Divider, Flex, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
+import { useMemo } from 'react'
 
-import { InputDate } from '../../components/Inputs/InputDate'
+import { Student } from '@/shared/types'
+
 import { studentFactory } from '../../factories/student.factory'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
+import { StudentList } from './StudentList'
 
 const students = studentFactory.buildList(6)
 
@@ -22,34 +17,50 @@ export function AttendanceList() {
     'dddd[, ] DD [ de ] MMMM [ de ] YYYY',
   )
 
+  const { studentsWithClassOnWeekday, studentsWithoutClassOnWeekday } =
+    useMemo(() => {
+      const weekday = dayjs(selectedDate).get('day')
+
+      return students.reduce<{
+        studentsWithClassOnWeekday: Student[]
+        studentsWithoutClassOnWeekday: Student[]
+      }>(
+        (acc, student) => {
+          const hasClassOnWeekday = student.weekdays.includes(weekday)
+
+          if (hasClassOnWeekday) {
+            acc.studentsWithClassOnWeekday.push(student)
+
+            return acc
+          }
+
+          acc.studentsWithoutClassOnWeekday.push(student)
+
+          return acc
+        },
+        { studentsWithClassOnWeekday: [], studentsWithoutClassOnWeekday: [] },
+      )
+    }, [selectedDate])
+
   return (
-    <VStack gap="8">
-      <Center>
-        <InputDate />
-      </Center>
+    <Flex w="full" flexDir="column" gap="8" px="4">
+      <VStack w="full" gap="4">
+        <StudentList
+          title={`Alunos com aula pervista para ${fullDateFormatted}`}
+          students={studentsWithClassOnWeekday}
+        />
 
-      <Heading size="sm" textTransform="uppercase">
-        {fullDateFormatted}
-      </Heading>
+        <Divider />
 
-      <VStack w="360px" gap="4">
-        {students.map((student, index, originalArray) => {
-          const isChecked = Math.round(Math.random() * 2) % 2 === 0
-          const isNotLastRow = !(originalArray.length - 1 === index)
-
-          return (
-            <VStack key={student.id} gap="1" w="full">
-              <HStack w="full" justifyContent="space-between">
-                <Text>{student.name}, teve aula?</Text>
-
-                <Switch size="lg" defaultChecked={isChecked} />
-              </HStack>
-
-              {isNotLastRow && <Divider colorScheme="blackAlpha" />}
-            </VStack>
-          )
-        })}
+        <StudentList
+          title={`Aluno sem aula pervista para ${fullDateFormatted}`}
+          students={studentsWithoutClassOnWeekday}
+        />
       </VStack>
-    </VStack>
+
+      <Button colorScheme="green" mt="8">
+        Salvar
+      </Button>
+    </Flex>
   )
 }
