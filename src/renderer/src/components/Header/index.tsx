@@ -8,24 +8,26 @@ import {
 } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom'
 
+import { ROUTES } from '@/shared/routes'
+
 import { ToggleTheme } from '../ToggleTheme'
 
 const LINKS = [
   {
     label: 'Home',
-    to: '/',
+    to: ROUTES.HOME,
   },
   {
     label: 'Lista de Presença',
-    to: '/attendance-list',
+    to: ROUTES.ATTENDANCE_LIST,
   },
   {
     label: 'Novo Aluno',
-    to: '/student/create',
+    to: ROUTES.STUDENTS.CREATE,
   },
   {
     label: 'Feriados',
-    to: '/holidays',
+    to: ROUTES.HOLIDAYS,
   },
 ]
 

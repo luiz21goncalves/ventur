@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 
+import { ROUTES } from '@/shared/routes'
 import { Student } from '@/shared/types'
 
 type StudentCardProps = {
@@ -21,7 +22,7 @@ export function StudentCard(props: StudentCardProps) {
   const navigate = useNavigate()
 
   function handleNavigateToStudentDetails() {
-    navigate(`/student/${student.id}`)
+    navigate(`${ROUTES.STUDENTS.BASE}/${student.id}`)
   }
 
   return (
