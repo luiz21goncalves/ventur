@@ -1,5 +1,7 @@
 import { Route, Router } from 'electron-router-dom'
 
+import { ROUTES } from '@/shared/routes'
+
 import { CalendarLayout } from './components/Layouts/CalendarLayout'
 import { DefaultLayout } from './components/Layouts/DefaultLayout'
 import { AttendanceList } from './screens/AttendanceList'
@@ -12,15 +14,15 @@ export function Routes() {
   return (
     <Router
       main={
-        <Route path="/" element={<DefaultLayout />}>
-          <Route path="/" element={<CalendarLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/holidays" element={<Holidays />} />
-            <Route path="/attendance-list" element={<AttendanceList />} />
+        <Route path={ROUTES.HOME} element={<DefaultLayout />}>
+          <Route path={ROUTES.HOME} element={<CalendarLayout />}>
+            <Route path={ROUTES.HOME} element={<Home />} />
+            <Route path={ROUTES.HOLIDAYS} element={<Holidays />} />
+            <Route path={ROUTES.ATTENDANCE_LIST} element={<AttendanceList />} />
           </Route>
 
-          <Route path="/student/:id" element={<StudentDetails />} />
-          <Route path="/student/create" element={<CreateStudent />} />
+          <Route path={ROUTES.STUDENTS.DETAILS} element={<StudentDetails />} />
+          <Route path={ROUTES.STUDENTS.CREATE} element={<CreateStudent />} />
         </Route>
       }
     />

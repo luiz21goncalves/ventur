@@ -1,6 +1,8 @@
 import { Center, Link, Text, useColorModeValue } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 
+import { ROUTES } from '@/shared/routes'
+
 type EmptyMessageToStudentProps = {
   hasLink?: boolean
 }
@@ -16,7 +18,7 @@ export function EmptyMessageToStudent(props: EmptyMessageToStudentProps) {
       <Text color={textColor}>Não há nenhum aluno</Text>
       {hasLink && (
         <Text color={textColor}>
-          <Link as={RouterLink} to="/student/create" color={linkColor}>
+          <Link as={RouterLink} to={ROUTES.STUDENTS.CREATE} color={linkColor}>
             clique aqui
           </Link>{' '}
           e adicione seu primeiro aluno
