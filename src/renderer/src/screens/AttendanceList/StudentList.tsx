@@ -2,6 +2,8 @@ import { Divider, HStack, Switch, Text, VStack } from '@chakra-ui/react'
 
 import { Student } from '@/shared/types'
 
+import { EmptyMessageToStudent } from '../../components/EmptyMessages/EmptyMessageToStudent'
+
 type StudentListProps = {
   title: string
   students: Student[]
@@ -16,7 +18,7 @@ export function StudentList(props: StudentListProps) {
     <VStack gap="2">
       <Text mb="2">{title}</Text>
       {isEmptyStydentsList ? (
-        <Text textColor="gray.400">Não há alunos</Text>
+        <EmptyMessageToStudent />
       ) : (
         students.map((student, index, originalArray) => {
           const isChecked = Math.round(Math.random() * 2) % 2 === 0
