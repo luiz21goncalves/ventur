@@ -4,51 +4,63 @@ import {
   FormControl,
   FormLabel,
   HStack,
-  SystemStyleObject,
-  useColorModeValue,
+  Text,
 } from '@chakra-ui/react'
+import { UseFormRegister } from 'react-hook-form'
 
 import { getWeekdays } from '../../utils/get-weekdays'
 
 const weekdays = getWeekdays()
 
-export function InputWeekday() {
-  const borderColor = useColorModeValue('blue.600', 'cyan.400')
+type InputWeekdayProps = {
+  errorMessage?: string
+  onRegisterField: UseFormRegister<{
+    birthdate: string | null
+    name: string
+    price_per_month: number
+    weekdays_with_class: boolean[]
+  }>
+}
 
-  const checkedStyles = getCheckedStyles(borderColor)
+export function InputWeekday(props: InputWeekdayProps) {
+  const { errorMessage, onRegisterField } = props
 
   return (
-    <FormControl isRequired>
+    <FormControl>
       <FormLabel>Dias de aula</FormLabel>
       <CheckboxGroup>
         <HStack gap="4">
-          {weekdays.short.map((weekday) => {
+          {weekdays.short.map((weekday, index) => {
             const label = weekday.toUpperCase()
 
             return (
-              <Checkbox
+              <Text
+                as="label"
                 key={weekday}
-                value={weekday}
                 h="10"
                 borderWidth="medium"
                 borderRadius="lg"
                 w="full"
-                size="lg"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                _checked={checkedStyles}
+                gap="2"
               >
+                <Checkbox
+                  size="lg"
+                  {...onRegisterField(`weekdays_with_class.${index}`)}
+                />
+
                 {label}
-              </Checkbox>
+              </Text>
             )
           })}
         </HStack>
       </CheckboxGroup>
+
+      <Text textColor="gray" fontSize="sm" mt="0.5">
+        {errorMessage}
+      </Text>
     </FormControl>
   )
-}
-
-const getCheckedStyles = (borderColor: string): SystemStyleObject => {
-  return { borderColor }
 }
