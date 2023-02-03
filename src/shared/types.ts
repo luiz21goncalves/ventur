@@ -7,8 +7,7 @@ export type Holiday = {
 export type Student = {
   id: string
   name: string
-  email?: string
-  password?: string
+  birthdate?: string
   classes_per_week: number
   classes_per_month: number
   price_per_month: string
