@@ -4,6 +4,7 @@ import * as Factory from 'factory.ts'
 import { Student } from '@/shared/types'
 
 export const studentFactory = Factory.Sync.makeFactory<Student>({
+  birthdate: Factory.each(() => faker.date.birthdate().toISOString()),
   classes_per_month: Factory.each(() => Number(faker.random.numeric(2))),
   classes_per_week: Factory.each(() =>
     Number(
@@ -12,10 +13,8 @@ export const studentFactory = Factory.Sync.makeFactory<Student>({
       }),
     ),
   ),
-  email: Factory.each(() => faker.internet.email()),
   id: Factory.each((seqNum) => String(seqNum)),
   name: Factory.each(() => faker.name.fullName()),
-  password: Factory.each(() => faker.internet.password()),
   price_per_month: Factory.each(() => faker.commerce.price(100, 200)),
   weekdays: Factory.each(() =>
     faker.datatype
@@ -26,6 +25,6 @@ export const studentFactory = Factory.Sync.makeFactory<Student>({
           }),
         ),
       )
-      .map((_, index) => index),
+      .map((_, index) => index + 1),
   ),
 })
