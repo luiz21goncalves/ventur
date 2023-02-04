@@ -58,6 +58,7 @@ function createWindow() {
     )
 
     mainWindow.loadURL(devServerURL)
+    mainWindow.webContents.openDevTools({ mode: 'detach' })
   } else {
     mainWindow.loadFile(...fileRoute)
   }
