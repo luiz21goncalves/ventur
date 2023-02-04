@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { QUERIES } from '@/shared/queries'
 import { Student } from '@/shared/types'
 
 import { db } from '../lib/dexie'
@@ -31,5 +32,12 @@ async function createStudent(
 }
 
 export function useCrateStudentMutation() {
-  return useMutation({ mutationFn: createStudent })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: createStudent,
+    onSuccess() {
+      queryClient.invalidateQueries([QUERIES.STUDENTS.FETCH_ALL])
+    },
+  })
 }
