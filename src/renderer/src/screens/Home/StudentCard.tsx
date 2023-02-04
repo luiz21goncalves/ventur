@@ -12,6 +12,10 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/shared/routes'
 import { Student } from '@/shared/types'
 
+import { getWeekdays } from '../../utils/get-weekdays'
+
+const weekdaysLabels = getWeekdays()
+
 type StudentCardProps = {
   student: Student
 }
@@ -34,8 +38,14 @@ export function StudentCard(props: StudentCardProps) {
       </CardHeader>
 
       <CardBody p="0">
-        <Text>Total Total {student.classes_per_month}</Text>
+        <Text>Total Total 0</Text>
         <Text>Aulas por semana {student.classes_per_week}</Text>
+        <Text>
+          Dias de aula:{' '}
+          {student.weekdays
+            .map((weekday) => weekdaysLabels.short[weekday].toUpperCase())
+            .join(', ')}
+        </Text>
       </CardBody>
 
       <CardFooter p="0" justify="space-between">
