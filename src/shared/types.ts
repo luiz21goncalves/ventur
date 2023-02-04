@@ -5,11 +5,10 @@ export type Holiday = {
 }
 
 export type Student = {
-  id: string
+  id?: number
   name: string
   birthdate?: string
   classes_per_week: number
-  classes_per_month: number
-  price_per_month: string
+  price_per_month_in_cents: number
   weekdays: number[]
 }
