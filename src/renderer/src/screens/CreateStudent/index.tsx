@@ -1,10 +1,14 @@
 import { Button, Flex } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
+
+import { ROUTES } from '@/shared/routes'
 
 import { InputText } from '../../components/Inputs/InputText'
 import { InputWeekday } from '../../components/Inputs/InputWeekday'
+import { useCrateStudentMutation } from '../../queries/useCrateStudentMutation'
 import { getWeekdays } from '../../utils/get-weekdays'
 
 const weekdaysLabel = getWeekdays()
@@ -40,25 +44,57 @@ const createStudentFormSchema = z.object({
 })
 
 type CreateStudentFormInput = z.input<typeof createStudentFormSchema>
-type CreateStudentFormOut = z.input<typeof createStudentFormSchema>
+type CreateStudentFormOut = z.output<typeof createStudentFormSchema>
 
 export function CreateStudent() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
-  } = useForm<CreateStudentFormInput, CreateStudentFormOut>({
+  } = useForm<CreateStudentFormInput>({
     resolver: zodResolver(createStudentFormSchema),
   })
 
-  function handleCreateStudent(data: CreateStudentFormOut) {
-    console.log(data)
+  const { mutate, isLoading } = useCrateStudentMutation()
+  const navigate = useNavigate()
+
+  function onResetForm() {
+    reset()
+  }
+
+  function handleCreateStudent(data: any) {
+    // TODO: remove this workaround after closing this issue https://github.com/react-hook-form/react-hook-form/issues/9600
+    const {
+      birthdate,
+      name,
+      price_per_month: pricePerMonth,
+      weekdays_with_class: weekdaysWithClass,
+    } = data as CreateStudentFormOut
+
+    const pricePerMonthInCents = pricePerMonth * 100
+    const weekdays = weekdaysWithClass.map((weekday) => weekday.weekday)
+
+    mutate(
+      {
+        birthdate: birthdate ?? undefined,
+        name,
+        price_per_month_in_cents: pricePerMonthInCents,
+        weekdays,
+      },
+      {
+        onSuccess(data) {
+          navigate(`${ROUTES.STUDENTS.BASE}/${data.id}`)
+        },
+      },
+    )
   }
 
   function handleResetCreateStudentForm() {
-    reset()
+    onResetForm()
   }
+
+  const isDisableFormSubmit = isSubmitting || isLoading
 
   return (
     <Flex
@@ -108,6 +144,7 @@ export function CreateStudent() {
           colorScheme="green"
           px="8"
           textTransform="uppercase"
+          disabled={isDisableFormSubmit}
         >
           Salvar
         </Button>
