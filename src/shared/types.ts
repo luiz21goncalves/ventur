@@ -12,3 +12,10 @@ export type Student = {
   price_per_month_in_cents: number
   weekdays: number[]
 }
+
+export type Attendance = {
+  id?: number
+  date: string
+  student_id: number
+  presence: boolean
+}
