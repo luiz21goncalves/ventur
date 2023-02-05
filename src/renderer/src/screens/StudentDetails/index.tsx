@@ -1,9 +1,11 @@
-import { Flex, Heading, Text, VStack } from '@chakra-ui/react'
+import { Divider, Flex, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { useStudentDetailsQuery } from '../../queries/useStudentDetailsQuery'
 import { capitalize } from '../../utils/capitalize'
 import { formatMonetary } from '../../utils/format-monetary'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
+import { AttendanceForm } from './AttendanceForm'
+import { ClassList } from './ClassList'
 
 export function StudentDetails() {
   const { data: student } = useStudentDetailsQuery()
@@ -33,18 +35,13 @@ export function StudentDetails() {
         <Text fontWeight="bold">A pagar: 200,00</Text>
       </VStack>
 
-      <VStack h="80" overflowY="scroll" pr="2" alignItems="flex-start">
-        {Array.from({ length: 20 }).map((_, index) => {
-          const lineNumber = index + 1
-          const date = new Date().toDateString()
+      <Divider />
 
-          return (
-            <Text key={lineNumber}>
-              {lineNumber}: {date}
-            </Text>
-          )
-        })}
-      </VStack>
+      <AttendanceForm />
+
+      <Divider />
+
+      <ClassList />
     </Flex>
   )
 }
