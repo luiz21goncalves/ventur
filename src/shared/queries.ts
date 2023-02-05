@@ -4,5 +4,6 @@ export const QUERIES = {
   },
   STUDENTS: {
     FETCH_ALL: 'students',
+    FETCH_DETAILS: 'student',
   },
 }
