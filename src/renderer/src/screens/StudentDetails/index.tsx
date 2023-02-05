@@ -9,22 +9,35 @@ import {
 } from '@chakra-ui/react'
 
 import { InputDate } from '../../components/Inputs/InputDate'
-import { studentFactory } from '../../factories/student.factory'
-
-const student = studentFactory.build()
+import { useStudentDetailsQuery } from '../../queries/useStudentDetailsQuery'
+import { capitalize } from '../../utils/capitalize'
+import { formatMonetary } from '../../utils/format-monetary'
+import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
 
 export function StudentDetails() {
+  const { data: student } = useStudentDetailsQuery()
+
+  const weekdayLabels = getWeekdaysLabelsShort(student?.weekdays ?? [])
+    .map((weekday) => {
+      const capitalizedWeekday = capitalize(weekday)
+
+      return capitalizedWeekday
+    })
+    .join(', ')
+
+  const formattedPrice = formatMonetary(
+    (student?.price_per_month_in_cents ?? 0) / 100,
+  )
+
   return (
     <Flex flexDir="column" gap="4">
-      <Heading mb="4">Aluno: {student.name}</Heading>
+      <Heading mb="4">Aluno: {student?.name}</Heading>
 
       <VStack alignItems="flex-start" mb="8">
-        <Text>Aniversário: {student.classes_per_week}</Text>
-        <Text>Email: {student?.email}</Text>
-        <Text>Senha: {student?.password}</Text>
-        <Text>Aulas por semana: {student.classes_per_week}</Text>
-        <Text>Dias da semana: {JSON.stringify(student.weekdays, null, 2)}</Text>
-        <Text>Preço mensal: {student.price_per_month}</Text>
+        <Text>Aniversário: {student?.classes_per_week}</Text>
+        <Text>Aulas por semana: {student?.classes_per_week}</Text>
+        <Text>Dias da aula: {weekdayLabels}</Text>
+        <Text>Preço mensal: {formattedPrice}</Text>
       </VStack>
 
       <Center>
