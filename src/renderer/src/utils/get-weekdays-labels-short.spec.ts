@@ -37,8 +37,6 @@ describe('getWeekdaysLabels', () => {
   it('should not be able to return weekday labels when receiving an array containing a one invalid index', () => {
     const weekdaysLabels = getWeekdaysLabelsShort([1, 3, 5, 8])
 
-    console.log(weekdaysLabels)
-
     expect(weekdaysLabels).toHaveLength(0)
     expect(weekdaysLabels).toStrictEqual([])
   })
