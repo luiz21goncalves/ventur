@@ -19,9 +19,12 @@ export function Routes() {
             <Route path={ROUTES.HOME} element={<Home />} />
             <Route path={ROUTES.HOLIDAYS} element={<Holidays />} />
             <Route path={ROUTES.ATTENDANCE_LIST} element={<AttendanceList />} />
+            <Route
+              path={ROUTES.STUDENTS.DETAILS}
+              element={<StudentDetails />}
+            />
           </Route>
 
-          <Route path={ROUTES.STUDENTS.DETAILS} element={<StudentDetails />} />
           <Route path={ROUTES.STUDENTS.CREATE} element={<CreateStudent />} />
         </Route>
       }
