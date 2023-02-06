@@ -29,7 +29,7 @@ export function InputWeekday(props: InputWeekdayProps) {
     <FormControl>
       <FormLabel>Dias de aula</FormLabel>
       <CheckboxGroup>
-        <HStack gap="4">
+        <HStack w="full" gap="2">
           {weekdays.short.map((weekday, index) => {
             const label = weekday.toUpperCase()
 
@@ -37,14 +37,11 @@ export function InputWeekday(props: InputWeekdayProps) {
               <Text
                 as="label"
                 key={weekday}
-                h="10"
-                borderWidth="medium"
-                borderRadius="lg"
                 w="full"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                gap="2"
+                gap="1"
               >
                 <Checkbox
                   size="lg"

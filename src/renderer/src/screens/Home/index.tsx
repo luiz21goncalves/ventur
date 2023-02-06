@@ -1,6 +1,7 @@
-import { Box, Grid, GridItem } from '@chakra-ui/react'
+import { Box, Button, Grid, GridItem, HStack } from '@chakra-ui/react'
 
 import { Calendar } from '../../components/Calendar'
+import { NewStudentModal } from './NewStudentModal'
 import { StudentList } from './StudentList'
 
 export function Home() {
@@ -13,6 +14,21 @@ export function Home() {
       </GridItem>
 
       <GridItem>
+        <HStack w="full" mb="4" gap="4">
+          <NewStudentModal />
+
+          <Button variant="outline" colorScheme="blue">
+            Novo feriado
+          </Button>
+
+          <Button variant="outline" colorScheme="red">
+            Remover aluno
+          </Button>
+
+          <Button variant="outline" colorScheme="red">
+            Remover feriado
+          </Button>
+        </HStack>
         <Calendar />
       </GridItem>
     </Grid>
