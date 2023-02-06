@@ -1,8 +1,6 @@
 import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 
-import { Header } from '../Header'
-
 export function DefaultLayout() {
   const backgroundColor = useColorModeValue('gray.50', 'gray.900')
 
@@ -17,8 +15,6 @@ export function DefaultLayout() {
         h="100vh"
         mx="auto"
       >
-        <Header />
-
         <Box w="full" height="container.md">
           <Outlet />
         </Box>
