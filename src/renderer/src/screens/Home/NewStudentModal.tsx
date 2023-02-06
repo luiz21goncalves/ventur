@@ -1,10 +1,18 @@
-import { Button, Flex } from '@chakra-ui/react'
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-
-import { ROUTES } from '@/shared/routes'
 
 import { InputText } from '../../components/Inputs/InputText'
 import { InputWeekday } from '../../components/Inputs/InputWeekday'
@@ -46,22 +54,19 @@ const createStudentFormSchema = z.object({
 type CreateStudentFormInput = z.input<typeof createStudentFormSchema>
 type CreateStudentFormOut = z.output<typeof createStudentFormSchema>
 
-export function CreateStudent() {
+export function NewStudentModal() {
+  const { isOpen, onClose, onOpen } = useDisclosure()
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     reset,
   } = useForm<CreateStudentFormInput>({
     resolver: zodResolver(createStudentFormSchema),
   })
 
   const { mutate, isLoading } = useCrateStudentMutation()
-  const navigate = useNavigate()
-
-  function onResetForm() {
-    reset()
-  }
 
   function handleCreateStudent(data: any) {
     // TODO: remove this workaround after closing this issue https://github.com/react-hook-form/react-hook-form/issues/9600
@@ -83,72 +88,81 @@ export function CreateStudent() {
         weekdays,
       },
       {
-        onSuccess(data) {
-          navigate(`${ROUTES.STUDENTS.BASE}/${data.id}`)
+        onSuccess() {
+          reset()
+          onClose()
         },
       },
     )
   }
 
-  function handleResetCreateStudentForm() {
-    onResetForm()
+  function handleCloseModal() {
+    onClose()
+    reset()
   }
 
-  const isDisableFormSubmit = isSubmitting || isLoading
-
   return (
-    <Flex
-      as="form"
-      onSubmit={handleSubmit(handleCreateStudent)}
-      flexDir="column"
-      gap="6"
-    >
-      <InputText
-        label="Nome"
-        errorMessage={errors.name?.message}
-        {...register('name')}
-      />
-      <InputText
-        label="Aniversário"
-        isRequired={false}
-        errorMessage={errors.birthdate?.message}
-        {...register('birthdate')}
-      />
+    <>
+      <Button variant="outline" colorScheme="blue" onClick={onOpen}>
+        Novo aluno
+      </Button>
 
-      <InputWeekday
-        onRegisterField={register}
-        errorMessage={errors.weekdays_with_class?.message}
-      />
+      <Modal
+        isOpen={isOpen}
+        size="xl"
+        onClose={handleCloseModal}
+        autoFocus
+        isCentered
+      >
+        <ModalOverlay />
 
-      <InputText
-        label="Preço por mês"
-        type="number"
-        errorMessage={errors.price_per_month?.message}
-        {...register('price_per_month')}
-      />
+        <ModalContent as="form" onSubmit={handleSubmit(handleCreateStudent)}>
+          <ModalCloseButton />
+          <ModalHeader>Criar novo aluno</ModalHeader>
 
-      <Flex justifyContent="space-between">
-        <Button
-          variant="ghost"
-          colorScheme="red"
-          px="8"
-          textTransform="uppercase"
-          type="reset"
-          onClick={handleResetCreateStudentForm}
-        >
-          Limpar
-        </Button>
+          <ModalBody>
+            <VStack gap="4">
+              <InputText
+                label="Nome"
+                errorMessage={errors.name?.message}
+                {...register('name')}
+              />
+              <InputText
+                label="Aniversário"
+                isRequired={false}
+                errorMessage={errors.birthdate?.message}
+                {...register('birthdate')}
+              />
 
-        <Button
-          type="submit"
-          colorScheme="green"
-          px="8"
-          textTransform="uppercase"
-          disabled={isDisableFormSubmit}
-        >
-          Salvar
-        </Button>
-      </Flex>
-    </Flex>
+              <InputWeekday
+                onRegisterField={register}
+                errorMessage={errors.weekdays_with_class?.message}
+              />
+
+              <InputText
+                label="Preço por mês"
+                type="number"
+                errorMessage={errors.price_per_month?.message}
+                {...register('price_per_month')}
+              />
+            </VStack>
+          </ModalBody>
+
+          <ModalFooter gap="8">
+            <Button
+              variant="ghost"
+              colorScheme="red"
+              onClick={handleCloseModal}
+            >
+              Fechar
+            </Button>
+
+            <Button colorScheme="green" isDisabled={isLoading} type="submit">
+              Salvar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   )
 }
