@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
 
 import { Student } from '@/shared/types'
 
@@ -31,22 +23,31 @@ export function StudentCard(props: StudentCardProps) {
     .join(', ')
 
   return (
-    <Card w="full" p="4" gap="4">
-      <CardHeader p="0">
-        <Heading size="sm" textAlign="center">
-          {student.name}
-        </Heading>
-      </CardHeader>
+    <VStack
+      w="full"
+      py="4"
+      px="6"
+      gap="2"
+      bg="white"
+      borderRadius="lg"
+      shadow="md"
+      justifyContent="flex-start"
+    >
+      <Text size="lg" fontWeight="bold">
+        {student.name}
+      </Text>
 
-      <CardBody p="0">
-        <Text>Total Total 0</Text>
-        <Text>Aulas por semana {student.classes_per_week}</Text>
+      <Box>
+        <Text>Total de aulas: 0</Text>
+        <Text>Valor apagar: R$ 100,00</Text>
+        <Text>Aulas por semana: {student.classes_per_week}</Text>
         <Text>Dias de aula: {weekdayLabels}</Text>
-      </CardBody>
+      </Box>
 
-      <CardFooter p="0" justify="space-between">
+      <HStack w="full" justifyContent="space-between">
         <Button variant="ghost">Detalhes</Button>
-      </CardFooter>
-    </Card>
+        <Button variant="ghost">Editar</Button>
+      </HStack>
+    </VStack>
   )
 }
