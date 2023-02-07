@@ -11,7 +11,7 @@ export function Content(props: ContentProps) {
 
   return (
     <>
-      <ModalOverlay />
+      <ModalOverlay bg="blackAlpha.800" />
       <ModalContent {...attrs}>
         <ModalCloseButton />
         {children}
