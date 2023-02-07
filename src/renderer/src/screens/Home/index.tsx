@@ -10,8 +10,8 @@ import { StudentList } from './StudentList'
 export function Home() {
   return (
     <Grid gridTemplateColumns="repeat(2,1fr)" gap="4" h="container.md">
-      <GridItem overflowY="auto" px="2" py="4">
-        <Box overflowY="auto" px="2" py="4">
+      <GridItem overflowY="auto">
+        <Box overflowY="auto" p="2" pr="4">
           <StudentList />
         </Box>
       </GridItem>

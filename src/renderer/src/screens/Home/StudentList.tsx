@@ -1,4 +1,4 @@
-import { VStack } from '@chakra-ui/react'
+import { SimpleGrid, VStack } from '@chakra-ui/react'
 
 import { EmptyMessage } from '../../components/EmptyMessage'
 import { useStudentsQuery } from '../../queries/useStudentsQuery'
@@ -14,9 +14,11 @@ export function StudentList() {
       {isEmptyList ? (
         <EmptyMessage>Não há alunos.</EmptyMessage>
       ) : (
-        students?.map((student) => {
-          return <StudentCard key={student.id} student={student} />
-        })
+        <SimpleGrid columns={2} spacing="4" w="full">
+          {students?.map((student) => {
+            return <StudentCard key={student.id} student={student} />
+          })}
+        </SimpleGrid>
       )}
     </VStack>
   )
