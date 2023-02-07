@@ -1,0 +1,135 @@
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  useToast,
+  VStack,
+} from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+import { InputText } from '../../components/Inputs/InputText'
+import { useCreteHolidayMutation } from '../../queries/useCreteHolidayMutation'
+import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
+
+const createNewHolidayFormSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(2, { message: 'Esse campo deve conter pelo menos dois caracteres.' }),
+})
+
+type CreateNewHolidayFormData = z.infer<typeof createNewHolidayFormSchema>
+
+export function NewHolidayModal() {
+  const { isOpen, onClose, onOpen } = useDisclosure()
+
+  const toast = useToast()
+  const [selectedDate] = useCalendarSelectedDate()
+
+  const {
+    handleSubmit,
+    register,
+    formState: { isSubmitting, errors },
+    reset,
+  } = useForm<CreateNewHolidayFormData>({
+    resolver: zodResolver(createNewHolidayFormSchema),
+  })
+
+  const { mutate, isLoading } = useCreteHolidayMutation()
+
+  const formattedDate = dayjs(selectedDate).format('DD/MM/YYYY')
+
+  async function handleCreateNewHoliday(data: CreateNewHolidayFormData) {
+    const { title } = data
+
+    mutate(
+      {
+        date: dayjs(selectedDate).startOf('day').toISOString(),
+        name: title,
+      },
+      {
+        onSuccess() {
+          handleCloseModal()
+
+          toast({
+            position: 'top-right',
+            status: 'success',
+            title: `Feriado ${title} criado`,
+          })
+        },
+      },
+    )
+  }
+
+  const isSubmittingForm = isSubmitting || isLoading
+
+  function handleCloseModal() {
+    onClose()
+    reset()
+  }
+
+  return (
+    <>
+      <Button variant="outline" colorScheme="blue" onClick={onOpen}>
+        Novo feriado
+      </Button>
+
+      <Modal
+        size="xl"
+        autoFocus
+        isCentered
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+      >
+        <ModalOverlay />
+        <ModalContent as="form" onSubmit={handleSubmit(handleCreateNewHoliday)}>
+          <ModalHeader>Criar novo feriado</ModalHeader>
+
+          <ModalBody>
+            <VStack alignItems="flex-start" w="full" gap="4">
+              <Text>
+                Definir feriado para{' '}
+                <Text as="span" fontWeight="bold">
+                  {formattedDate}
+                </Text>
+              </Text>
+
+              <InputText
+                label="Título"
+                errorMessage={errors.title?.message}
+                {...register('title')}
+              />
+            </VStack>
+          </ModalBody>
+
+          <ModalFooter gap="8">
+            <Button
+              variant="ghost"
+              colorScheme="red"
+              onClick={handleCloseModal}
+            >
+              Fechar
+            </Button>
+
+            <Button
+              colorScheme="green"
+              type="submit"
+              isDisabled={isSubmittingForm}
+            >
+              Salvar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
