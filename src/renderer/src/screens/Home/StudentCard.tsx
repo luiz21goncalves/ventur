@@ -7,9 +7,7 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
 
-import { ROUTES } from '@/shared/routes'
 import { Student } from '@/shared/types'
 
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
@@ -20,12 +18,6 @@ type StudentCardProps = {
 
 export function StudentCard(props: StudentCardProps) {
   const { student } = props
-
-  const navigate = useNavigate()
-
-  function handleNavigateToStudentDetails() {
-    navigate(`${ROUTES.STUDENTS.BASE}/${student.id}`)
-  }
 
   const weekdayLabels = getWeekdaysLabelsShort(student.weekdays)
     .map((weekdays) => {
@@ -53,9 +45,7 @@ export function StudentCard(props: StudentCardProps) {
       </CardBody>
 
       <CardFooter p="0" justify="space-between">
-        <Button variant="ghost" onClick={handleNavigateToStudentDetails}>
-          Detalhes
-        </Button>
+        <Button variant="ghost">Detalhes</Button>
       </CardFooter>
     </Card>
   )
