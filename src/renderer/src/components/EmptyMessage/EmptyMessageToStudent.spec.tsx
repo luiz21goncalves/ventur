@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it } from 'vitest'
 
-import { EmptyMessageToStudent } from './EmptyMessageToStudent'
+import { EmptyMessage } from '.'
 
-describe('EmptyMessageToStudent', () => {
+describe('EmptyMessage', () => {
   it('should be able to render a primary message', () => {
-    render(<EmptyMessageToStudent />)
+    render(<EmptyMessage>Não há nenhum aluno</EmptyMessage>)
 
     const primaryMessage = screen.getByText(/não há nenhum aluno/i)
 

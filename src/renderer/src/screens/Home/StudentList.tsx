@@ -1,6 +1,6 @@
 import { VStack } from '@chakra-ui/react'
 
-import { EmptyMessageToStudent } from '../../components/EmptyMessages/EmptyMessageToStudent'
+import { EmptyMessage } from '../../components/EmptyMessage'
 import { useStudentsQuery } from '../../queries/useStudentsQuery'
 import { StudentCard } from './StudentCard'
 
@@ -12,7 +12,7 @@ export function StudentList() {
   return (
     <VStack gap="4" align="flex-start">
       {isEmptyStudentsList ? (
-        <EmptyMessageToStudent hasLink />
+        <EmptyMessage>Não há alunos.</EmptyMessage>
       ) : (
         students?.map((student) => {
           return <StudentCard key={student.id} student={student} />
