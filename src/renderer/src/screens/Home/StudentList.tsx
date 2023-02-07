@@ -7,11 +7,11 @@ import { StudentCard } from './StudentCard'
 export function StudentList() {
   const { data: students } = useStudentsQuery()
 
-  const isEmptyStudentsList = students?.length === 0
+  const isEmptyList = students?.length === 0
 
   return (
     <VStack gap="4" align="flex-start">
-      {isEmptyStudentsList ? (
+      {isEmptyList ? (
         <EmptyMessage>Não há alunos.</EmptyMessage>
       ) : (
         students?.map((student) => {
