@@ -1,22 +1,11 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-  useToast,
-  VStack,
-} from '@chakra-ui/react'
+import { Text, useDisclosure, useToast, VStack } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { InputText } from '../../components/Inputs/InputText'
+import * as Modal from '../../components/Modal'
 import { useCreteHolidayMutation } from '../../queries/useCreteHolidayMutation'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 
@@ -30,10 +19,11 @@ const createNewHolidayFormSchema = z.object({
 type CreateNewHolidayFormData = z.infer<typeof createNewHolidayFormSchema>
 
 export function NewHolidayModal() {
+  const toast = useToast()
   const { isOpen, onClose, onOpen } = useDisclosure()
 
-  const toast = useToast()
   const [selectedDate] = useCalendarSelectedDate()
+  const { mutate, isLoading } = useCreteHolidayMutation()
 
   const {
     handleSubmit,
@@ -44,9 +34,10 @@ export function NewHolidayModal() {
     resolver: zodResolver(createNewHolidayFormSchema),
   })
 
-  const { mutate, isLoading } = useCreteHolidayMutation()
-
-  const formattedDate = dayjs(selectedDate).format('DD/MM/YYYY')
+  function handleCloseModal() {
+    onClose()
+    reset()
+  }
 
   async function handleCreateNewHoliday(data: CreateNewHolidayFormData) {
     const { title } = data
@@ -70,31 +61,22 @@ export function NewHolidayModal() {
     )
   }
 
-  const isSubmittingForm = isSubmitting || isLoading
+  const formattedDate = dayjs(selectedDate).format('DD/MM/YYYY')
 
-  function handleCloseModal() {
-    onClose()
-    reset()
-  }
+  const isSubmittingForm = isSubmitting || isLoading
 
   return (
     <>
-      <Button variant="outline" colorScheme="blue" onClick={onOpen}>
-        Novo feriado
-      </Button>
+      <Modal.Trigger onClick={onOpen}>Novo feriado</Modal.Trigger>
 
-      <Modal
-        size="xl"
-        autoFocus
-        isCentered
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-      >
-        <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(handleCreateNewHoliday)}>
-          <ModalHeader>Criar novo feriado</ModalHeader>
+      <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
+        <Modal.Content
+          as="form"
+          onSubmit={handleSubmit(handleCreateNewHoliday)}
+        >
+          <Modal.Header>Criar novo feriado</Modal.Header>
 
-          <ModalBody>
+          <Modal.Body>
             <VStack alignItems="flex-start" w="full" gap="4">
               <Text>
                 Definir feriado para{' '}
@@ -109,27 +91,14 @@ export function NewHolidayModal() {
                 {...register('title')}
               />
             </VStack>
-          </ModalBody>
+          </Modal.Body>
 
-          <ModalFooter gap="8">
-            <Button
-              variant="ghost"
-              colorScheme="red"
-              onClick={handleCloseModal}
-            >
-              Fechar
-            </Button>
-
-            <Button
-              colorScheme="green"
-              type="submit"
-              isDisabled={isSubmittingForm}
-            >
-              Salvar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <Modal.Footer
+            onCancel={handleCloseModal}
+            isDisableSubmit={isSubmittingForm}
+          />
+        </Modal.Content>
+      </Modal.Root>
     </>
   )
 }

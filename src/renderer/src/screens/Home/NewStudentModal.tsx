@@ -1,21 +1,11 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { useDisclosure, VStack } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { InputText } from '../../components/Inputs/InputText'
 import { InputWeekday } from '../../components/Inputs/InputWeekday'
+import * as Modal from '../../components/Modal'
 import { useCrateStudentMutation } from '../../queries/useCrateStudentMutation'
 import { getWeekdays } from '../../utils/get-weekdays'
 
@@ -56,6 +46,7 @@ type CreateStudentFormOut = z.output<typeof createStudentFormSchema>
 
 export function NewStudentModal() {
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const { mutate, isLoading } = useCrateStudentMutation()
 
   const {
     register,
@@ -66,7 +57,10 @@ export function NewStudentModal() {
     resolver: zodResolver(createStudentFormSchema),
   })
 
-  const { mutate, isLoading } = useCrateStudentMutation()
+  function handleCloseModal() {
+    onClose()
+    reset()
+  }
 
   function handleCreateStudent(data: any) {
     // TODO: remove this workaround after closing this issue https://github.com/react-hook-form/react-hook-form/issues/9600
@@ -89,38 +83,21 @@ export function NewStudentModal() {
       },
       {
         onSuccess() {
-          reset()
-          onClose()
+          handleCloseModal()
         },
       },
     )
   }
 
-  function handleCloseModal() {
-    onClose()
-    reset()
-  }
-
   return (
     <>
-      <Button variant="outline" colorScheme="blue" onClick={onOpen}>
-        Novo aluno
-      </Button>
+      <Modal.Trigger onClick={onOpen}>Novo aluno</Modal.Trigger>
 
-      <Modal
-        isOpen={isOpen}
-        size="xl"
-        onClose={handleCloseModal}
-        autoFocus
-        isCentered
-      >
-        <ModalOverlay />
+      <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
+        <Modal.Content as="form" onSubmit={handleSubmit(handleCreateStudent)}>
+          <Modal.Header>Criar novo aluno</Modal.Header>
 
-        <ModalContent as="form" onSubmit={handleSubmit(handleCreateStudent)}>
-          <ModalCloseButton />
-          <ModalHeader>Criar novo aluno</ModalHeader>
-
-          <ModalBody>
+          <Modal.Body>
             <VStack gap="4">
               <InputText
                 label="Nome"
@@ -146,23 +123,14 @@ export function NewStudentModal() {
                 {...register('price_per_month')}
               />
             </VStack>
-          </ModalBody>
+          </Modal.Body>
 
-          <ModalFooter gap="8">
-            <Button
-              variant="ghost"
-              colorScheme="red"
-              onClick={handleCloseModal}
-            >
-              Fechar
-            </Button>
-
-            <Button colorScheme="green" isDisabled={isLoading} type="submit">
-              Salvar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          <Modal.Footer
+            onCancel={handleCloseModal}
+            isDisableSubmit={isLoading}
+          />
+        </Modal.Content>
+      </Modal.Root>
     </>
   )
 }
