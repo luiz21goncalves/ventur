@@ -1,7 +1,8 @@
 import { ModalHeader } from '@chakra-ui/react'
+import { ReactNode } from 'react'
 
 type HeaderProps = {
-  children: string
+  children: ReactNode
 }
 
 export function Header(props: HeaderProps) {

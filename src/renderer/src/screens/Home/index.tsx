@@ -1,6 +1,7 @@
 import { Box, Button, Grid, GridItem, HStack } from '@chakra-ui/react'
 
 import { Calendar } from '../../components/Calendar'
+import { DeleteHolidayModal } from './DeleteHolidayModal'
 import { NewHolidayModal } from './NewHolidayModal'
 import { NewStudentModal } from './NewStudentModal'
 import { StudentList } from './StudentList'
@@ -24,9 +25,7 @@ export function Home() {
             Remover aluno
           </Button>
 
-          <Button variant="outline" colorScheme="red">
-            Remover feriado
-          </Button>
+          <DeleteHolidayModal />
         </HStack>
         <Calendar />
       </GridItem>
