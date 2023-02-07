@@ -2,7 +2,9 @@ import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
 
 import { Student } from '@/shared/types'
 
+import { capitalize } from '../../utils/capitalize'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
+import { StudentDetailModal } from './StudentDetailModal'
 
 type StudentCardProps = {
   student: Student
@@ -12,14 +14,7 @@ export function StudentCard(props: StudentCardProps) {
   const { student } = props
 
   const weekdayLabels = getWeekdaysLabelsShort(student.weekdays)
-    .map((weekdays) => {
-      const capitalizedWeekday = weekdays
-        .substring(0, 1)
-        .toUpperCase()
-        .concat(weekdays.substring(1))
-
-      return capitalizedWeekday
-    })
+    .map(capitalize)
     .join(', ')
 
   return (
@@ -38,14 +33,12 @@ export function StudentCard(props: StudentCardProps) {
       </Text>
 
       <Box>
-        <Text>Total de aulas: 0</Text>
-        <Text>Valor apagar: R$ 100,00</Text>
         <Text>Aulas por semana: {student.classes_per_week}</Text>
         <Text>Dias de aula: {weekdayLabels}</Text>
       </Box>
 
       <HStack w="full" justifyContent="space-between">
-        <Button variant="ghost">Detalhes</Button>
+        <StudentDetailModal studentId={Number(student.id)} />
         <Button variant="ghost">Editar</Button>
       </HStack>
     </VStack>
