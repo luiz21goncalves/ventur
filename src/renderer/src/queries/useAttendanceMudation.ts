@@ -55,6 +55,12 @@ export function useAttendanceMutation() {
           return attendance
         },
       )
+
+      queryClient.invalidateQueries([
+        QUERIES.ATTENDANCE.FETCH_ALL_PER_STUDENT,
+        studentId,
+        date,
+      ])
     },
   })
 }
