@@ -4,7 +4,14 @@ export type CreateAttendanceData = Pick<
   Attendance,
   'date' | 'presence' | 'student_id'
 >
-export type FindByDateAndStudentIdData = Pick<Attendance, 'date' | 'student_id'>
+export type FindByDateAndStudentIdData = {
+  date: string
+  student_id: string
+}
+export type FindByStudentIdAndMonthData = {
+  date: string
+  student_id: string
+}
 
 export type AttendanceRepository = {
   create(data: CreateAttendanceData): Promise<Attendance>
@@ -12,4 +19,7 @@ export type AttendanceRepository = {
   findByDateAndStudentId(
     data: FindByDateAndStudentIdData,
   ): Promise<Attendance | undefined>
+  findByStudentIdAndMonth(
+    data: FindByStudentIdAndMonthData,
+  ): Promise<Attendance[]>
 }

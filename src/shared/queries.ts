@@ -1,5 +1,6 @@
 export const QUERIES = {
   ATTENDANCE: {
+    FETCH_ALL_PER_STUDENT: 'attendance:student',
     FETCH_DETAILS: 'attendance',
   },
   HOLIDAYS: {

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 import { Attendance } from '@/shared/types'
 
 import { db, VenturDexie } from '../../lib/dexie'
@@ -5,6 +7,7 @@ import {
   AttendanceRepository,
   CreateAttendanceData,
   FindByDateAndStudentIdData,
+  FindByStudentIdAndMonthData,
 } from '../models/attendance-repository'
 
 export class DexieAttendanceRepository implements AttendanceRepository {
@@ -58,5 +61,24 @@ export class DexieAttendanceRepository implements AttendanceRepository {
     })
 
     return attendace
+  }
+
+  async findByStudentIdAndMonth({
+    date,
+    student_id: studentId,
+  }: FindByStudentIdAndMonthData): Promise<Attendance[]> {
+    const parsedDate = dayjs(date)
+    const firstDayOfMonth = parsedDate.startOf('month').toISOString()
+    const lastDayOfMonth = parsedDate.endOf('month').toISOString()
+
+    const attendances = await this.repository.attendance
+      .where('date')
+      .between(firstDayOfMonth, lastDayOfMonth)
+      .and((attendance) => {
+        return attendance.student_id === studentId && attendance.presence
+      })
+      .sortBy('date')
+
+    return attendances
   }
 }
