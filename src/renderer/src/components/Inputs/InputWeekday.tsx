@@ -12,14 +12,26 @@ import { getWeekdays } from '../../utils/get-weekdays'
 
 const weekdays = getWeekdays()
 
+type Fields =
+  | {
+      birthdate: string | null
+      name: string
+      price_per_month: number
+      weekdays_with_class: boolean[]
+    }
+  | {
+      birthdate: string | null
+      name: string
+      price_per_month: number
+      weekdays_with_class: boolean[]
+      id: string
+    }
+
+type OnRegisterField = UseFormRegister<Fields>
+
 type InputWeekdayProps = {
   errorMessage?: string
-  onRegisterField: UseFormRegister<{
-    birthdate: string | null
-    name: string
-    price_per_month: number
-    weekdays_with_class: boolean[]
-  }>
+  onRegisterField: OnRegisterField
 }
 
 export function InputWeekday(props: InputWeekdayProps) {
