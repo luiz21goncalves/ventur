@@ -8,6 +8,7 @@ export type FindByDateAndStudentIdData = Pick<Attendance, 'date' | 'student_id'>
 
 export type AttendanceRepository = {
   create(data: CreateAttendanceData): Promise<Attendance>
+  save(attendance: Attendance): Promise<Attendance>
   findByDateAndStudentId(
     data: FindByDateAndStudentIdData,
   ): Promise<Attendance | undefined>

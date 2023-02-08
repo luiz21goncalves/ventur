@@ -16,6 +16,6 @@ export type Student = {
 export type Attendance = {
   id: string
   date: string
-  student_id: number
+  student_id: string
   presence: boolean
 }
