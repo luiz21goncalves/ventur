@@ -38,7 +38,7 @@ export function StudentCard(props: StudentCardProps) {
       </Box>
 
       <HStack w="full" justifyContent="space-between">
-        <StudentDetailModal studentId={Number(student.id)} />
+        <StudentDetailModal studentId={student.id} />
         <Button variant="ghost">Editar</Button>
       </HStack>
     </VStack>

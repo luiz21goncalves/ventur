@@ -7,7 +7,7 @@ import { formatMonetary } from '../../utils/format-monetary'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
 
 type StudentDetailModalProps = {
-  studentId: number
+  studentId: string
 }
 
 export function StudentDetailModal(props: StudentDetailModalProps) {
