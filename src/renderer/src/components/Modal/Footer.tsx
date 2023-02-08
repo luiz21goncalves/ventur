@@ -1,17 +1,19 @@
 import { Button, ModalFooter } from '@chakra-ui/react'
 
-type FooterProps = {
-  onCancel: () => void
+import { useModal } from './ModalContext'
 
+type FooterProps = {
   isDisableSubmit: boolean
 }
 
 export function Footer(props: FooterProps) {
-  const { onCancel, isDisableSubmit } = props
+  const { isDisableSubmit } = props
+
+  const { onClose } = useModal()
 
   return (
     <ModalFooter gap="8">
-      <Button variant="ghost" colorScheme="red" onClick={onCancel}>
+      <Button variant="ghost" colorScheme="red" onClick={onClose}>
         Fechar
       </Button>
 

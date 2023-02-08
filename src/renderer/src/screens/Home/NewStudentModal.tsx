@@ -1,4 +1,4 @@
-import { useDisclosure, VStack } from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { InputText } from '../../components/Inputs/InputText'
 import { InputWeekday } from '../../components/Inputs/InputWeekday'
 import * as Modal from '../../components/Modal'
+import { useModal } from '../../components/Modal/ModalContext'
 import { useCrateStudentMutation } from '../../queries/useCrateStudentMutation'
 import { getWeekdays } from '../../utils/get-weekdays'
 
@@ -45,7 +46,7 @@ type CreateStudentFormInput = z.input<typeof createStudentFormSchema>
 type CreateStudentFormOut = z.output<typeof createStudentFormSchema>
 
 export function NewStudentModal() {
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { onClose } = useModal()
   const { mutate, isLoading } = useCrateStudentMutation()
 
   const {
@@ -90,47 +91,42 @@ export function NewStudentModal() {
   }
 
   return (
-    <>
-      <Modal.Trigger onClick={onOpen}>Novo aluno</Modal.Trigger>
+    <Modal.Root>
+      <Modal.Trigger>Novo aluno</Modal.Trigger>
 
-      <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
-        <Modal.Content as="form" onSubmit={handleSubmit(handleCreateStudent)}>
-          <Modal.Header>Criar novo aluno</Modal.Header>
+      <Modal.Content as="form" onSubmit={handleSubmit(handleCreateStudent)}>
+        <Modal.Header>Criar novo aluno</Modal.Header>
 
-          <Modal.Body>
-            <VStack gap="4">
-              <InputText
-                label="Nome"
-                errorMessage={errors.name?.message}
-                {...register('name')}
-              />
-              <InputText
-                label="Aniversário"
-                isRequired={false}
-                errorMessage={errors.birthdate?.message}
-                {...register('birthdate')}
-              />
+        <Modal.Body>
+          <VStack gap="4">
+            <InputText
+              label="Nome"
+              errorMessage={errors.name?.message}
+              {...register('name')}
+            />
+            <InputText
+              label="Aniversário"
+              isRequired={false}
+              errorMessage={errors.birthdate?.message}
+              {...register('birthdate')}
+            />
 
-              <InputWeekday
-                onRegisterField={register}
-                errorMessage={errors.weekdays_with_class?.message}
-              />
+            <InputWeekday
+              onRegisterField={register}
+              errorMessage={errors.weekdays_with_class?.message}
+            />
 
-              <InputText
-                label="Preço por mês"
-                type="number"
-                errorMessage={errors.price_per_month?.message}
-                {...register('price_per_month')}
-              />
-            </VStack>
-          </Modal.Body>
+            <InputText
+              label="Preço por mês"
+              type="number"
+              errorMessage={errors.price_per_month?.message}
+              {...register('price_per_month')}
+            />
+          </VStack>
+        </Modal.Body>
 
-          <Modal.Footer
-            onCancel={handleCloseModal}
-            isDisableSubmit={isLoading}
-          />
-        </Modal.Content>
-      </Modal.Root>
-    </>
+        <Modal.Footer isDisableSubmit={isLoading} />
+      </Modal.Content>
+    </Modal.Root>
   )
 }
