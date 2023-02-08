@@ -4,6 +4,7 @@ import { Student } from '@/shared/types'
 
 import { capitalize } from '../../utils/capitalize'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
+import { AttendanceModal } from './AttendanceModal'
 import { EditStudentModal } from './EditStudentModal'
 import { StudentDetailModal } from './StudentDetailModal'
 
@@ -40,6 +41,7 @@ export function StudentCard(props: StudentCardProps) {
 
       <HStack w="full" justifyContent="space-between">
         <StudentDetailModal studentId={student.id} />
+        <AttendanceModal student={student} />
         <EditStudentModal student={student} />
       </HStack>
     </VStack>
