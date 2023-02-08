@@ -1,11 +1,11 @@
 export type Holiday = {
-  id?: number
+  id: string
   name: string
   date: string
 }
 
 export type Student = {
-  id?: number
+  id: string
   name: string
   birthdate?: string
   classes_per_week: number
@@ -14,7 +14,7 @@ export type Student = {
 }
 
 export type Attendance = {
-  id?: number
+  id: string
   date: string
   student_id: number
   presence: boolean
