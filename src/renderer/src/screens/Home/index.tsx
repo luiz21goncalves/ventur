@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, HStack } from '@chakra-ui/react'
+import { Box, HStack, SimpleGrid, VStack } from '@chakra-ui/react'
 
 import { Calendar } from '../../components/Calendar'
 import { DeleteHolidayModal } from './DeleteHolidayModal'
@@ -9,22 +9,26 @@ import { StudentList } from './StudentList'
 
 export function Home() {
   return (
-    <Grid gridTemplateColumns="repeat(2,1fr)" gap="4" h="container.md">
-      <GridItem overflowY="auto">
-        <Box overflowY="auto" p="2" pr="4">
-          <StudentList />
-        </Box>
-      </GridItem>
+    <SimpleGrid columns={2} gap="6" h="container.md">
+      <Box overflowY="auto" p="2" pr="4">
+        <StudentList />
+      </Box>
 
-      <GridItem>
-        <HStack w="full" mb="4" gap="4">
-          <NewStudentModal />
-          <NewHolidayModal />
-          <DeleteStudentModal />
-          <DeleteHolidayModal />
-        </HStack>
+      <Box>
         <Calendar />
-      </GridItem>
-    </Grid>
+
+        <VStack w="full" mt="8" gap="2">
+          <HStack w="full">
+            <NewStudentModal />
+            <NewHolidayModal />
+          </HStack>
+
+          <HStack w="full">
+            <DeleteStudentModal />
+            <DeleteHolidayModal />
+          </HStack>
+        </VStack>
+      </Box>
+    </SimpleGrid>
   )
 }
