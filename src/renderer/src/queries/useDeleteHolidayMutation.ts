@@ -4,17 +4,17 @@ import dayjs from 'dayjs'
 import { QUERIES } from '@/shared/queries'
 import { Holiday } from '@/shared/types'
 
-import { db } from '../lib/dexie'
+import { dexieHolidaysRepository } from '../repositories/implementations'
 
 type DeleteHolidayParams = {
-  holidayId: number
+  holidayId: string
   date: string
 }
 
 async function deleteHoliday(params: DeleteHolidayParams) {
   const { holidayId } = params
 
-  await db.holidays.delete(holidayId)
+  await dexieHolidaysRepository.delete(holidayId)
 }
 
 export function useDeleteHolidayMutation() {

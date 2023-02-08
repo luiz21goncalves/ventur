@@ -2,22 +2,20 @@ import { QueryFunctionContext, useQuery } from '@tanstack/react-query'
 
 import { QUERIES } from '@/shared/queries'
 
-import { db } from '../lib/dexie'
+import { dexieStudentsRepository } from '../repositories/implementations'
 
 async function getStudentDetails(
-  context: QueryFunctionContext<[string, number]>,
+  context: QueryFunctionContext<[string, string]>,
 ) {
   const [, studentId] = context.queryKey
 
-  const result = await db.students.where('id').equals(studentId).toArray()
-
-  const student = result[0]
+  const student = await dexieStudentsRepository.findById(studentId)
 
   return student
 }
 
 type UseStudentDetailsQueryParams = {
-  studentId: number
+  studentId: string
 }
 
 export function useStudentDetailsQuery(params: UseStudentDetailsQueryParams) {
@@ -26,6 +24,6 @@ export function useStudentDetailsQuery(params: UseStudentDetailsQueryParams) {
   return useQuery({
     enabled: Boolean(studentId),
     queryFn: getStudentDetails,
-    queryKey: [QUERIES.STUDENTS.FETCH_DETAILS, Number(studentId)],
+    queryKey: [QUERIES.STUDENTS.FETCH_DETAILS, studentId],
   })
 }

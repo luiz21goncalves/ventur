@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import { QUERIES } from '@/shared/queries'
 import { Student } from '@/shared/types'
 
-import { db } from '../lib/dexie'
+import { dexieStudentsRepository } from '../repositories/implementations'
 
 async function getStudents(): Promise<Student[]> {
-  const students = await db.students.toArray()
+  const students = await dexieStudentsRepository.findAll()
 
   return students
 }
