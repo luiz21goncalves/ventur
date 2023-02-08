@@ -2,9 +2,10 @@ import { QueryFunctionContext, useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 
 import { QUERIES } from '@/shared/queries'
+import { Holiday } from '@/shared/types'
 
 import { api } from '../lib/api'
-import { db } from '../lib/dexie'
+import { dexieHolidaysRepository } from '../repositories/implementations'
 import { useCalendarViewDate } from '../stores/useCalendarViewDate'
 
 type HolidaysResponse = {
@@ -17,14 +18,7 @@ async function getOrFetchHolidays(
 ) {
   const [, year] = context.queryKey
 
-  const parseDate = dayjs().set('year', year)
-  const firstDayOfYear = parseDate.startOf('year').toISOString()
-  const lastDayOfYear = parseDate.endOf('year').toISOString()
-
-  const storedHolidays = await db.holidays
-    .where('date')
-    .between(firstDayOfYear, lastDayOfYear)
-    .toArray()
+  const storedHolidays = await dexieHolidaysRepository.findByYear(year)
 
   const hasHolidaysStoredInYear = storedHolidays.length > 0
 
@@ -34,19 +28,22 @@ async function getOrFetchHolidays(
 
   const { data } = await api<HolidaysResponse[]>(`/feriados/v1/${year}`)
 
+  const holidays: Holiday[] = []
+
   for await (const holidayResponse of data) {
-    await db.holidays.add({
-      date: dayjs(holidayResponse.date).toISOString(),
+    const formatedDate = dayjs(holidayResponse.date)
+      .startOf('date')
+      .toISOString()
+
+    const holiday = await dexieHolidaysRepository.create({
+      date: formatedDate,
       name: holidayResponse.name,
     })
+
+    holidays.push(holiday)
   }
 
-  const savedHolidays = await db.holidays
-    .where('date')
-    .between(firstDayOfYear, lastDayOfYear)
-    .toArray()
-
-  return savedHolidays
+  return holidays
 }
 
 export function useHolidaysQuery() {

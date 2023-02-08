@@ -3,16 +3,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { QUERIES } from '@/shared/queries'
 import { Student } from '@/shared/types'
 
-import { db } from '../lib/dexie'
+import { dexieStudentsRepository } from '../repositories/implementations'
 
 type DeleteStudentParams = {
-  studentId: number
+  studentId: string
 }
 
 async function deleteStudent(params: DeleteStudentParams) {
   const { studentId } = params
 
-  await db.students.delete(studentId)
+  await dexieStudentsRepository.delete(studentId)
 }
 
 export function useDeleteStudentMutation() {

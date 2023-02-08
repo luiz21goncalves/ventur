@@ -3,16 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { QUERIES } from '@/shared/queries'
 import { Student } from '@/shared/types'
 
-import { db } from '../lib/dexie'
+import { dexieStudentsRepository } from '../repositories/implementations'
 
 type CreateStudentParams = Pick<
   Student,
   'birthdate' | 'name' | 'price_per_month_in_cents' | 'weekdays'
 >
 
-async function createStudent(
-  params: CreateStudentParams,
-): Promise<{ id: number }> {
+async function createStudent(params: CreateStudentParams) {
   const {
     name,
     price_per_month_in_cents: pricePerMonthInCents,
@@ -20,7 +18,7 @@ async function createStudent(
     birthdate,
   } = params
 
-  const id = await db.students.add({
+  const student = dexieStudentsRepository.create({
     birthdate,
     classes_per_week: weekdays.length,
     name,
@@ -28,7 +26,7 @@ async function createStudent(
     weekdays,
   })
 
-  return { id: Number(id) }
+  return student
 }
 
 export function useCrateStudentMutation() {
@@ -36,8 +34,17 @@ export function useCrateStudentMutation() {
 
   return useMutation({
     mutationFn: createStudent,
-    onSuccess() {
-      queryClient.invalidateQueries([QUERIES.STUDENTS.FETCH_ALL])
+    onSuccess(student) {
+      queryClient.setQueryData<Student[]>(
+        [QUERIES.STUDENTS.FETCH_ALL],
+        (students) => {
+          if (students && students.length > 0) {
+            return [...students, student]
+          }
+
+          return [student]
+        },
+      )
     },
   })
 }
