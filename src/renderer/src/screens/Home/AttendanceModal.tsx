@@ -1,10 +1,4 @@
-import {
-  Checkbox,
-  Text,
-  useDisclosure,
-  useToast,
-  VStack,
-} from '@chakra-ui/react'
+import { Checkbox, Text, useToast, VStack } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 import { Info } from 'phosphor-react'
@@ -14,6 +8,7 @@ import { z } from 'zod'
 import { Student } from '@/shared/types'
 
 import * as Modal from '../../components/Modal'
+import { useModal } from '../../components/Modal/ModalContext'
 import { useAttendanceMutation } from '../../queries/useAttendanceMudation'
 import { useAttendanceQuery } from '../../queries/useAttendanceQuery'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
@@ -32,8 +27,8 @@ type AttendanceFormData = z.infer<typeof attendanceFormSchema>
 export function AttendanceModal(props: AttendanceModalProps) {
   const { student } = props
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const toast = useToast()
+  const { onClose } = useModal()
 
   const [selectedDate] = useCalendarSelectedDate()
 
@@ -83,52 +78,47 @@ export function AttendanceModal(props: AttendanceModalProps) {
   }
 
   return (
-    <>
-      <Modal.Trigger variant="ghost" colorScheme="gray" onClick={onOpen}>
+    <Modal.Root>
+      <Modal.Trigger variant="ghost" colorScheme="gray">
         Presença
       </Modal.Trigger>
 
-      <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
-        <Modal.Content
-          as="form"
-          onSubmit={handleSubmit(handleSaveOrCreateAttendance)}
-        >
-          <Modal.Header>
-            {student.name} teve aula {formattedDate}?
-          </Modal.Header>
+      <Modal.Content
+        as="form"
+        onSubmit={handleSubmit(handleSaveOrCreateAttendance)}
+      >
+        <Modal.Header>
+          {student.name} teve aula {formattedDate}?
+        </Modal.Header>
 
-          <Modal.Body>
-            <VStack w="full" alignItems="flex-start" gap="4">
-              {!hasClassToday && (
-                <Text
-                  color="gray.500"
-                  display="flex"
-                  alignItems="center"
-                  gap="0.5"
-                >
-                  <Info />
-                  Esse alunos não tem aula prevista para hoje
-                </Text>
-              )}
-
+        <Modal.Body>
+          <VStack w="full" alignItems="flex-start" gap="4">
+            {!hasClassToday && (
               <Text
-                as="label"
-                fontStyle="lg"
+                color="gray.500"
                 display="flex"
                 alignItems="center"
-                gap="2"
+                gap="0.5"
               >
-                Presente <Checkbox size="lg" {...register('presence')} />
+                <Info />
+                Esse alunos não tem aula prevista para hoje
               </Text>
-            </VStack>
-          </Modal.Body>
+            )}
 
-          <Modal.Footer
-            isDisableSubmit={isLoading}
-            onCancel={handleCloseModal}
-          />
-        </Modal.Content>
-      </Modal.Root>
-    </>
+            <Text
+              as="label"
+              fontStyle="lg"
+              display="flex"
+              alignItems="center"
+              gap="2"
+            >
+              Presente <Checkbox size="lg" {...register('presence')} />
+            </Text>
+          </VStack>
+        </Modal.Body>
+
+        <Modal.Footer isDisableSubmit={isLoading} />
+      </Modal.Content>
+    </Modal.Root>
   )
 }

@@ -1,4 +1,4 @@
-import { Text, useDisclosure, useToast, VStack } from '@chakra-ui/react'
+import { Text, useToast, VStack } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 import { InputText } from '../../components/Inputs/InputText'
 import * as Modal from '../../components/Modal'
+import { useModal } from '../../components/Modal/ModalContext'
 import { useCreteHolidayMutation } from '../../queries/useCreteHolidayMutation'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 
@@ -20,7 +21,7 @@ type CreateNewHolidayFormData = z.infer<typeof createNewHolidayFormSchema>
 
 export function NewHolidayModal() {
   const toast = useToast()
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { onClose } = useModal()
 
   const [selectedDate] = useCalendarSelectedDate()
   const { mutate, isLoading } = useCreteHolidayMutation()
@@ -66,39 +67,31 @@ export function NewHolidayModal() {
   const isSubmittingForm = isSubmitting || isLoading
 
   return (
-    <>
-      <Modal.Trigger onClick={onOpen}>Novo feriado</Modal.Trigger>
+    <Modal.Root>
+      <Modal.Trigger>Novo feriado</Modal.Trigger>
 
-      <Modal.Root isOpen={isOpen} onClose={handleCloseModal}>
-        <Modal.Content
-          as="form"
-          onSubmit={handleSubmit(handleCreateNewHoliday)}
-        >
-          <Modal.Header>Criar novo feriado</Modal.Header>
+      <Modal.Content as="form" onSubmit={handleSubmit(handleCreateNewHoliday)}>
+        <Modal.Header>Criar novo feriado</Modal.Header>
 
-          <Modal.Body>
-            <VStack alignItems="flex-start" w="full" gap="4">
-              <Text>
-                Definir feriado para{' '}
-                <Text as="span" fontWeight="bold">
-                  {formattedDate}
-                </Text>
+        <Modal.Body>
+          <VStack alignItems="flex-start" w="full" gap="4">
+            <Text>
+              Definir feriado para{' '}
+              <Text as="span" fontWeight="bold">
+                {formattedDate}
               </Text>
+            </Text>
 
-              <InputText
-                label="Título"
-                errorMessage={errors.title?.message}
-                {...register('title')}
-              />
-            </VStack>
-          </Modal.Body>
+            <InputText
+              label="Título"
+              errorMessage={errors.title?.message}
+              {...register('title')}
+            />
+          </VStack>
+        </Modal.Body>
 
-          <Modal.Footer
-            onCancel={handleCloseModal}
-            isDisableSubmit={isSubmittingForm}
-          />
-        </Modal.Content>
-      </Modal.Root>
-    </>
+        <Modal.Footer isDisableSubmit={isSubmittingForm} />
+      </Modal.Content>
+    </Modal.Root>
   )
 }

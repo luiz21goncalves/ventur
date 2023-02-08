@@ -1,4 +1,4 @@
-import { Divider, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import { Divider, Text, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 
 import { EmptyMessage } from '../../components/EmptyMessage'
@@ -16,8 +16,6 @@ type StudentDetailModalProps = {
 export function StudentDetailModal(props: StudentDetailModalProps) {
   const { studentId } = props
 
-  const { isOpen, onClose, onOpen } = useDisclosure()
-
   const { data: student } = useStudentDetailsQuery({ studentId })
   const { data: attendances } = useStudentAttendancesQuery({ studentId })
 
@@ -33,54 +31,45 @@ export function StudentDetailModal(props: StudentDetailModalProps) {
   const hasAttendances = attendances && attendances.length > 0
 
   return (
-    <>
-      <Modal.Trigger variant="ghost" onClick={onOpen}>
-        Detalhes
-      </Modal.Trigger>
+    <Modal.Root>
+      <Modal.Trigger variant="ghost">Detalhes</Modal.Trigger>
 
-      <Modal.Root isOpen={isOpen} onClose={onClose}>
-        <Modal.Content>
-          <Modal.Header>Detalhes do Aluno</Modal.Header>
+      <Modal.Content>
+        <Modal.Header>Detalhes do Aluno</Modal.Header>
 
-          <Modal.Body mb="4">
-            <VStack alignItems="flex-start" gap="1">
-              <Text>Nome: {student?.name}</Text>
-              <Text>Aniversário: {student?.birthdate}</Text>
-              <Text>Aulas por semana: {student?.classes_per_week}</Text>
-              <Text>Dias de aula: {weekdayLabels}</Text>
-              <Text>Valor: {price}</Text>
-              <Text>A pagar: R$ 199,99</Text>
-              <Text>Total de aulas: {attendances?.length}</Text>
+        <Modal.Body mb="4">
+          <VStack alignItems="flex-start" gap="1">
+            <Text>Nome: {student?.name}</Text>
+            <Text>Aniversário: {student?.birthdate}</Text>
+            <Text>Aulas por semana: {student?.classes_per_week}</Text>
+            <Text>Dias de aula: {weekdayLabels}</Text>
+            <Text>Valor: {price}</Text>
+            <Text>A pagar: R$ 199,99</Text>
+            <Text>Total de aulas: {attendances?.length}</Text>
+          </VStack>
+
+          <Divider my="4" />
+
+          {hasAttendances ? (
+            <VStack alignItems="flex-start" gap="1" overflowY="auto" maxH="80">
+              {attendances?.map((attendance, index) => {
+                const date = dayjs(attendance.date).format('DD/MM/YYYY')
+                const line = index + 1
+
+                return (
+                  <Text key={attendance.id}>
+                    {line}ª aula: {date}
+                  </Text>
+                )
+              })}
             </VStack>
-
-            <Divider my="4" />
-
-            {hasAttendances ? (
-              <VStack
-                alignItems="flex-start"
-                gap="1"
-                overflowY="auto"
-                maxH="80"
-              >
-                {attendances?.map((attendance, index) => {
-                  const date = dayjs(attendance.date).format('DD/MM/YYYY')
-                  const line = index + 1
-
-                  return (
-                    <Text key={attendance.id}>
-                      {line}ª aula: {date}
-                    </Text>
-                  )
-                })}
-              </VStack>
-            ) : (
-              <EmptyMessage>
-                Não há nenhuma aula desse alunos nesse mês
-              </EmptyMessage>
-            )}
-          </Modal.Body>
-        </Modal.Content>
-      </Modal.Root>
-    </>
+          ) : (
+            <EmptyMessage>
+              Não há nenhuma aula desse alunos nesse mês
+            </EmptyMessage>
+          )}
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   )
 }
