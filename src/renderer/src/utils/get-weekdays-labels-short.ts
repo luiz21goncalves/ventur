@@ -1,27 +1,18 @@
 import { getWeekdays } from './get-weekdays'
+import { verifyIsValidWeekdayArray } from './verify-is-valid-weekday-array'
 
 const { short } = getWeekdays()
 
 export function getWeekdaysLabelsShort(weekdaysArray: number[]): string[] {
-  const hasInvalidLength = weekdaysArray.length > 7
+  const hasValidWeekdays = verifyIsValidWeekdayArray(weekdaysArray)
 
-  if (hasInvalidLength) {
-    return []
+  if (hasValidWeekdays) {
+    const formattedWeekdays = weekdaysArray.map(
+      (weekdayIndex) => short[weekdayIndex],
+    )
+
+    return formattedWeekdays
   }
 
-  const hasAnInvalidWeekdayArray = weekdaysArray.some((weekdayIndex) => {
-    const isInvalidWeekday = weekdayIndex > 0 && weekdayIndex > 6
-
-    return isInvalidWeekday
-  })
-
-  if (hasAnInvalidWeekdayArray) {
-    return []
-  }
-
-  const formattedWeekdays = weekdaysArray.map(
-    (weekdayIndex) => short[weekdayIndex],
-  )
-
-  return formattedWeekdays
+  return []
 }
