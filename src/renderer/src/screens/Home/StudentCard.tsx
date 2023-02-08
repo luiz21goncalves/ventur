@@ -1,9 +1,10 @@
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
+import { Box, HStack, Text, VStack } from '@chakra-ui/react'
 
 import { Student } from '@/shared/types'
 
 import { capitalize } from '../../utils/capitalize'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
+import { EditStudentModal } from './EditStudentModal'
 import { StudentDetailModal } from './StudentDetailModal'
 
 type StudentCardProps = {
@@ -39,7 +40,7 @@ export function StudentCard(props: StudentCardProps) {
 
       <HStack w="full" justifyContent="space-between">
         <StudentDetailModal studentId={student.id} />
-        <Button variant="ghost">Editar</Button>
+        <EditStudentModal student={student} />
       </HStack>
     </VStack>
   )
