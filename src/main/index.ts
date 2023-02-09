@@ -4,7 +4,6 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, screen, shell } from 'electron'
 import { createFileRoute, createURLRoute } from 'electron-router-dom'
 
-import icon from '../../resources/icon.png'
 import { store } from './store'
 
 function createWindow() {
@@ -22,7 +21,9 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
     show: false,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux'
+      ? { icon: path.join(__dirname, '../../build/icon.png') }
+      : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false,
@@ -62,6 +63,10 @@ function createWindow() {
   } else {
     mainWindow.loadFile(...fileRoute)
   }
+}
+
+if (process.platform === 'darwin') {
+  app.dock.setIcon(path.resolve(__dirname, 'icon.png'))
 }
 
 app.whenReady().then(() => {
