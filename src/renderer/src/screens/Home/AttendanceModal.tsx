@@ -9,7 +9,7 @@ import { Student } from '@/shared/types'
 
 import * as Modal from '../../components/Modal'
 import { useModal } from '../../components/Modal/ModalContext'
-import { useAttendanceMutation } from '../../queries/useAttendanceMudation'
+import { useAttendanceMutation } from '../../queries/useAttendanceMutation'
 import { useAttendanceQuery } from '../../queries/useAttendanceQuery'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 
