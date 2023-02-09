@@ -1,14 +1,10 @@
 import { Divider, Text, VStack } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-import { useMemo } from 'react'
 
 import { EmptyMessage } from '../../components/EmptyMessage'
 import * as Modal from '../../components/Modal'
-import { useHolidaysQuery } from '../../queries/useHolidaysQuery'
 import { useStudentAttendancesQuery } from '../../queries/useStudentAttendancesQuery'
 import { useStudentDetailsQuery } from '../../queries/useStudentDetailsQuery'
-import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
-import { calculateMonthlyPayment } from '../../utils/calculate-monthly-payment'
 import { capitalize } from '../../utils/capitalize'
 import { formatMonetary } from '../../utils/format-monetary'
 import { getWeekdaysLabelsShort } from '../../utils/get-weekdays-labels-short'
@@ -22,8 +18,6 @@ export function StudentDetailModal(props: StudentDetailModalProps) {
 
   const { data: student } = useStudentDetailsQuery({ studentId })
   const { data: attendances } = useStudentAttendancesQuery({ studentId })
-  const { data: holidays } = useHolidaysQuery()
-  const [selectedDate] = useCalendarSelectedDate()
 
   const weekdayLabels = getWeekdaysLabelsShort(student?.weekdays ?? [])
     .map(capitalize)
@@ -32,43 +26,9 @@ export function StudentDetailModal(props: StudentDetailModalProps) {
 
   const hasAttendances = attendances && attendances.length > 0
 
-  const priceToPay = useMemo(() => {
-    if (
-      student &&
-      student.price_per_month_in_cents &&
-      student.weekdays &&
-      attendances &&
-      attendances.length > 0 &&
-      holidays &&
-      holidays.length > 0
-    ) {
-      const classDays = attendances.map((attendance) => attendance.date)
-      const filteredHolidays = holidays.reduce<string[]>(
-        (filteredDates, holiday) => {
-          if (dayjs(selectedDate).isSame(holiday.date, 'date')) {
-            filteredDates.push(holiday.date)
-          }
-
-          return filteredDates
-        },
-        [],
-      )
-
-      const price = calculateMonthlyPayment({
-        classDays,
-        holidays: filteredHolidays,
-        pricePerMonthInCents: student?.price_per_month_in_cents,
-        referenceDate: selectedDate,
-        weekdays: student?.weekdays,
-      })
-
-      return price
-    }
-
-    return 0
-  }, [student, selectedDate, attendances, holidays])
-
-  const formattedPriceToPay = formatMonetary(priceToPay / 100)
+  const formattedPriceToPay = formatMonetary(
+    (student?.priceToPayInCents ?? 0) / 100,
+  )
 
   return (
     <Modal.Root>
