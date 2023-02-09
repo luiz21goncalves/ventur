@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: ventur
+appId: com.luizgoncaves.ventur
+productName: Ventur
 directories:
   buildResources: build
 files:
@@ -20,8 +20,9 @@ nsis:
   createDesktopShortcut: always
 linux:
   target:
+    - tar.gz
     - deb
-  maintainer: luizgoncalves.com
+  maintainer: ${homepage}
   synopsis: ${description}
   category: Utility
 npmRebuild: false
