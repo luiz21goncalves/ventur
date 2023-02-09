@@ -13,7 +13,7 @@ import { useAttendanceMutation } from '../../queries/useAttendanceMutation'
 import { useAttendanceQuery } from '../../queries/useAttendanceQuery'
 import { useCalendarSelectedDate } from '../../stores/useCalendarSelectedDate'
 
-type AttendanceModalProps = {
+type AttendanceModalContentProps = {
   student: Student
 }
 
@@ -24,7 +24,7 @@ const attendanceFormSchema = z.object({
 
 type AttendanceFormData = z.infer<typeof attendanceFormSchema>
 
-export function AttendanceModalContent(props: AttendanceModalProps) {
+export function AttendanceModalContent(props: AttendanceModalContentProps) {
   const { student } = props
 
   const toast = useToast()
