@@ -320,4 +320,16 @@ describe('calculatePossibleClassDays', () => {
     ])
     expect(possibleClassDays.length).toEqual(31)
   })
+
+  it('should not be able to calculate possible class days when receiving invalid weekdays', () => {
+    const firstMonthDay = dayjs(new Date(2023, 2)).startOf('month')
+
+    const possibleClassDays = calculatePossibleClassDays({
+      date: firstMonthDay.toDate(),
+      weekdays: [0, 1, 7],
+    })
+
+    expect(possibleClassDays).toStrictEqual([])
+    expect(possibleClassDays.length).toEqual(0)
+  })
 })
