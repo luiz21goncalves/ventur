@@ -24,21 +24,19 @@ export function calculateMonthlyPayment(
     classDays.length <= 0 || weekdays.length <= 0 || uniqueClassDays.length <= 0
 
   if (hasInvalidParams) {
-    throw new Error(
-      "It's not possible to calculate monthly payment without weekday or class days.",
-    )
+    return 0
   }
 
   const hasInvalidWeekday = !verifyIsValidWeekdayArray(weekdays)
 
   if (hasInvalidWeekday) {
-    throw new Error('There is an invalid weekday.')
+    return 0
   }
 
   const hasInvalidPrice = pricePerMonthInCents <= 0
 
   if (hasInvalidPrice) {
-    throw new Error('Has invalid price for calculate monthly payment.')
+    return 0
   }
 
   const firstMonthDay = dayjs(referenceDate).startOf('month')
@@ -48,7 +46,7 @@ export function calculateMonthlyPayment(
   )
 
   if (hasInvalidClassDays) {
-    throw new Error('There is a class day outside the reference date.')
+    return 0
   }
 
   const possibleClassDays = calculatePossibleClassDays({
