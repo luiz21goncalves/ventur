@@ -22,7 +22,7 @@ function createWindow() {
     autoHideMenuBar: true,
     show: false,
     ...(process.platform === 'linux'
-      ? { icon: path.join(__dirname, '../../build/icon.png') }
+      ? { icon: path.resolve(__dirname, '../../resources/icon.png') }
       : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -59,7 +59,6 @@ function createWindow() {
     )
 
     mainWindow.loadURL(devServerURL)
-    mainWindow.webContents.openDevTools({ mode: 'detach' })
   } else {
     mainWindow.loadFile(...fileRoute)
   }
