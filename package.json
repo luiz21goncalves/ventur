@@ -1,6 +1,6 @@
 {
   "name": "ventur",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Ventur App",
   "main": "./out/main/index.js",
   "author": "Luiz Gonçalves <luizhbgoncalves@gmail.com>",
