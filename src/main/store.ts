@@ -7,10 +7,14 @@ type StoryType = {
     x: number
     y: number
   }
+  yearsWithHolidaysFound: number[]
 }
 
 export const store = new Store<StoryType>({
   defaults: {
     bounds: undefined,
+    yearsWithHolidaysFound: [],
   },
 })
+
+console.log(store.path)

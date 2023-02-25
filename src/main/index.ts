@@ -6,6 +6,8 @@ import { createFileRoute, createURLRoute } from 'electron-router-dom'
 
 import { store } from './store'
 
+import './ipc'
+
 function createWindow() {
   const { height, width, x, y } = screen.getPrimaryDisplay().workArea
   const storedBounds = store.get('bounds')
