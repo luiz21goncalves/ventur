@@ -16,5 +16,3 @@ export const store = new Store<StoryType>({
     yearsWithHolidaysFound: [],
   },
 })
-
-console.log(store.path)
