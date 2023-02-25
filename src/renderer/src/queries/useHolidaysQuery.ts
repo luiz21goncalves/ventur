@@ -18,11 +18,11 @@ async function getOrFetchHolidays(
 ) {
   const [, year] = context.queryKey
 
-  const storedHolidays = await dexieHolidaysRepository.findByYear(year)
-
-  const hasHolidaysStoredInYear = storedHolidays.length > 0
+  const { data: hasHolidaysStoredInYear } =
+    await window.api.fetchYearWithHolidays({ year })
 
   if (hasHolidaysStoredInYear) {
+    const storedHolidays = await dexieHolidaysRepository.findByYear(year)
     return storedHolidays
   }
 
@@ -42,6 +42,8 @@ async function getOrFetchHolidays(
 
     holidays.push(holiday)
   }
+
+  await window.api.saveYearWithHolidays({ year })
 
   return holidays
 }

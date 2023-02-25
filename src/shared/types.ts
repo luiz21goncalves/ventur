@@ -19,3 +19,23 @@ export type Attendance = {
   student_id: string
   presence: boolean
 }
+
+/**
+ * RESQUEST
+ */
+
+export type FetchYearWithHolidaysFoundRequest = {
+  year: number
+}
+
+export type SaveYearWithHolidaysFoundRequest = {
+  year: number
+}
+
+/**
+ * RESPONSE
+ */
+
+export type FetchYearWithHolidaysFoundResponse = {
+  data: boolean
+}
